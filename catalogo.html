@@ -118,6 +118,15 @@
       .cat-grid { grid-template-columns: 1fr; padding: 2rem 1rem; }
       .style-preview { height: 300px; }
     }
+
+    /* DULCERÍA CAROUSEL */
+    .dulce-carousel { display:flex; width:200%; transition:transform 0.6s cubic-bezier(0.4,0,0.2,1); }
+    .dulce-slide { width:50%; flex-shrink:0; position:relative; height:380px; overflow:hidden; }
+    .dulce-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.25); transition:all 0.3s; cursor:pointer; }
+    .dulce-dot.active { background:var(--gold); transform:scale(1.3); box-shadow:0 0 6px rgba(201,168,76,0.6); }
+    @keyframes sway2 { 0%,100%{transform:rotate(-4deg)} 50%{transform:rotate(4deg)} }
+    .carousel-stripe { background:linear-gradient(90deg,#FF2D78,#9B5DE5,#00E5FF,#00F593,#FFE500,#FF2D78); background-size:200% 100%; animation:stripe2 2s linear infinite; }
+    @keyframes stripe2 { 0%{background-position:0%} 100%{background-position:200%} }
   </style>
 </head>
 <body>
@@ -222,10 +231,123 @@
     </div>
 
     <!-- CARD 5: Dulcería -->
-    <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/menu-dulceria-cr.html','_blank')">
-      <div class="style-preview">
-        <iframe src="https://menudigitalpro.github.io/menudigitalpro-us/menu-dulceria-cr.html" loading="lazy" tabindex="-1"></iframe>
-        <div class="preview-overlay"></div>
+    <div class="style-card" onclick="void(0)">
+      <div class="style-preview" style="overflow:hidden;position:relative;height:380px;cursor:default;">
+
+        <div class="dulce-carousel" id="dulceCarousel">
+
+          <!-- SLIDE 1: Pinky Mode -->
+          <div class="dulce-slide" style="background:linear-gradient(160deg,#fff5f8,#fae8ed,#f5e6d3);">
+            <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(194,88,122,0.13)1.5px,transparent 1.5px);background-size:20px 20px;mask-image:radial-gradient(ellipse at center,black 40%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse at center,black 40%,transparent 80%);"></div>
+            <div style="position:relative;z-index:1;padding:1.2rem 1rem 0.5rem;text-align:center;">
+              <div style="font-size:1.6rem;display:inline-block;animation:sway2 3s ease-in-out infinite;">🎀</div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#C2587A;margin:0.15rem 0 0.1rem;">Rosie's <em>Sweet</em> Shoppe</div>
+              <div style="font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:#8B6A72;margin-bottom:0.4rem;">Handcrafted Sweets · Austin, TX</div>
+              <div style="height:2px;background:linear-gradient(90deg,transparent,#C2587A,#C97B3A,#C2587A,transparent);margin-bottom:0.6rem;"></div>
+            </div>
+            <div style="position:relative;z-index:1;padding:0 0.9rem;display:flex;flex-direction:column;gap:0.35rem;">
+              <div style="background:white;border-radius:8px;border:1.5px solid rgba(194,88,122,0.1);display:flex;align-items:center;overflow:hidden;">
+                <div style="width:4px;background:#fae8ed;flex-shrink:0;align-self:stretch;"></div>
+                <div style="width:46px;height:54px;background:#fae8ed;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border-right:1px solid rgba(194,88,122,0.08);">🍓</div>
+                <div style="padding:0.4rem 0.6rem;flex:1;">
+                  <div style="font-family:'Playfair Display',serif;font-size:0.7rem;color:#3D2314;font-weight:600;">Strawberry Dream Cake</div>
+                  <div style="font-size:0.55rem;color:#8B6A72;margin:0.1rem 0;">Vanilla sponge &amp; rose buttercream</div>
+                  <div style="font-family:'Playfair Display',serif;font-size:0.75rem;color:#C97B3A;font-weight:700;">$9</div>
+                </div>
+              </div>
+              <div style="background:white;border-radius:8px;border:1.5px solid rgba(194,88,122,0.1);display:flex;align-items:center;overflow:hidden;">
+                <div style="width:4px;background:#fae8ed;flex-shrink:0;align-self:stretch;"></div>
+                <div style="width:46px;height:54px;background:#fef3e8;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border-right:1px solid rgba(194,88,122,0.08);">🍪</div>
+                <div style="padding:0.4rem 0.6rem;flex:1;">
+                  <div style="font-family:'Playfair Display',serif;font-size:0.7rem;color:#3D2314;font-weight:600;">NYC Choco Chip Cookie</div>
+                  <div style="font-size:0.55rem;color:#8B6A72;margin:0.1rem 0;">Crispy edges, gooey center</div>
+                  <div style="font-family:'Playfair Display',serif;font-size:0.75rem;color:#C97B3A;font-weight:700;">$4</div>
+                </div>
+              </div>
+              <div style="background:white;border-radius:8px;border:1.5px solid rgba(194,88,122,0.1);display:flex;align-items:center;overflow:hidden;">
+                <div style="width:4px;background:#fae8ed;flex-shrink:0;align-self:stretch;"></div>
+                <div style="width:46px;height:54px;background:#f5ede6;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border-right:1px solid rgba(194,88,122,0.08);">🎁</div>
+                <div style="padding:0.4rem 0.6rem;flex:1;">
+                  <div style="font-family:'Playfair Display',serif;font-size:0.7rem;color:#3D2314;font-weight:600;">Bonbon Gift Box (6 pcs)</div>
+                  <div style="font-size:0.55rem;color:#8B6A72;margin:0.1rem 0;">Salted caramel, raspberry, pistachio…</div>
+                  <div style="font-family:'Playfair Display',serif;font-size:0.75rem;color:#C97B3A;font-weight:700;">$14</div>
+                </div>
+              </div>
+              <div style="background:white;border-radius:8px;border:1.5px solid rgba(194,88,122,0.1);display:flex;align-items:center;overflow:hidden;">
+                <div style="width:4px;background:#fae8ed;flex-shrink:0;align-self:stretch;"></div>
+                <div style="width:46px;height:54px;background:#edf7f0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border-right:1px solid rgba(194,88,122,0.08);">💜</div>
+                <div style="padding:0.4rem 0.6rem;flex:1;">
+                  <div style="font-family:'Playfair Display',serif;font-size:0.7rem;color:#3D2314;font-weight:600;">Lavender Latte</div>
+                  <div style="font-size:0.55rem;color:#8B6A72;margin:0.1rem 0;">Espresso &amp; house lavender syrup</div>
+                  <div style="font-family:'Playfair Display',serif;font-size:0.75rem;color:#C97B3A;font-weight:700;">$6</div>
+                </div>
+              </div>
+            </div>
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:0.5rem 1rem;background:linear-gradient(to top,rgba(253,246,238,0.97),transparent);text-align:center;">
+              <span style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#C2587A;font-weight:700;">🎀 Pinky Mode</span>
+            </div>
+          </div>
+
+          <!-- SLIDE 2: Tech Mode -->
+          <div class="dulce-slide" style="background:#0D0B14;">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,45,120,0.05)1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.03)1px,transparent 1px);background-size:28px 28px;"></div>
+            <div style="position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:260px;height:160px;background:radial-gradient(ellipse,rgba(255,45,120,0.12),rgba(155,93,229,0.06) 50%,transparent 70%);"></div>
+            <div style="position:relative;z-index:1;padding:1.2rem 1rem 0.5rem;text-align:center;">
+              <div style="display:inline-block;background:#FF2D78;color:white;font-size:0.45rem;letter-spacing:0.18em;text-transform:uppercase;padding:0.15rem 0.7rem;border-radius:50px;margin-bottom:0.3rem;box-shadow:0 0 12px rgba(255,45,120,0.45);">🍬 Dulcería · San José, CR</div>
+              <div style="font-family:'Righteous',cursive;font-size:1.5rem;background:linear-gradient(135deg,#FF2D78,#00E5FF,#FFE500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:0.15rem;filter:drop-shadow(0 0 10px rgba(255,45,120,0.2));">Dulce Caos</div>
+              <div style="font-size:0.48rem;letter-spacing:0.22em;text-transform:uppercase;color:#00E5FF;margin-bottom:0.4rem;">Dulces Artesanales · San José</div>
+              <div class="carousel-stripe" style="height:2.5px;margin-bottom:0.6rem;border-radius:2px;"></div>
+            </div>
+            <div style="position:relative;z-index:1;padding:0 0.9rem;display:flex;flex-direction:column;gap:0.35rem;">
+              <div style="background:#13101E;border-radius:6px;border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;overflow:hidden;position:relative;">
+                <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#FF2D78;box-shadow:0 0 6px rgba(255,45,120,0.5);"></div>
+                <div style="width:46px;height:54px;background:#1A1628;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.05);margin-left:3px;">🌈</div>
+                <div style="padding:0.4rem 0.6rem;flex:1;">
+                  <div style="font-family:'Righteous',cursive;font-size:0.68rem;color:#F9F0FF;">Rainbow Unicorn Cake</div>
+                  <div style="font-size:0.52rem;color:rgba(249,240,255,0.4);margin:0.08rem 0;">6 capas vibrantes · destellos</div>
+                  <div style="font-family:'Righteous',cursive;font-size:0.72rem;color:#FFE500;">₡21.000</div>
+                </div>
+              </div>
+              <div style="background:#13101E;border-radius:6px;border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;overflow:hidden;position:relative;">
+                <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#FF2D78;"></div>
+                <div style="width:46px;height:54px;background:#1A1628;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.05);margin-left:3px;">🍬</div>
+                <div style="padding:0.4rem 0.6rem;flex:1;">
+                  <div style="font-family:'Righteous',cursive;font-size:0.68rem;color:#F9F0FF;">Tabla de Dulces</div>
+                  <div style="font-size:0.52rem;color:rgba(249,240,255,0.4);margin:0.08rem 0;">Gomitas, tiras ácidas, chocolate…</div>
+                  <div style="font-family:'Righteous',cursive;font-size:0.72rem;color:#FFE500;">₡9.000</div>
+                </div>
+              </div>
+              <div style="background:#13101E;border-radius:6px;border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;overflow:hidden;position:relative;">
+                <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#FF2D78;"></div>
+                <div style="width:46px;height:54px;background:#1A1628;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.05);margin-left:3px;">🍡</div>
+                <div style="padding:0.4rem 0.6rem;flex:1;">
+                  <div style="font-family:'Righteous',cursive;font-size:0.68rem;color:#F9F0FF;">Mochi Ice Cream (3 pzs)</div>
+                  <div style="font-size:0.52rem;color:rgba(249,240,255,0.4);margin:0.08rem 0;">Mango, fresa y matcha</div>
+                  <div style="font-family:'Righteous',cursive;font-size:0.72rem;color:#FFE500;">₡4.500</div>
+                </div>
+              </div>
+              <div style="background:#13101E;border-radius:6px;border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;overflow:hidden;position:relative;">
+                <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#FF2D78;"></div>
+                <div style="width:46px;height:54px;background:#1A1628;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.05);margin-left:3px;">🥤</div>
+                <div style="padding:0.4rem 0.6rem;flex:1;">
+                  <div style="font-family:'Righteous',cursive;font-size:0.68rem;color:#F9F0FF;">Freak Shake</div>
+                  <div style="font-size:0.52rem;color:rgba(249,240,255,0.4);margin:0.08rem 0;">Batido viral con brownie y algodón</div>
+                  <div style="font-family:'Righteous',cursive;font-size:0.72rem;color:#FFE500;">₡7.000</div>
+                </div>
+              </div>
+            </div>
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:0.5rem 1rem;background:linear-gradient(to top,rgba(13,11,20,0.97),transparent);text-align:center;">
+              <span style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#FF2D78;font-weight:700;">⚡ Tech Mode</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- DOTS -->
+        <div style="position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:20;">
+          <div class="dulce-dot active" id="dot0"></div>
+          <div class="dulce-dot" id="dot1"></div>
+        </div>
       </div>
       <div class="style-info">
         <span class="style-tag tag-available en-only">✓ Available</span>
@@ -380,6 +502,30 @@
       document.getElementById('btn-en').classList.toggle('active', lang === 'en');
       document.getElementById('btn-es').classList.toggle('active', lang === 'es');
     }
+
+    // Dulcería carousel
+    (function(){
+      var idx = 0;
+      var total = 2;
+      function goTo(n) {
+        idx = n;
+        var track = document.getElementById('dulceCarousel');
+        if(track) track.style.transform = 'translateX(-' + (idx * 50) + '%)';
+        for(var i=0;i<total;i++){
+          var d = document.getElementById('dot'+i);
+          if(d) d.classList.toggle('active', i===idx);
+        }
+      }
+      // dot clicks
+      for(var i=0;i<total;i++){
+        (function(ii){
+          var d = document.getElementById('dot'+ii);
+          if(d) d.onclick = function(e){ e.stopPropagation(); goTo(ii); clearInterval(timer); timer=setInterval(auto,2000); };
+        })(i);
+      }
+      function auto(){ goTo((idx+1)%total); }
+      var timer = setInterval(auto, 2000);
+    })();
   </script>
 
 </body>
