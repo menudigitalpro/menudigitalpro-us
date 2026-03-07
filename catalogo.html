@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu Styles — DigitalMenuPro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F5F0E8; --dark: #1A1408; --gold: #C9A84C;
+      --gold-light: #E8CC7A; --rust: #8B3A1E; --warm-gray: #6B6152;
+      --border: rgba(201,168,76,0.25);
+    }
+    html, body { width: 100%; margin: 0; padding: 0; scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--cream); overflow-x: hidden; }
+
+    /* LANG */
+    html[data-lang="en"] .es-only { display: none !important; }
+    html[data-lang="es"] .en-only { display: none !important; }
+
+    /* LANG BAR */
+    .lang-bar {
+      background: var(--dark); padding: 0.4rem 2rem;
+      display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .lang-btn {
+      background: transparent; border: 1px solid rgba(201,168,76,0.3);
+      color: rgba(245,240,232,0.5); font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 0.25rem 0.7rem; cursor: pointer;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .lang-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+
+    /* HEADER */
+    .cat-header {
+      text-align: center; padding: 4rem 2rem 3rem;
+      background: var(--dark); border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .cat-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center top, rgba(201,168,76,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--gold); font-size: 0.82rem; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none;
+      margin-bottom: 2rem; cursor: pointer;
+      background: none; border: none; transition: opacity 0.2s;
+    }
+    .back-btn:hover { opacity: 0.7; }
+    .cat-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(201,168,76,0.1); border: 1px solid var(--border);
+      padding: 0.3rem 1rem; border-radius: 100px;
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+    }
+    .cat-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--cream); margin-bottom: 1rem;
+    }
+    .cat-title em { font-style: italic; color: var(--gold); }
+    .cat-desc { font-size: 1rem; color: rgba(245,240,232,0.6); max-width: 540px; margin: 0 auto 2rem; line-height: 1.7; }
+    .cat-cta {
+      display: inline-block; background: var(--gold); color: var(--dark);
+      padding: 0.85rem 2rem; border-radius: 2px;
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      font-weight: 600; text-decoration: none; cursor: pointer; border: none;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .cat-cta:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* GRID */
+    .cat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem; padding: 3rem 2rem; max-width: 1200px; margin: 0 auto;
+    }
+
+    /* STYLE CARD */
+    .style-card {
+      border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      cursor: pointer; background: rgba(255,255,255,0.03);
+    }
+    .style-card:hover { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+    .style-preview { height: 380px; overflow: hidden; position: relative; }
+    .style-preview iframe { width: 200%; height: 200%; transform: scale(0.5); transform-origin: top left; border: none; pointer-events: none; }
+    .style-preview .preview-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, rgba(26,20,8,0.8) 100%); }
+    .style-preview .coming-soon { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem; }
+    .style-info { padding: 1.4rem 1.5rem; }
+    .style-tag { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.7rem; border-radius: 100px; display: inline-block; margin-bottom: 0.6rem; font-weight: 600; }
+    .tag-available { background: rgba(46,139,87,0.2); color: #4CAF79; }
+    .tag-soon { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .style-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--cream); margin-bottom: 0.4rem; }
+    .style-desc { font-size: 0.82rem; color: rgba(245,240,232,0.5); line-height: 1.6; margin-bottom: 1rem; }
+    .style-btn { width: 100%; padding: 0.75rem; background: transparent; color: var(--gold); border: 1px solid var(--border); border-radius: 4px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; }
+    .style-btn:hover { background: var(--gold); color: var(--dark); }
+    .style-btn.disabled { color: rgba(245,240,232,0.25); border-color: rgba(201,168,76,0.1); cursor: not-allowed; }
+    .style-btn.disabled:hover { background: transparent; color: rgba(245,240,232,0.25); }
+
+    /* COMING SOON */
+    .cs-emoji { font-size: 3rem; }
+    .cs-label { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: rgba(245,240,232,0.3); font-style: italic; }
+    .cs-sublabel { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(201,168,76,0.4); }
+
+    /* FOOTER */
+    .cat-footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border); margin-top: 1rem; }
+    .cat-footer p { font-size: 0.82rem; color: rgba(245,240,232,0.3); }
+    .cat-footer span { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      .cat-grid { grid-template-columns: 1fr; padding: 2rem 1rem; }
+      .style-preview { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">🇺🇸 EN</button>
+    <button class="lang-btn" onclick="setLang('es')" id="btn-es">🇪🇸 ES</button>
+  </div>
+
+  <!-- HEADER -->
+  <div class="cat-header">
+    <button class="back-btn" onclick="window.history.back()">
+      <span class="en-only">← Back</span>
+      <span class="es-only">← Volver</span>
+    </button>
+    <div class="cat-badge">
+      <span class="en-only">✦ Style Catalog</span>
+      <span class="es-only">✦ Catálogo de Estilos</span>
+    </div>
+    <h1 class="cat-title en-only">Choose the style<br><em>for your menu</em></h1>
+    <h1 class="cat-title es-only">Elegí el estilo<br><em>de tu menú</em></h1>
+    <p class="cat-desc en-only">Every restaurant is unique. Browse our styles and pick the one that best represents your brand. All included in the same price.</p>
+    <p class="cat-desc es-only">Cada negocio es único. Explorá los estilos y elegí el que mejor representa tu marca. Todos incluidos en el mismo precio.</p>
+    <button class="cat-cta en-only" onclick="window.open('https://wa.me/50671186158','_blank')">Get mine — $250</button>
+    <button class="cat-cta es-only" onclick="window.open('https://wa.me/50671186158','_blank')">Quiero el mío — $250</button>
+  </div>
+
+  <!-- GRID -->
+  <div class="cat-grid">
+
+    <!-- CARD 1: American -->
+    <div class="style-card" onclick="window.open('https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-american.html','_blank')">
+      <div class="style-preview">
+        <iframe src="https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-american.html" loading="lazy" tabindex="-1"></iframe>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-available en-only">✓ Available</span>
+        <span class="style-tag tag-available es-only">✓ Disponible</span>
+        <div class="style-name en-only">American Style</div>
+        <div class="style-name es-only">Estilo Americano</div>
+        <div class="style-desc en-only">Bold, warm and energetic. Deep reds and amber tones with strong typography. Perfect for burger joints, BBQ, diners and American comfort food.</div>
+        <div class="style-desc es-only">Atrevido, cálido y energético. Rojos profundos y tonos ámbar. Ideal para hamburgueserías, BBQ, diners y comida americana.</div>
+        <button class="style-btn en-only">View Full Demo →</button>
+        <button class="style-btn es-only">Ver Demo Completo →</button>
+      </div>
+    </div>
+
+    <!-- CARD 2: Japanese -->
+    <div class="style-card" onclick="window.open('https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-japones.html','_blank')">
+      <div class="style-preview">
+        <iframe src="https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-japones.html" loading="lazy" tabindex="-1"></iframe>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-available en-only">✓ Available</span>
+        <span class="style-tag tag-available es-only">✓ Disponible</span>
+        <div class="style-name en-only">Japanese Style</div>
+        <div class="style-name es-only">Estilo Japonés</div>
+        <div class="style-desc en-only">Dark, elegant and minimalist. Deep black with red and gold. Decorative kanji and animated petals. Perfect for sushi, ramen and Asian cuisine.</div>
+        <div class="style-desc es-only">Oscuro, elegante y minimalista. Negro profundo con rojo y dorado. Kanji decorativos y pétalos animados. Ideal para sushi, ramen y cocina asiática.</div>
+        <button class="style-btn en-only">View Full Demo →</button>
+        <button class="style-btn es-only">Ver Demo Completo →</button>
+      </div>
+    </div>
+
+    <!-- CARD 3: Gourmet -->
+    <div class="style-card" onclick="window.open('https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-gourmet.html','_blank')">
+      <div class="style-preview">
+        <iframe src="https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-gourmet.html" loading="lazy" tabindex="-1"></iframe>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-available en-only">✓ Available</span>
+        <span class="style-tag tag-available es-only">✓ Disponible</span>
+        <div class="style-name en-only">Gourmet Style</div>
+        <div class="style-name es-only">Estilo Gourmet</div>
+        <div class="style-desc en-only">Deep navy with fine gold and elegant serif typography. Artisan grid and classic ornaments. Ideal for fine dining, author cuisine, and wine pairing restaurants.</div>
+        <div class="style-desc es-only">Azul marino profundo con dorado fino y tipografía serif elegante. Grilla artesanal y ornamentos clásicos. Ideal para restaurantes de autor, haute cuisine y maridaje.</div>
+        <button class="style-btn en-only">View Full Demo →</button>
+        <button class="style-btn es-only">Ver Demo Completo →</button>
+      </div>
+    </div>
+
+    <!-- CARD 4: Steakhouse -->
+    <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/menu-steakhouse.html','_blank')">
+      <div class="style-preview">
+        <iframe src="https://menudigitalpro.github.io/menudigitalpro-us/menu-steakhouse.html" loading="lazy" tabindex="-1"></iframe>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-available en-only">✓ Available</span>
+        <span class="style-tag tag-available es-only">✓ Disponible</span>
+        <div class="style-name en-only">Steakhouse Style</div>
+        <div class="style-name es-only">Estilo Steakhouse</div>
+        <div class="style-desc en-only">Dark, bold and premium. Deep black with amber and rich brown tones. Elegant serif typography with a classic crest feel. Perfect for steakhouses, fine grills and upscale meat restaurants.</div>
+        <div class="style-desc es-only">Oscuro, atrevido y premium. Negro profundo con ámbar y tonos marrones. Tipografía serif elegante con estilo clásico. Ideal para steakhouses, parrillas y restaurantes de carnes.</div>
+        <button class="style-btn en-only">View Full Demo →</button>
+        <button class="style-btn es-only">Ver Demo Completo →</button>
+      </div>
+    </div>
+
+    <!-- CARD 5: Urban Coming Soon -->
+    <div class="style-card">
+      <div class="style-preview" style="background: linear-gradient(135deg, #2D1B4E, #1a0f35);">
+        <div class="coming-soon">
+          <div class="cs-emoji">🍕</div>
+          <div class="cs-label en-only">Casual &amp; Urban</div>
+          <div class="cs-label es-only">Casual &amp; Urbano</div>
+          <div class="cs-sublabel en-only">Coming Soon</div>
+          <div class="cs-sublabel es-only">Próximamente</div>
+        </div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-soon en-only">⏳ Coming Soon</span>
+        <span class="style-tag tag-soon es-only">⏳ Próximamente</span>
+        <div class="style-name en-only">Urban Style</div>
+        <div class="style-name es-only">Estilo Urbano</div>
+        <div class="style-desc en-only">Vibrant and youthful. Purples and neons on dark backgrounds. Perfect for pizzerias, burger joints, cafés and gourmet fast food.</div>
+        <div class="style-desc es-only">Vibrante y juvenil. Morados y neones sobre fondo oscuro. Ideal para pizzerías, hamburgueserías, cafés y comida rápida gourmet.</div>
+        <button class="style-btn disabled en-only">Coming Soon</button>
+        <button class="style-btn disabled es-only">Próximamente</button>
+      </div>
+    </div>
+
+    <!-- CARD 5: Café Coming Soon -->
+    <div class="style-card">
+      <div class="style-preview" style="background: linear-gradient(135deg, #F5F0E8, #EDE5D4);">
+        <div class="coming-soon">
+          <div class="cs-emoji">☕</div>
+          <div class="cs-label en-only" style="color:rgba(26,20,8,0.4);">Café &amp; Bakery</div>
+          <div class="cs-label es-only" style="color:rgba(26,20,8,0.4);">Café &amp; Pastelería</div>
+          <div class="cs-sublabel en-only" style="color:rgba(201,168,76,0.6);">Coming Soon</div>
+          <div class="cs-sublabel es-only" style="color:rgba(201,168,76,0.6);">Próximamente</div>
+        </div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-soon en-only">⏳ Coming Soon</span>
+        <span class="style-tag tag-soon es-only">⏳ Próximamente</span>
+        <div class="style-name en-only">Café Style</div>
+        <div class="style-name es-only">Estilo Café</div>
+        <div class="style-desc en-only">Warm, artisanal and cozy. Creams and browns with elegant serif type. For coffee shops, bakeries, pastry shops and brunch spots.</div>
+        <div class="style-desc es-only">Cálido, artesanal y acogedor. Cremas y cafés con serif elegante. Para cafeterías, panaderías, pastelerías y brunch.</div>
+        <button class="style-btn disabled en-only">Coming Soon</button>
+        <button class="style-btn disabled es-only">Próximamente</button>
+      </div>
+    </div>
+
+    <!-- CARD 6: Organic Coming Soon -->
+    <div class="style-card">
+      <div class="style-preview" style="background: linear-gradient(135deg, #003B2F, #005C47);">
+        <div class="coming-soon">
+          <div class="cs-emoji">🌿</div>
+          <div class="cs-label en-only">Natural &amp; Organic</div>
+          <div class="cs-label es-only">Natural &amp; Orgánico</div>
+          <div class="cs-sublabel en-only">Coming Soon</div>
+          <div class="cs-sublabel es-only">Próximamente</div>
+        </div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-soon en-only">⏳ Coming Soon</span>
+        <span class="style-tag tag-soon es-only">⏳ Próximamente</span>
+        <div class="style-name en-only">Organic Style</div>
+        <div class="style-name es-only">Estilo Orgánico</div>
+        <div class="style-desc en-only">Natural, fresh and healthy. Deep greens with organic textures. For vegetarian, vegan and health-focused restaurants.</div>
+        <div class="style-desc es-only">Natural, fresco y saludable. Verdes profundos con texturas orgánicas. Para restaurantes vegetarianos, veganos y comida saludable.</div>
+        <button class="style-btn disabled en-only">Coming Soon</button>
+        <button class="style-btn disabled es-only">Próximamente</button>
+      </div>
+    </div>
+
+    <!-- CARD 7: Thai Fusion Coming Soon -->
+    <div class="style-card">
+      <div class="style-preview" style="background: linear-gradient(135deg, #1a0f00, #2d1a00);">
+        <div class="coming-soon">
+          <div class="cs-emoji">🍜</div>
+          <div class="cs-label en-only">Thai &amp; Asian Fusion</div>
+          <div class="cs-label es-only">Thai &amp; Asian Fusion</div>
+          <div class="cs-sublabel en-only">Coming Soon</div>
+          <div class="cs-sublabel es-only">Próximamente</div>
+        </div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-soon en-only">⏳ Coming Soon</span>
+        <span class="style-tag tag-soon es-only">⏳ Próximamente</span>
+        <div class="style-name en-only">Thai Fusion Style</div>
+        <div class="style-name es-only">Estilo Thai Fusion</div>
+        <div class="style-desc en-only">Vibrant orange and tropical gold. Asian geometric patterns. For Thai, Vietnamese, Chinese and Asian fusion restaurants.</div>
+        <div class="style-desc es-only">Naranja vibrante y dorado tropical. Patrones geométricos asiáticos. Para restaurantes tailandeses, vietnamitas, chinos y fusión asiática.</div>
+        <button class="style-btn disabled en-only">Coming Soon</button>
+        <button class="style-btn disabled es-only">Próximamente</button>
+      </div>
+    </div>
+
+    <!-- CARD 8: Korean BBQ Coming Soon -->
+    <div class="style-card">
+      <div class="style-preview" style="background: linear-gradient(135deg, #0a0a1a, #15153D);">
+        <div class="coming-soon">
+          <div class="cs-emoji">🥩</div>
+          <div class="cs-label en-only">Korean BBQ</div>
+          <div class="cs-label es-only">Korean BBQ</div>
+          <div class="cs-sublabel en-only">Coming Soon</div>
+          <div class="cs-sublabel es-only">Próximamente</div>
+        </div>
+      </div>
+      <div class="style-info">
+        <span class="style-tag tag-soon en-only">⏳ Coming Soon</span>
+        <span class="style-tag tag-soon es-only">⏳ Próximamente</span>
+        <div class="style-name en-only">Korean BBQ Style</div>
+        <div class="style-name es-only">Estilo Korean BBQ</div>
+        <div class="style-desc en-only">Modern and bold. Navy blue with Korean red and strong typography. Perfect for Korean BBQ, fried chicken and Asian street food.</div>
+        <div class="style-desc es-only">Moderno y atrevido. Azul marino con rojo coreano y tipografía bold. Perfecto para Korean BBQ, chicken frito coreano y street food asiático.</div>
+        <button class="style-btn disabled en-only">Coming Soon</button>
+        <button class="style-btn disabled es-only">Próximamente</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div style="text-align:center; padding: 2rem; background: rgba(201,168,76,0.05); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div style="font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--cream); margin-bottom:0.5rem;" class="en-only">Don't see the style you're looking for?</div>
+    <div style="font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--cream); margin-bottom:0.5rem;" class="es-only">¿No encontrás el estilo que buscás?</div>
+    <p style="color:rgba(245,240,232,0.5); font-size:0.9rem; margin-bottom:1.5rem;" class="en-only">Message us and we'll create a custom style for your restaurant.</p>
+    <p style="color:rgba(245,240,232,0.5); font-size:0.9rem; margin-bottom:1.5rem;" class="es-only">Escribinos y creamos un estilo personalizado para tu negocio.</p>
+    <button class="cat-cta en-only" onclick="window.open('https://wa.me/50671186158','_blank')">Chat on WhatsApp</button>
+    <button class="cat-cta es-only" onclick="window.open('https://wa.me/50671186158','_blank')">Hablemos por WhatsApp</button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="cat-footer">
+    <p class="en-only">© 2026 <span>DigitalMenuPro</span> · Serving restaurants across the US 🇺🇸</p>
+    <p class="es-only">© 2026 <span>DigitalMenuPro</span> · Sirviendo restaurantes en todo USA 🇺🇸</p>
+  </div>
+
+  <script>
+    function setLang(lang) {
+      document.documentElement.setAttribute('data-lang', lang);
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    }
+  </script>
+
+</body>
+</html>
