@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sakura House — Digital Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0A0A0A; --ink: #111111; --red: #C0392B; --red-bright: #E74C3C;
+      --gold: #C9A84C; --cream: #F5ECD7; --paper: #FAF5EC;
+      --gray: #888; --border: rgba(192,57,43,0.2); --white: #FFFFFF;
+    }
+    html { scroll-behavior: smooth; background: var(--black); }
+    body {
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      background: var(--black); color: var(--cream);
+      max-width: 520px; margin: 0 auto; min-height: 100vh; position: relative;
+    }
+    @media (min-width: 800px) {
+      html { padding: 2rem 0; }
+      body { border-radius: 16px; overflow-y: auto !important; box-shadow: 0 0 80px rgba(192,57,43,0.15); }
+    }
+
+    /* LANG */
+    html[data-lang="en"] .es-only { display: none !important; }
+    html[data-lang="es"] .en-only { display: none !important; }
+
+    /* LANG BAR */
+    .lang-bar {
+      background: #0d0d0d; padding: 0.35rem 1.2rem;
+      display: flex; justify-content: flex-end; align-items: center; gap: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .lang-btn {
+      background: transparent; border: 1px solid rgba(192,57,43,0.3);
+      color: rgba(245,236,215,0.45); font-size: 0.6rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; cursor: pointer;
+      transition: all 0.2s; font-family: 'Zen Kaku Gothic New', sans-serif;
+    }
+    .lang-btn.active { background: var(--red); color: white; border-color: var(--red); }
+
+    /* CHERRY BLOSSOM */
+    .sakura-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; max-width: 520px; margin: 0 auto; }
+    .petal { position: absolute; font-size: 1rem; opacity: 0; animation: fall linear infinite; }
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.15; }
+      90%  { opacity: 0.08; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* HEADER */
+    .header {
+      position: relative; z-index: 2;
+      background: linear-gradient(180deg, #1a0505 0%, var(--black) 100%);
+      padding: 0; border-bottom: 1px solid var(--border); overflow: hidden;
+    }
+    .header-pattern {
+      position: absolute; inset: 0; opacity: 0.04;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(192,57,43,0.5) 20px, rgba(192,57,43,0.5) 21px),
+        repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(192,57,43,0.5) 20px, rgba(192,57,43,0.5) 21px);
+    }
+    .header-inner { position: relative; z-index: 1; padding: 2.5rem 1.5rem 2rem; text-align: center; }
+    .kanji-accent {
+      font-family: 'Noto Serif JP', serif; font-size: 3.5rem; font-weight: 300;
+      color: rgba(192,57,43,0.3); letter-spacing: 0.3em; display: block; margin-bottom: 0.5rem; line-height: 1;
+    }
+    .header-logo {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, #1a0505, #2d0a0a);
+      border: 2px solid var(--border); margin: 0 auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; box-shadow: 0 0 30px rgba(192,57,43,0.2);
+    }
+    .header-name { font-family: 'Noto Serif JP', serif; font-size: 1.8rem; color: var(--cream); font-weight: 400; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+    .header-kanji { font-family: 'Noto Serif JP', serif; font-size: 0.85rem; color: var(--red); letter-spacing: 0.3em; margin-bottom: 0.8rem; }
+    .header-tagline { color: rgba(245,236,215,0.45); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .header-info { display: flex; justify-content: center; gap: 1.5rem; font-size: 0.72rem; color: rgba(245,236,215,0.5); flex-wrap: wrap; }
+
+    /* BANNER */
+    .banner { background: var(--red); color: white; padding: 0.55rem 1.5rem; font-size: 0.78rem; font-weight: 700; text-align: center; letter-spacing: 0.08em; position: relative; z-index: 2; }
+
+    /* STICKY CATS */
+    .cats-wrapper { position: sticky; top: 0; z-index: 50; background: #111; border-bottom: 1px solid var(--border); }
+    .cats-scroll { display: flex; overflow-x: auto; scrollbar-width: none; }
+    .cats-scroll::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      padding: 0.9rem 1.2rem; border: none; background: transparent; cursor: pointer;
+      font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.78rem; font-weight: 400;
+      color: rgba(245,236,215,0.45); white-space: nowrap;
+      border-bottom: 2px solid transparent; transition: all 0.25s; flex-shrink: 0; letter-spacing: 0.05em;
+    }
+    .cat-btn.active { color: var(--red); border-bottom-color: var(--red); }
+    .cat-btn:hover { color: var(--cream); }
+
+    /* SEARCH */
+    .search-bar { padding: 0.7rem 1.2rem; background: #111; border-bottom: 1px solid var(--border); position: relative; z-index: 2; }
+    .search-input {
+      width: 100%; padding: 0.6rem 1rem 0.6rem 2.3rem;
+      border: 1px solid var(--border); border-radius: 2px;
+      font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.82rem;
+      background: #1a1a1a; color: var(--cream); outline: none; transition: border-color 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: 0.7rem center;
+    }
+    .search-input:focus { border-color: var(--red); }
+
+    /* FEATURED */
+    .featured-banner {
+      margin: 0.8rem 1.2rem;
+      background: linear-gradient(135deg, #1a0505, #2d0a0a);
+      border: 1px solid var(--border); border-radius: 4px; padding: 1.2rem;
+      display: flex; align-items: center; gap: 1rem;
+      position: relative; z-index: 2; overflow: hidden;
+    }
+    .featured-banner::before {
+      content: '桜'; position: absolute; right: -10px; top: -10px;
+      font-family: 'Noto Serif JP', serif; font-size: 5rem; color: rgba(192,57,43,0.08); line-height: 1;
+    }
+    .fb-emoji { font-size: 2.5rem; flex-shrink: 0; }
+    .fb-text { flex: 1; }
+    .fb-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 0.2rem; }
+    .fb-name { font-family: 'Noto Serif JP', serif; font-size: 1rem; color: var(--cream); margin-bottom: 0.2rem; }
+    .fb-desc { font-size: 0.7rem; color: rgba(245,236,215,0.5); }
+    .fb-price { font-family: 'Noto Serif JP', serif; font-size: 1.3rem; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+    /* CONTENT */
+    .content { padding: 0 0 6rem; position: relative; z-index: 2; }
+
+    /* SECTION HEADER */
+    .section-header {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 1.8rem 1.2rem 0.8rem; border-bottom: 1px solid rgba(192,57,43,0.1); margin-bottom: 1rem;
+    }
+    .section-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .section-name { font-family: 'Noto Serif JP', serif; font-size: 1.2rem; font-weight: 400; color: var(--cream); letter-spacing: 0.05em; }
+    .section-kanji { font-family: 'Noto Serif JP', serif; font-size: 0.75rem; color: rgba(192,57,43,0.6); letter-spacing: 0.2em; margin-left: 0.5rem; }
+    .section-count { margin-left: auto; font-size: 0.7rem; color: var(--gray); border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 2px; }
+
+    /* ITEM CARDS */
+    .items-list { padding: 0 1.2rem; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 0.5rem; }
+    .item-card {
+      background: #141414; border-radius: 4px; display: flex; gap: 0; align-items: stretch;
+      border: 1px solid rgba(255,255,255,0.05); overflow: hidden; cursor: pointer;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .item-card:hover { border-color: var(--border); transform: translateX(4px); }
+    .item-card:active { transform: scale(0.99); }
+    .item-left { width: 5px; flex-shrink: 0; background: transparent; transition: background 0.25s; }
+    .item-card:hover .item-left { background: var(--red); }
+    .item-emoji { width: 80px; min-height: 85px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; flex-shrink: 0; border-right: 1px solid rgba(255,255,255,0.04); }
+    .item-emoji.warm { background: #1a1208; }
+    .item-emoji.cool { background: #08101a; }
+    .item-emoji.earth { background: #12100a; }
+    .item-body { padding: 0.9rem 0.9rem 0.9rem 0.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .item-name { font-family: 'Noto Serif JP', serif; font-weight: 400; font-size: 0.95rem; color: var(--cream); margin-bottom: 0.15rem; letter-spacing: 0.03em; }
+    .item-name-jp { font-family: 'Noto Serif JP', serif; font-size: 0.65rem; color: rgba(192,57,43,0.6); letter-spacing: 0.2em; margin-bottom: 0.3rem; }
+    .item-badges { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+    .badge { font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.12rem 0.5rem; border-radius: 1px; font-weight: 700; }
+    .b-chef { background: rgba(192,57,43,0.15); color: var(--red); border: 1px solid rgba(192,57,43,0.3); }
+    .b-new { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+    .b-pop { background: rgba(255,255,255,0.06); color: rgba(245,236,215,0.7); border: 1px solid rgba(255,255,255,0.1); }
+    .b-veg { background: rgba(46,125,50,0.15); color: #81C784; border: 1px solid rgba(46,125,50,0.3); }
+    .b-spicy { background: rgba(192,57,43,0.2); color: #FF7043; border: 1px solid rgba(192,57,43,0.4); }
+    .item-desc { font-size: 0.74rem; color: rgba(245,236,215,0.4); line-height: 1.55; margin-bottom: 0.6rem; }
+    .item-footer { display: flex; align-items: center; justify-content: space-between; }
+    .item-price { font-family: 'Noto Serif JP', serif; font-size: 1.05rem; color: var(--gold); font-weight: 400; }
+    .item-price .currency { font-size: 0.7rem; font-family: 'Zen Kaku Gothic New', sans-serif; }
+    .add-btn {
+      width: 30px; height: 30px; background: transparent; border: 1px solid var(--border);
+      color: var(--red); font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; border-radius: 2px;
+    }
+    .add-btn:hover { background: var(--red); color: white; border-color: var(--red); }
+
+    /* DIVIDER */
+    .section-divider { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 1.2rem; margin: 0.3rem 0; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(192,57,43,0.1); }
+    .section-divider span { font-family: 'Noto Serif JP', serif; color: rgba(192,57,43,0.25); font-size: 0.7rem; }
+
+    /* CART */
+    .cart-bar {
+      position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+      background: var(--red); color: white; padding: 0.85rem 1.8rem; border-radius: 2px;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: 0 8px 30px rgba(192,57,43,0.4);
+      cursor: pointer; z-index: 100; font-size: 0.85rem;
+      min-width: 260px; justify-content: space-between;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s; letter-spacing: 0.05em;
+    }
+    .cart-bar.visible { opacity: 1; pointer-events: all; }
+    .cart-count { background: white; color: var(--red); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; }
+    .cart-total { font-family: 'Noto Serif JP', serif; font-size: 1rem; }
+
+    /* INFO FOOTER */
+    .info-footer { background: #0d0d0d; padding: 2rem 1.5rem; border-top: 1px solid var(--border); }
+    .info-footer-title { font-family: 'Noto Serif JP', serif; color: var(--cream); font-size: 1rem; margin-bottom: 1rem; text-align: center; letter-spacing: 0.1em; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .info-item { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.05); padding: 0.8rem; }
+    .info-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 0.3rem; }
+    .info-value { font-size: 0.8rem; color: rgba(245,236,215,0.7); font-weight: 400; line-height: 1.5; }
+    .powered-by { text-align: center; padding: 0.8rem; font-size: 0.68rem; color: rgba(245,236,215,0.2); background: #0a0a0a; border-top: 1px solid rgba(255,255,255,0.04); }
+    .powered-by span { color: var(--red); }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { background: #141414; width: 100%; border-top: 1px solid var(--border); padding: 1.5rem; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); max-height: 80vh; overflow-y: auto; position: relative; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-handle { width: 36px; height: 3px; background: rgba(255,255,255,0.1); margin: 0 auto 1.2rem; }
+    .modal-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 0.8rem; }
+    .modal-name { font-family: 'Noto Serif JP', serif; font-size: 1.4rem; text-align: center; color: var(--cream); margin-bottom: 0.2rem; }
+    .modal-jp { font-family: 'Noto Serif JP', serif; font-size: 0.8rem; color: var(--red); text-align: center; letter-spacing: 0.2em; margin-bottom: 0.8rem; }
+    .modal-desc { font-size: 0.85rem; color: rgba(245,236,215,0.5); text-align: center; line-height: 1.7; margin-bottom: 1.2rem; }
+    .modal-price { font-family: 'Noto Serif JP', serif; font-size: 1.8rem; color: var(--gold); text-align: center; margin-bottom: 1.5rem; }
+    .modal-btn { width: 100%; background: var(--red); color: white; border: none; padding: 1rem; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; cursor: pointer; transition: background 0.2s; border-radius: 2px; }
+    .modal-btn:hover { background: var(--red-bright); }
+    .modal-close { position: absolute; top: 1.2rem; right: 1.2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--cream); width: 30px; height: 30px; border-radius: 2px; cursor: pointer; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">🇺🇸 EN</button>
+    <button class="lang-btn" onclick="setLang('es')" id="btn-es">🇪🇸 ES</button>
+  </div>
+
+  <!-- PETALS -->
+  <div class="sakura-bg" id="sakuraBg"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-pattern"></div>
+    <div class="header-inner">
+      <span class="kanji-accent">桜</span>
+      <div class="header-logo">🏮</div>
+      <div class="header-name">Sakura House</div>
+      <div class="header-kanji">さくらハウス</div>
+      <div class="header-tagline en-only">Authentic Japanese Cuisine · Los Angeles, CA</div>
+      <div class="header-tagline es-only">Cocina Japonesa Auténtica · Los Angeles, CA</div>
+      <div class="header-info">
+        <span>⏰ 12:00pm – 10:00pm</span>
+        <span>📍 Little Tokyo, LA</span>
+        <span>⭐ 4.8</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="banner en-only">🎋 Omakase of the Day available — Ask your server</div>
+  <div class="banner es-only">🎋 Omakase del día disponible — Pregunta a tu mesero</div>
+
+  <!-- CATS -->
+  <div class="cats-wrapper">
+    <div class="cats-scroll">
+      <button class="cat-btn active" onclick="goToSection(this,'starters')">
+        <span class="en-only">🥢 Starters</span><span class="es-only">🥢 Entradas</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'sushi')">🍣 Sushi</button>
+      <button class="cat-btn" onclick="goToSection(this,'ramen')">🍜 Ramen</button>
+      <button class="cat-btn" onclick="goToSection(this,'mains')">
+        <span class="en-only">🍱 Mains</span><span class="es-only">🍱 Principales</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'drinks')">
+        <span class="en-only">🍵 Drinks</span><span class="es-only">🍵 Bebidas</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'desserts')">
+        <span class="en-only">🍡 Desserts</span><span class="es-only">🍡 Postres</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input class="search-input en-only" type="text" placeholder="Search dishes..." oninput="searchMenu(this.value)"/>
+    <input class="search-input es-only" type="text" placeholder="Buscar platillo..." oninput="searchMenu(this.value)"/>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="featured-banner">
+    <div class="fb-emoji">🍣</div>
+    <div class="fb-text">
+      <div class="fb-label en-only">Chef's recommendation</div>
+      <div class="fb-label es-only">Chef recomienda hoy</div>
+      <div class="fb-name en-only">Omakase Sushi Set — 12 pieces</div>
+      <div class="fb-name es-only">Omakase Sushi Set — 12 piezas</div>
+      <div class="fb-desc en-only">Chef's selection with the catch of the day</div>
+      <div class="fb-desc es-only">Selección del chef con pescado del día</div>
+    </div>
+    <div class="fb-price">$18</div>
+  </div>
+
+  <div class="content">
+
+    <!-- STARTERS -->
+    <div id="starters">
+      <div class="section-header">
+        <div class="section-icon">🥢</div>
+        <div class="section-name">
+          <span class="en-only">Starters</span><span class="es-only">Entradas</span>
+          <span class="section-kanji">前菜</span>
+        </div>
+        <div class="section-count en-only">4 items</div>
+        <div class="section-count es-only">4 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Edamame','Steamed soybeans with coarse sea salt. A classic Japanese appetizer.','Vainas de soya al vapor con sal marina gruesa. Aperitivo clásico japonés.','🫘','ゆで枝豆','$5')">
+          <div class="item-left"></div>
+          <div class="item-emoji earth">🫘</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Edamame</div>
+              <div class="item-name-jp">ゆで枝豆</div>
+              <div class="item-badges"><span class="badge b-veg">🌿 Vegan</span><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">Steamed soybeans with coarse sea salt. Classic starter.</div>
+              <div class="item-desc es-only">Vainas de soya al vapor con sal marina. Aperitivo clásico.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>5</div>
+              <button class="add-btn" onclick="addToCart(event,'Edamame',5)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Gyoza (6 pcs)','Crispy pork and cabbage dumplings, juicy inside. Served with ponzu sauce.','Dumplings de cerdo y repollo, crujientes por fuera, jugosos por dentro. Con salsa ponzu.','🥟','餃子','$10')">
+          <div class="item-left"></div>
+          <div class="item-emoji warm">🥟</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Gyoza (6 pcs)</div>
+              <div class="item-name es-only">Gyoza (6 piezas)</div>
+              <div class="item-name-jp">餃子</div>
+              <div class="item-badges"><span class="badge b-chef">Chef's Pick</span></div>
+              <div class="item-desc en-only">Pork & cabbage dumplings, crispy outside, juicy inside. Ponzu dipping sauce.</div>
+              <div class="item-desc es-only">Dumplings de cerdo y repollo, crujientes, con salsa ponzu.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>10</div>
+              <button class="add-btn" onclick="addToCart(event,'Gyoza',10)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Miso Soup','Traditional miso broth with soft tofu, wakame seaweed and scallions.','Caldo de miso tradicional con tofu suave, wakame y cebollín.','🍲','味噌汁','$4')">
+          <div class="item-left"></div>
+          <div class="item-emoji cool">🍲</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Miso Soup</div>
+              <div class="item-name-jp">味噌汁</div>
+              <div class="item-badges"><span class="badge b-veg">🌿 Vegan</span></div>
+              <div class="item-desc en-only">Miso broth, soft tofu, wakame and fresh scallions.</div>
+              <div class="item-desc es-only">Caldo de miso, tofu suave, wakame y cebollín fresco.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>4</div>
+              <button class="add-btn" onclick="addToCart(event,'Miso Soup',4)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Karaage','Japanese-style fried chicken marinated in soy sauce and ginger. Crispy and juicy.','Pollo frito estilo japonés marinado en salsa de soya y jengibre. Crujiente y jugoso.','🍗','唐揚げ','$12')">
+          <div class="item-left"></div>
+          <div class="item-emoji warm">🍗</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Karaage</div>
+              <div class="item-name-jp">唐揚げ</div>
+              <div class="item-badges"><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">Fried chicken marinated in soy & ginger. Crispy outside, juicy inside.</div>
+              <div class="item-desc es-only">Pollo frito marinado en soya y jengibre. Crujiente y jugoso.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>12</div>
+              <button class="add-btn" onclick="addToCart(event,'Karaage',12)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- SUSHI -->
+    <div id="sushi">
+      <div class="section-header">
+        <div class="section-icon">🍣</div>
+        <div class="section-name">Sushi & Rolls <span class="section-kanji">寿司</span></div>
+        <div class="section-count en-only">5 items</div>
+        <div class="section-count es-only">5 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Salmon Nigiri (2 pcs)','Hand-pressed sushi rice topped with fresh salmon. Served with wasabi and ginger.','Arroz de sushi prensado a mano con salmón fresco. Wasabi y jengibre.','🍣','サーモン握り','$9')">
+          <div class="item-left"></div>
+          <div class="item-emoji cool">🍣</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Salmon Nigiri (2 pcs)</div>
+              <div class="item-name es-only">Nigiri Salmón (2 pzs)</div>
+              <div class="item-name-jp">サーモン握り</div>
+              <div class="item-badges"><span class="badge b-chef">Chef's Pick</span><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">Hand-pressed rice with fresh salmon, wasabi and pickled ginger.</div>
+              <div class="item-desc es-only">Arroz prensado con salmón fresco, wasabi y jengibre.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>9</div>
+              <button class="add-btn" onclick="addToCart(event,'Salmon Nigiri',9)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Dragon Roll (8 pcs)','Shrimp tempura roll topped with avocado, eel sauce and orange tobiko. Spectacular.','Roll de camarón tempura cubierto con aguacate, salsa eel y tobiko naranja.','🐉','ドラゴンロール','$16')">
+          <div class="item-left"></div>
+          <div class="item-emoji warm">🐉</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Dragon Roll (8 pcs)</div>
+              <div class="item-name es-only">Dragon Roll (8 pzs)</div>
+              <div class="item-name-jp">ドラゴンロール</div>
+              <div class="item-badges"><span class="badge b-chef">Special</span></div>
+              <div class="item-desc en-only">Shrimp tempura, avocado, eel sauce and orange tobiko.</div>
+              <div class="item-desc es-only">Camarón tempura, aguacate, salsa eel y tobiko naranja.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>16</div>
+              <button class="add-btn" onclick="addToCart(event,'Dragon Roll',16)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Spicy Tuna Roll (8 pcs)','Fresh tuna with spicy mayo, cucumber and scallions. Served with extra sriracha.','Atún fresco con mayonesa spicy, pepino y cebollín. Con sriracha extra.','🌶️','スパイシーツナ','$14')">
+          <div class="item-left"></div>
+          <div class="item-emoji cool">🌶️</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Spicy Tuna Roll (8 pcs)</div>
+              <div class="item-name es-only">Spicy Tuna Roll (8 pzs)</div>
+              <div class="item-name-jp">スパイシーツナ</div>
+              <div class="item-badges"><span class="badge b-spicy">🌶 Spicy</span><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">Fresh tuna, spicy mayo, cucumber and scallions with sriracha.</div>
+              <div class="item-desc es-only">Atún fresco, mayo spicy, pepino y cebollín con sriracha.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>14</div>
+              <button class="add-btn" onclick="addToCart(event,'Spicy Tuna Roll',14)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Vegetable Roll (8 pcs)','Cucumber, avocado, carrot and cream cheese. Perfect for vegetarians.','Roll de pepino, aguacate, zanahoria y queso crema. Ideal para vegetarianos.','🥑','ベジロール','$11')">
+          <div class="item-left"></div>
+          <div class="item-emoji earth">🥑</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Vegetable Roll (8 pcs)</div>
+              <div class="item-name es-only">Vegetable Roll (8 pzs)</div>
+              <div class="item-name-jp">ベジロール</div>
+              <div class="item-badges"><span class="badge b-veg">🌿 Vegetarian</span></div>
+              <div class="item-desc en-only">Cucumber, avocado, carrot and cream cheese. Great for vegetarians.</div>
+              <div class="item-desc es-only">Pepino, aguacate, zanahoria y queso crema. Perfecto para vegetarianos.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>11</div>
+              <button class="add-btn" onclick="addToCart(event,'Vegetable Roll',11)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- RAMEN -->
+    <div id="ramen">
+      <div class="section-header">
+        <div class="section-icon">🍜</div>
+        <div class="section-name">Ramen <span class="section-kanji">ラーメン</span></div>
+        <div class="section-count en-only">3 items</div>
+        <div class="section-count es-only">3 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Tonkotsu Ramen','12-hour pork bone broth, chashu pork, marinated egg, bamboo shoots and nori.','Caldo cremoso de hueso de cerdo 12 horas, chashu, huevo marinado, bambú y nori.','🍜','豚骨ラーメン','$17')">
+          <div class="item-left"></div>
+          <div class="item-emoji warm">🍜</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Tonkotsu Ramen</div>
+              <div class="item-name-jp">豚骨ラーメン</div>
+              <div class="item-badges"><span class="badge b-chef">Chef's Pick</span><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">12-hour pork bone broth, chashu, marinated egg, bamboo & nori.</div>
+              <div class="item-desc es-only">Caldo de hueso cocido 12h, chashu, huevo marinado, bambú y nori.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>17</div>
+              <button class="add-btn" onclick="addToCart(event,'Tonkotsu Ramen',17)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Spicy Miso Ramen','Spicy miso broth with ground pork, corn, butter, scallions and ajitsuke egg.','Caldo de miso picante con cerdo molido, maíz, mantequilla, cebollín y huevo ajitsuke.','🌶️','辛味噌ラーメン','$16')">
+          <div class="item-left"></div>
+          <div class="item-emoji cool">🌶️</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Spicy Miso Ramen</div>
+              <div class="item-name-jp">辛味噌ラーメン</div>
+              <div class="item-badges"><span class="badge b-spicy">🌶 Spicy</span></div>
+              <div class="item-desc en-only">Spicy miso, ground pork, corn, butter and ajitsuke egg.</div>
+              <div class="item-desc es-only">Miso picante, cerdo molido, maíz, mantequilla y huevo ajitsuke.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>16</div>
+              <button class="add-btn" onclick="addToCart(event,'Spicy Miso Ramen',16)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Shoyu Vegan Ramen','Light soy broth with tofu, shiitake mushrooms, bamboo, nori and scallions. 100% plant-based.','Caldo claro de soya con tofu, setas shiitake, bambú, nori y cebollín. 100% vegetal.','🌿','醤油ラーメン','$15')">
+          <div class="item-left"></div>
+          <div class="item-emoji earth">🌿</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Shoyu Vegan Ramen</div>
+              <div class="item-name es-only">Shoyu Ramen Vegano</div>
+              <div class="item-name-jp">醤油ラーメン</div>
+              <div class="item-badges"><span class="badge b-veg">🌿 Vegan</span><span class="badge b-new">New</span></div>
+              <div class="item-desc en-only">Soy broth, tofu, shiitake, bamboo, nori and scallions. 100% plant-based.</div>
+              <div class="item-desc es-only">Caldo de soya, tofu, shiitake, bambú, nori y cebollín. 100% vegetal.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>15</div>
+              <button class="add-btn" onclick="addToCart(event,'Shoyu Vegan Ramen',15)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- MAINS -->
+    <div id="mains">
+      <div class="section-header">
+        <div class="section-icon">🍱</div>
+        <div class="section-name">
+          <span class="en-only">Bento & Mains</span><span class="es-only">Bento & Principales</span>
+          <span class="section-kanji">弁当</span>
+        </div>
+        <div class="section-count en-only">2 items</div>
+        <div class="section-count es-only">2 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Teriyaki Bento','Glazed teriyaki chicken over sesame rice, coleslaw, gyoza (2 pcs) and miso soup.','Pollo teriyaki glaseado sobre arroz con sésamo, ensalada de col, gyoza (2 pzs) y miso soup.','🍱','照り焼き弁当','$19')">
+          <div class="item-left"></div>
+          <div class="item-emoji warm">🍱</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Teriyaki Bento</div>
+              <div class="item-name-jp">照り焼き弁当</div>
+              <div class="item-badges"><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">Teriyaki chicken, sesame rice, coleslaw, gyoza (2 pcs) and miso soup.</div>
+              <div class="item-desc es-only">Pollo teriyaki, arroz con sésamo, ensalada de col, gyoza y miso.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>19</div>
+              <button class="add-btn" onclick="addToCart(event,'Teriyaki Bento',19)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Katsu Curry','Breaded pork cutlet over rice with homemade Japanese curry, pickles and sesame.','Chuleta de cerdo empanizada sobre arroz con curry japonés casero, encurtidos y sésamo.','🍛','カツカレー','$20')">
+          <div class="item-left"></div>
+          <div class="item-emoji earth">🍛</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Katsu Curry</div>
+              <div class="item-name-jp">カツカレー</div>
+              <div class="item-badges"><span class="badge b-chef">Chef's Pick</span></div>
+              <div class="item-desc en-only">Breaded pork cutlet, rice, homemade Japanese curry and pickles.</div>
+              <div class="item-desc es-only">Chuleta empanizada sobre arroz con curry casero y encurtidos.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>20</div>
+              <button class="add-btn" onclick="addToCart(event,'Katsu Curry',20)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- DRINKS -->
+    <div id="drinks">
+      <div class="section-header">
+        <div class="section-icon">🍵</div>
+        <div class="section-name">
+          <span class="en-only">Drinks</span><span class="es-only">Bebidas</span>
+          <span class="section-kanji">飲み物</span>
+        </div>
+        <div class="section-count en-only">4 items</div>
+        <div class="section-count es-only">4 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Matcha Latte','Ceremonial matcha with steamed oat milk and a soft foam. Hot or iced.','Té matcha ceremonial con leche de avena vaporizada. Frío o caliente.','🍵','抹茶ラテ','$6')">
+          <div class="item-left"></div>
+          <div class="item-emoji earth">🍵</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Matcha Latte</div>
+              <div class="item-name-jp">抹茶ラテ</div>
+              <div class="item-badges"><span class="badge b-veg">🌿 Vegan</span><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">Ceremonial matcha with steamed oat milk. Hot or iced.</div>
+              <div class="item-desc es-only">Matcha ceremonial con leche de avena vaporizada. Frío o caliente.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>6</div>
+              <button class="add-btn" onclick="addToCart(event,'Matcha Latte',6)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Cold Sake (150ml)','Premium Japanese sake served chilled. Smooth and aromatic.','Sake japonés premium servido frío. Suave y aromático.','🍶','日本酒','$12')">
+          <div class="item-left"></div>
+          <div class="item-emoji cool">🍶</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Cold Sake (150ml)</div>
+              <div class="item-name es-only">Sake Frío (150ml)</div>
+              <div class="item-name-jp">日本酒</div>
+              <div class="item-badges"><span class="badge b-new">Premium</span></div>
+              <div class="item-desc en-only">Premium Japanese sake served at ideal temperature. Smooth and aromatic.</div>
+              <div class="item-desc es-only">Sake japonés premium servido a temperatura ideal. Suave y aromático.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>12</div>
+              <button class="add-btn" onclick="addToCart(event,'Cold Sake',12)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Ramune','Japanese marble soda in original, strawberry or melon. Iconic glass bottle.','Refresco japonés de bolita. Original, fresa o melón. Botella icónica de vidrio.','🫧','ラムネ','$5')">
+          <div class="item-left"></div>
+          <div class="item-emoji warm">🫧</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Ramune</div>
+              <div class="item-name-jp">ラムネ</div>
+              <div class="item-badges"><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">Japanese marble soda. Original, strawberry or melon. Iconic glass bottle.</div>
+              <div class="item-desc es-only">Refresco japonés de bolita. Original, fresa o melón. Botella icónica.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>5</div>
+              <button class="add-btn" onclick="addToCart(event,'Ramune',5)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- DESSERTS -->
+    <div id="desserts">
+      <div class="section-header">
+        <div class="section-icon">🍡</div>
+        <div class="section-name">
+          <span class="en-only">Desserts</span><span class="es-only">Postres</span>
+          <span class="section-kanji">デザート</span>
+        </div>
+        <div class="section-count en-only">2 items</div>
+        <div class="section-count es-only">2 opciones</div>
+      </div>
+      <div class="items-list" style="margin-bottom:5rem;">
+
+        <div class="item-card" onclick="openModal('Mochi Ice Cream (3 pcs)','Mochi balls filled with ice cream: matcha, strawberry and vanilla. Soft and irresistible.','Bolitas de mochi rellenas de helado: matcha, fresa y vainilla. Textura suave e irresistible.','🍡','もちアイス','$8')">
+          <div class="item-left"></div>
+          <div class="item-emoji cool">🍡</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Mochi Ice Cream (3 pcs)</div>
+              <div class="item-name es-only">Mochi Ice Cream (3 pzs)</div>
+              <div class="item-name-jp">もちアイス</div>
+              <div class="item-badges"><span class="badge b-pop">Popular</span><span class="badge b-veg">🌿 Vegetarian</span></div>
+              <div class="item-desc en-only">Mochi filled with ice cream: matcha, strawberry and vanilla. Irresistible.</div>
+              <div class="item-desc es-only">Mochi relleno de helado: matcha, fresa y vainilla. Suave e irresistible.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>8</div>
+              <button class="add-btn" onclick="addToCart(event,'Mochi Ice Cream',8)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Dorayaki','Fluffy Japanese pancakes filled with sweet red bean paste (anko). Traditional recipe.','Pancakes japoneses esponjosos rellenos de pasta de frijol rojo dulce (anko).','🥞','どら焼き','$7')">
+          <div class="item-left"></div>
+          <div class="item-emoji warm">🥞</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Dorayaki</div>
+              <div class="item-name-jp">どら焼き</div>
+              <div class="item-badges"><span class="badge b-new">Traditional</span></div>
+              <div class="item-desc en-only">Fluffy Japanese pancakes with sweet red bean paste (anko). Traditional recipe.</div>
+              <div class="item-desc es-only">Pancakes esponjosos con pasta de frijol rojo dulce (anko).</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="currency">$</span>7</div>
+              <button class="add-btn" onclick="addToCart(event,'Dorayaki',7)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- INFO FOOTER -->
+  <div class="info-footer">
+    <div class="info-footer-title en-only">📍 Find Us</div>
+    <div class="info-footer-title es-only">📍 Encuéntranos</div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label en-only">Address</div>
+        <div class="info-label es-only">Dirección</div>
+        <div class="info-value">314 E 2nd St, Los Angeles, CA</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label en-only">Hours</div>
+        <div class="info-label es-only">Horario</div>
+        <div class="info-value">Mon–Sun<br>12pm – 10pm</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label en-only">Reservations</div>
+        <div class="info-label es-only">Reservas</div>
+        <div class="info-value">(213) 000-0000</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label en-only">Payment</div>
+        <div class="info-label es-only">Pago</div>
+        <div class="info-value">Cash · Card · Apple Pay</div>
+      </div>
+    </div>
+    <div style="margin-top:1.2rem;border-radius:8px;overflow:hidden;position:relative;">
+      <iframe
+        src="https://maps.google.com/maps?q=9.935290162554685,-84.10372590392429&z=16&output=embed"
+        width="100%" height="220" style="border:0;display:block;" allowfullscreen="" loading="lazy">
+      </iframe>
+      <a href="https://www.google.com/maps?q=9.935290162554685,-84.10372590392429"
+         target="_blank"
+         style="position:absolute;inset:0;z-index:10;display:block;">
+      </a>
+    </div>
+  </div>
+  <div class="powered-by en-only">Menu powered by <span>DigitalMenuPro</span> · $499 setup 🇺🇸</div>
+  <div class="powered-by es-only">Menú creado por <span>DigitalMenuPro</span> · $499 setup 🇺🇸</div>
+
+  <!-- CART -->
+  <div class="cart-bar" id="cartBar">
+    <div style="display:flex;align-items:center;gap:0.6rem;">
+      <div class="cart-count" id="cartCount">0</div>
+      <span class="en-only">View Order</span>
+      <span class="es-only">Ver Pedido</span>
+    </div>
+    <div class="cart-total" id="cartTotal">$0</div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-emoji" id="modalEmoji"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-jp" id="modalJp"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <button class="modal-btn" id="modalAddBtn">
+        <span class="en-only">Add to Order</span>
+        <span class="es-only">Agregar al Pedido</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Lang toggle
+    function setLang(lang) {
+      document.documentElement.setAttribute('data-lang', lang);
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    }
+
+    // Falling petals
+    var petals = ['🌸','🌺','🍃','✿'];
+    var bg = document.getElementById('sakuraBg');
+    for(var i = 0; i < 12; i++) {
+      var p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = petals[Math.floor(Math.random()*petals.length)];
+      p.style.left = Math.random()*100 + '%';
+      p.style.fontSize = (0.6 + Math.random()*0.8) + 'rem';
+      p.style.animationDuration = (8 + Math.random()*12) + 's';
+      p.style.animationDelay = (Math.random()*15) + 's';
+      bg.appendChild(p);
+    }
+
+    // Cart
+    var cart = [];
+    function addToCart(e, name, price) {
+      if(e) e.stopPropagation();
+      cart.push({name, price});
+      var total = cart.reduce(function(s,i){return s+i.price;},0);
+      document.getElementById('cartCount').textContent = cart.length;
+      document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+      document.getElementById('cartBar').classList.toggle('visible', cart.length > 0);
+      if(e){
+        var btn = e.target;
+        btn.textContent = '✓'; btn.style.background = 'var(--red)'; btn.style.color = 'white';
+        setTimeout(function(){ btn.textContent = '+'; btn.style.background = ''; btn.style.color = ''; }, 1200);
+      }
+    }
+
+    // Modal
+    function openModal(name, descEn, descEs, emoji, jp, price) {
+      var lang = document.documentElement.getAttribute('data-lang');
+      document.getElementById('modalName').textContent = name;
+      document.getElementById('modalDesc').textContent = lang === 'es' ? descEs : descEn;
+      document.getElementById('modalEmoji').textContent = emoji;
+      document.getElementById('modalJp').textContent = jp;
+      document.getElementById('modalPrice').textContent = price;
+      var p = parseFloat(price.replace('$',''));
+      document.getElementById('modalAddBtn').onclick = function(){ addToCart(null,name,p); closeModal(); };
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+    function closeModal(e) {
+      if(!e || e.target === document.getElementById('modalOverlay'))
+        document.getElementById('modalOverlay').classList.remove('open');
+    }
+
+    // Smooth scroll categories
+    function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+    function smoothScrollTo(targetY, duration) {
+      var startY = window.pageYOffset;
+      var diff = targetY - startY;
+      var startTime = null;
+      function step(ct) {
+        if(!startTime) startTime = ct;
+        var elapsed = ct - startTime;
+        var progress = Math.min(elapsed/duration, 1);
+        window.scrollTo(0, startY + diff * easeInOutCubic(progress));
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    function goToSection(btn, id) {
+      document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var el = document.getElementById(id);
+      if(el) smoothScrollTo(el.getBoundingClientRect().top + window.pageYOffset - 60, 800);
+    }
+
+    // Search
+    function searchMenu(q) {
+      var query = q.toLowerCase();
+      document.querySelectorAll('.item-card').forEach(function(card){
+        card.style.display = (card.innerText.toLowerCase().includes(query) || query === '') ? 'flex' : 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>
