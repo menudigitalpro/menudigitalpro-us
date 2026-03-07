@@ -261,10 +261,10 @@
   <nav>
     <div class="nav-logo">Digital<span>Menu</span>Pro</div>
     <ul class="nav-links">
-      <li><a onclick="scrollTo('features')" class="en-only">Features</a><a onclick="scrollTo('features')" class="es-only">Funciones</a></li>
-      <li><a onclick="scrollTo('demos')" class="en-only">Demo</a><a onclick="scrollTo('demos')" class="es-only">Demo</a></li>
-      <li><a onclick="scrollTo('pricing')" class="en-only">Pricing</a><a onclick="scrollTo('pricing')" class="es-only">Precios</a></li>
-      <li><a onclick="scrollTo('compare')" class="en-only">Compare</a><a onclick="scrollTo('compare')" class="es-only">Comparar</a></li>
+      <li><a onclick="scrollToSection('features')" class="en-only">Features</a><a onclick="scrollToSection('features')" class="es-only">Funciones</a></li>
+      <li><a onclick="scrollToSection('demos')" class="en-only">Demo</a><a onclick="scrollToSection('demos')" class="es-only">Demo</a></li>
+      <li><a onclick="scrollToSection('pricing')" class="en-only">Pricing</a><a onclick="scrollToSection('pricing')" class="es-only">Precios</a></li>
+      <li><a onclick="scrollToSection('compare')" class="en-only">Compare</a><a onclick="scrollToSection('compare')" class="es-only">Comparar</a></li>
       <li><a onclick="window.open('https://wa.me/50671186158','_blank')" class="nav-cta en-only">Get Started</a><a onclick="window.open('https://wa.me/50671186158','_blank')" class="nav-cta es-only">Comenzar</a></li>
     </ul>
   </nav>
@@ -284,7 +284,7 @@
           <span class="en-only">Get Your Menu — $250</span>
           <span class="es-only">Obtener Mi Menú — $250</span>
         </button>
-        <button class="btn-secondary" onclick="scrollTo('demos')">
+        <button class="btn-secondary" onclick="scrollToSection('demos')">
           <span class="en-only">View Live Demos →</span>
           <span class="es-only">Ver Demos →</span>
         </button>
@@ -356,7 +356,7 @@
     <h2 class="section-title en-only">Real menus, real styles</h2>
     <h2 class="section-title es-only">Menús reales, estilos reales</h2>
     <div class="demo-grid">
-      <div class="demo-card" onclick="window.open('https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-japones.html','_blank')">
+      <div class="demo-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')">
         <div class="demo-preview" style="background:linear-gradient(135deg,#0A0A0A,#2d0a0a);">🍣</div>
         <div class="demo-info">
           <div class="demo-tag en-only">Japanese Style</div>
@@ -364,7 +364,7 @@
           <div class="demo-name">Sakura House</div>
         </div>
       </div>
-      <div class="demo-card" onclick="window.open('https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-gourmet.html','_blank')">
+      <div class="demo-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')">
         <div class="demo-preview" style="background:linear-gradient(135deg,#0B0F1A,#1C2333);">🍽️</div>
         <div class="demo-info">
           <div class="demo-tag en-only">Gourmet Style</div>
@@ -372,7 +372,7 @@
           <div class="demo-name">Noir & Or</div>
         </div>
       </div>
-      <div class="demo-card" onclick="window.open('https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/menu-american.html','_blank')">
+      <div class="demo-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')">
         <div class="demo-preview" style="background:linear-gradient(135deg,#1a0800,#2d1200);">🍔</div>
         <div class="demo-info">
           <div class="demo-tag en-only">American Style</div>
@@ -382,8 +382,8 @@
       </div>
     </div>
     <p style="margin-top:2rem; font-size:0.82rem; color:var(--warm-gray);">
-      <span class="en-only">More styles available — <a onclick="window.open('https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/catalogo.html','_blank')" style="color:var(--gold);cursor:pointer;">View full catalog →</a></span>
-      <span class="es-only">Más estilos disponibles — <a onclick="window.open('https://albertojosuehernandezperez03-debug.github.io/menudigitalpro/catalogo.html','_blank')" style="color:var(--gold);cursor:pointer;">Ver catálogo completo →</a></span>
+      <span class="en-only">More styles available — <a onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')" style="color:var(--gold);cursor:pointer;">View full catalog →</a></span>
+      <span class="es-only">Más estilos disponibles — <a onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')" style="color:var(--gold);cursor:pointer;">Ver catálogo completo →</a></span>
     </p>
   </section>
 
@@ -749,7 +749,7 @@
         <span class="en-only">💬 Message us on WhatsApp</span>
         <span class="es-only">💬 Escribinos por WhatsApp</span>
       </button>
-      <button class="btn-secondary" onclick="scrollTo('demos')">
+      <button class="btn-secondary" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')">
         <span class="en-only">View Demos First →</span>
         <span class="es-only">Ver Demos Primero →</span>
       </button>
@@ -768,9 +768,23 @@
       document.getElementById('btn-en').classList.toggle('active', lang === 'en');
       document.getElementById('btn-es').classList.toggle('active', lang === 'es');
     }
-    function scrollTo(id) {
+    function scrollToSection(id) {
       var el = document.getElementById(id);
-      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      if (!el) return;
+      var navH = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 0;
+      var target = el.getBoundingClientRect().top + window.pageYOffset - navH;
+      var start = window.pageYOffset;
+      var distance = target - start;
+      var duration = 800;
+      var startTime = null;
+      function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        window.scrollTo(0, start + distance * ease(progress));
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     }
   </script>
 
