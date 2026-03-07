@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Noir & Or — Digital Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0B0F1A; --navy2: #111827; --navy3: #1C2333;
+      --gold: #C9A84C; --gold2: #E8CC7A; --gold3: rgba(201,168,76,0.12);
+      --cream: #F5ECD7; --cream2: rgba(245,236,215,0.6); --cream3: rgba(245,236,215,0.3);
+      --border: rgba(201,168,76,0.18); --border2: rgba(255,255,255,0.06);
+      --gray: rgba(245,236,215,0.4);
+    }
+    html { scroll-behavior: smooth; background: var(--navy); }
+    body { font-family: 'Jost', sans-serif; background: var(--navy); color: var(--cream); max-width: 520px; margin: 0 auto; min-height: 100vh; }
+    @media (min-width: 800px) {
+      html { padding: 2rem 0; }
+      body { border-radius: 16px; overflow-y: auto !important; box-shadow: 0 0 100px rgba(201,168,76,0.08); }
+    }
+
+    /* LANG */
+    html[data-lang="en"] .es-only { display: none !important; }
+    html[data-lang="es"] .en-only { display: none !important; }
+
+    /* LANG BAR */
+    .lang-bar {
+      background: var(--navy); padding: 0.35rem 1.2rem;
+      display: flex; justify-content: flex-end; align-items: center; gap: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .lang-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--cream3); font-size: 0.6rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; cursor: pointer;
+      transition: all 0.2s; font-family: 'Jost', sans-serif; font-weight: 400;
+    }
+    .lang-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+    /* HEADER */
+    .header { background: var(--navy); padding: 0; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .header-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 65%); }
+    .header-lines {
+      position: absolute; inset: 0; opacity: 1;
+      background-image: linear-gradient(90deg, var(--border) 1px, transparent 1px), linear-gradient(0deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    }
+    .header-inner { position: relative; z-index: 1; padding: 2.5rem 1.5rem 2rem; text-align: center; }
+    .header-ornament { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .ornament-line { height: 1px; width: 50px; background: linear-gradient(90deg, transparent, var(--gold)); }
+    .ornament-line.right { background: linear-gradient(90deg, var(--gold), transparent); }
+    .ornament-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+    .header-logo { width: 70px; height: 70px; border-radius: 50%; border: 1px solid var(--border); margin: 0 auto 1.2rem; display: flex; align-items: center; justify-content: center; font-size: 1.9rem; background: var(--navy2); box-shadow: 0 0 40px rgba(201,168,76,0.1), inset 0 0 20px rgba(201,168,76,0.04); }
+    .header-name { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--cream); font-weight: 400; letter-spacing: 0.12em; margin-bottom: 0.3rem; }
+    .header-sub { font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; font-weight: 300; }
+    .header-tagline { color: var(--cream3); font-size: 0.75rem; letter-spacing: 0.12em; font-style: italic; font-family: 'Playfair Display', serif; margin-bottom: 1rem; }
+    .header-info { display: flex; justify-content: center; gap: 1.5rem; font-size: 0.68rem; color: var(--gray); flex-wrap: wrap; font-weight: 300; letter-spacing: 0.08em; }
+
+    /* BANNER */
+    .banner { background: linear-gradient(90deg, var(--navy2), rgba(201,168,76,0.08), var(--navy2)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.65rem 1.5rem; font-size: 0.72rem; text-align: center; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; }
+
+    /* CATS */
+    .cats-wrapper { position: sticky; top: 0; z-index: 50; background: var(--navy); border-bottom: 1px solid var(--border); }
+    .cats-scroll { display: flex; overflow-x: auto; scrollbar-width: none; }
+    .cats-scroll::-webkit-scrollbar { display: none; }
+    .cat-btn { padding: 1rem 1.3rem; border: none; background: transparent; cursor: pointer; font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 400; color: var(--cream3); white-space: nowrap; letter-spacing: 0.18em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: all 0.25s; flex-shrink: 0; }
+    .cat-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .cat-btn:hover { color: var(--cream); }
+
+    /* SEARCH */
+    .search-bar { padding: 0.8rem 1.2rem; background: var(--navy2); border-bottom: 1px solid var(--border2); }
+    .search-input { width: 100%; padding: 0.65rem 1rem 0.65rem 2.3rem; border: 1px solid var(--border); border-radius: 1px; font-family: 'Jost', sans-serif; font-size: 0.8rem; background: var(--navy); color: var(--cream); outline: none; transition: border-color 0.2s; letter-spacing: 0.05em; font-weight: 300; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='%23C9A84C' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 0.75rem center; }
+    .search-input:focus { border-color: var(--gold); }
+    .search-input::placeholder { color: var(--cream3); }
+
+    /* FEATURED */
+    .featured { margin: 1rem 1.2rem; border: 1px solid var(--border); background: linear-gradient(135deg, var(--navy2), var(--navy3)); padding: 1.3rem; position: relative; overflow: hidden; }
+    .featured::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%); }
+    .featured-label { font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; font-weight: 400; }
+    .featured-row { display: flex; align-items: center; gap: 1rem; }
+    .featured-emoji { font-size: 2.3rem; flex-shrink: 0; }
+    .featured-info { flex: 1; }
+    .featured-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--cream); margin-bottom: 0.2rem; }
+    .featured-desc { font-size: 0.72rem; color: var(--gray); line-height: 1.5; }
+    .featured-price { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); flex-shrink: 0; }
+
+    /* CONTENT */
+    .content { padding: 0 0 6rem; }
+
+    /* SECTION HEADER */
+    .section-header { padding: 2rem 1.2rem 1rem; display: flex; align-items: center; gap: 1rem; }
+    .sh-left { flex: 1; }
+    .sh-label { font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; font-weight: 300; }
+    .sh-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; color: var(--cream); font-style: italic; }
+    .sh-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+    .sh-count { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--cream3); font-weight: 300; }
+
+    /* ITEMS */
+    .items-list { padding: 0 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 0.5rem; }
+    .item-card { border: 1px solid var(--border2); background: var(--navy2); display: flex; align-items: stretch; cursor: pointer; overflow: hidden; transition: border-color 0.3s, background 0.3s; position: relative; }
+    .item-card::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--gold); transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s; }
+    .item-card:hover { border-color: var(--border); background: var(--navy3); }
+    .item-card:hover::after { transform: scaleY(1); }
+    .item-emoji { width: 80px; min-height: 90px; flex-shrink: 0; background: var(--navy3); display: flex; align-items: center; justify-content: center; font-size: 2rem; border-right: 1px solid var(--border2); position: relative; overflow: hidden; }
+    .item-emoji::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(201,168,76,0.04), transparent 70%); }
+    .item-body { padding: 0.9rem 1rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .item-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--cream); margin-bottom: 0.15rem; font-weight: 400; }
+    .item-badges { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+    .badge { font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.12rem 0.55rem; font-weight: 500; border: 1px solid; }
+    .b-chef { color: var(--gold); border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.05); }
+    .b-new  { color: #81C784; border-color: rgba(129,199,132,0.3); background: rgba(129,199,132,0.05); }
+    .b-pop  { color: var(--cream3); border-color: var(--border2); background: transparent; }
+    .b-veg  { color: #A5D6A7; border-color: rgba(165,214,167,0.3); background: rgba(165,214,167,0.05); }
+    .b-rare { color: #90CAF9; border-color: rgba(144,202,249,0.3); background: rgba(144,202,249,0.05); }
+    .item-desc { font-size: 0.72rem; color: var(--gray); line-height: 1.6; margin-bottom: 0.6rem; font-weight: 300; }
+    .item-footer { display: flex; align-items: center; justify-content: space-between; }
+    .item-price { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold); }
+    .item-price .curr { font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 300; }
+    .add-btn { width: 28px; height: 28px; background: transparent; border: 1px solid var(--border); color: var(--gold); font-size: 1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+    .add-btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+    /* DIVIDER */
+    .section-divider { display: flex; align-items: center; gap: 1rem; padding: 0.3rem 1.2rem; margin: 0.3rem 0; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
+    .section-divider span { color: var(--gold); font-size: 0.5rem; letter-spacing: 0.3em; }
+
+    /* CART */
+    .cart-bar { position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--navy); padding: 0.9rem 2rem; display: flex; align-items: center; gap: 1.5rem; box-shadow: 0 8px 40px rgba(201,168,76,0.3); cursor: pointer; z-index: 100; min-width: 260px; justify-content: space-between; opacity: 0; pointer-events: none; transition: opacity 0.3s; font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .cart-bar.visible { opacity: 1; pointer-events: all; }
+    .cart-count { background: var(--navy); color: var(--gold); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 500; }
+    .cart-total { font-family: 'Playfair Display', serif; font-size: 1rem; }
+
+    /* INFO FOOTER */
+    .info-footer { background: var(--navy2); padding: 2.5rem 1.5rem; border-top: 1px solid var(--border); }
+    .info-ornament { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+    .info-ornament::before, .info-ornament::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .info-ornament span { font-family: 'Playfair Display', serif; font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; font-style: italic; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .info-item { padding: 0.9rem; border: 1px solid var(--border2); background: var(--navy); }
+    .info-label { font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; font-weight: 400; }
+    .info-value { font-size: 0.78rem; color: var(--cream2); line-height: 1.6; font-weight: 300; }
+    .powered-by { text-align: center; padding: 0.8rem; font-size: 0.65rem; color: var(--cream3); background: var(--navy); border-top: 1px solid var(--border2); letter-spacing: 0.1em; font-weight: 300; }
+    .powered-by span { color: var(--gold); }
+
+    /* MAP */
+    .map-wrap { margin-top: 1.2rem; border: 1px solid var(--border); overflow: hidden; position: relative; }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { background: var(--navy2); width: 100%; border-top: 1px solid var(--border); padding: 2rem 1.5rem 1.5rem; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.32,0.72,0,1); max-height: 80vh; overflow-y: auto; position: relative; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-handle { width: 32px; height: 2px; background: var(--border); margin: 0 auto 1.5rem; }
+    .modal-emoji { font-size: 3rem; text-align: center; margin-bottom: 1rem; }
+    .modal-tag { text-align: center; font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .modal-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; text-align: center; color: var(--cream); margin-bottom: 0.3rem; font-style: italic; }
+    .modal-ornament { display: flex; align-items: center; gap: 0.5rem; margin: 0.8rem 0; }
+    .modal-ornament::before, .modal-ornament::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .modal-ornament span { color: var(--gold); font-size: 0.5rem; }
+    .modal-desc { font-size: 0.82rem; color: var(--cream2); text-align: center; line-height: 1.8; margin-bottom: 1.2rem; font-weight: 300; }
+    .modal-price { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); text-align: center; margin-bottom: 1.5rem; }
+    .modal-btn { width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--border); padding: 1rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; }
+    .modal-btn:hover { background: var(--gold); color: var(--navy); }
+    .modal-close { position: absolute; top: 1.5rem; right: 1.5rem; background: transparent; border: 1px solid var(--border2); color: var(--cream3); width: 28px; height: 28px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+    .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+  </style>
+</head>
+<body>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">🇺🇸 EN</button>
+    <button class="lang-btn" onclick="setLang('es')" id="btn-es">🇪🇸 ES</button>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-bg"></div>
+    <div class="header-lines"></div>
+    <div class="header-inner">
+      <div class="header-ornament">
+        <div class="ornament-line"></div>
+        <div class="ornament-diamond"></div>
+        <div class="ornament-line right"></div>
+      </div>
+      <div class="header-logo">🍽️</div>
+      <div class="header-name">Noir &amp; Or</div>
+      <div class="header-sub en-only">Haute Cuisine · New York, NY</div>
+      <div class="header-sub es-only">Haute Cuisine · Nueva York, NY</div>
+      <div class="header-tagline en-only">"Gastronomy is the art of using food to create happiness"</div>
+      <div class="header-tagline es-only">"La gastronomía es el arte de usar la comida para crear felicidad"</div>
+      <div class="header-info">
+        <span>⏰ 6:00pm – 11:30pm</span>
+        <span>📍 Midtown, NYC</span>
+        <span>⭐ 5.0</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="banner en-only">✦ &nbsp; Tasting menu available — Reservations required &nbsp; ✦</div>
+  <div class="banner es-only">✦ &nbsp; Menú degustación disponible — Reservación requerida &nbsp; ✦</div>
+
+  <!-- CATS -->
+  <div class="cats-wrapper">
+    <div class="cats-scroll">
+      <button class="cat-btn active" onclick="goToSection(this,'cold')">
+        <span class="en-only">Cold</span><span class="es-only">Fríos</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'starters')">
+        <span class="en-only">Starters</span><span class="es-only">Entradas</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'mains')">
+        <span class="en-only">Mains</span><span class="es-only">Principales</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'cheese')">
+        <span class="en-only">Cheese</span><span class="es-only">Quesos</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'desserts')">
+        <span class="en-only">Desserts</span><span class="es-only">Postres</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'wines')">
+        <span class="en-only">Wines</span><span class="es-only">Vinos</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input class="search-input en-only" type="text" placeholder="Search the menu..." oninput="searchMenu(this.value)"/>
+    <input class="search-input es-only" type="text" placeholder="Buscar en el menú..." oninput="searchMenu(this.value)"/>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="featured">
+    <div class="featured-label en-only">✦ Chef's Creation Tonight</div>
+    <div class="featured-label es-only">✦ Creación del Chef esta noche</div>
+    <div class="featured-row">
+      <div class="featured-emoji">🥩</div>
+      <div class="featured-info">
+        <div class="featured-name en-only">Wagyu A5 — Seared on Volcanic Stone</div>
+        <div class="featured-name es-only">Wagyu A5 — Sellado en Piedra Volcánica</div>
+        <div class="featured-desc en-only">Barolo reduction, shaved black truffle and sunchoke purée</div>
+        <div class="featured-desc es-only">Reducción de Barolo, trufa negra laminada y puré de tupinambo</div>
+      </div>
+      <div class="featured-price">$85</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- COLD APPETIZERS -->
+    <div id="cold">
+      <div class="section-header">
+        <div class="sh-left">
+          <div class="sh-label en-only">To begin</div>
+          <div class="sh-label es-only">Para comenzar</div>
+          <div class="sh-name en-only">Cold Appetizers</div>
+          <div class="sh-name es-only">Aperitivos Fríos</div>
+        </div>
+        <div class="sh-line"></div>
+        <div class="sh-count en-only">3 plates</div>
+        <div class="sh-count es-only">3 platos</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Steak Tartare','Hand-cut beef tenderloin, capers, shallot, Dijon mustard, cured egg yolk and artisan rye toast.','Lomo de res cortado a cuchillo, alcaparras, chalota, mostaza de Dijon, yema curada y tostadas de centeno.','🥩','$24')">
+          <div class="item-emoji">🥩</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Steak Tartare</div>
+              <div class="item-badges"><span class="badge b-chef">Signature</span><span class="badge b-pop">Classic</span></div>
+              <div class="item-desc en-only">Hand-cut tenderloin, capers, shallot, Dijon mustard and cured egg yolk.</div>
+              <div class="item-desc es-only">Lomo cortado a cuchillo, alcaparras, chalota, mostaza Dijon y yema curada.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>24</div>
+              <button class="add-btn" onclick="addToCart(event,'Steak Tartare',24)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Scallop Tiradito','Thinly sliced fresh scallops, ají amarillo tiger milk, cilantro microgreens and white truffle oil.','Vieiras frescas laminadas, leche de tigre al ají amarillo, microgreens de cilantro y aceite de trufa blanca.','🫧','$28')">
+          <div class="item-emoji">🫧</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Scallop Tiradito</div>
+              <div class="item-name es-only">Tiradito de Vieira</div>
+              <div class="item-badges"><span class="badge b-rare">Seafood</span><span class="badge b-new">New</span></div>
+              <div class="item-desc en-only">Sliced scallops, ají amarillo tiger milk and white truffle oil.</div>
+              <div class="item-desc es-only">Vieiras laminadas, leche de tigre al ají amarillo y aceite de trufa blanca.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>28</div>
+              <button class="add-btn" onclick="addToCart(event,'Scallop Tiradito',28)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Burrata di Puglia','Fresh Italian burrata over heirloom tomatoes, extra virgin olive oil, fleur de sel and purple basil.','Burrata italiana fresca sobre tomates heirloom, aceite de oliva extra virgen, flor de sal y albahaca morada.','🧀','$22')">
+          <div class="item-emoji">🧀</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Burrata di Puglia</div>
+              <div class="item-badges"><span class="badge b-veg">Vegetarian</span></div>
+              <div class="item-desc en-only">Fresh burrata, heirloom tomatoes, EVOO, fleur de sel and purple basil.</div>
+              <div class="item-desc es-only">Burrata fresca, tomates heirloom, EVOO, flor de sal y albahaca morada.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>22</div>
+              <button class="add-btn" onclick="addToCart(event,'Burrata di Puglia',22)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>◆ &nbsp; ◆ &nbsp; ◆</span></div>
+
+    <!-- HOT STARTERS -->
+    <div id="starters">
+      <div class="section-header">
+        <div class="sh-left">
+          <div class="sh-label en-only">First course</div>
+          <div class="sh-label es-only">Primer tiempo</div>
+          <div class="sh-name en-only">Hot Starters</div>
+          <div class="sh-name es-only">Entradas Calientes</div>
+        </div>
+        <div class="sh-line"></div>
+        <div class="sh-count en-only">3 plates</div>
+        <div class="sh-count es-only">3 platos</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Lobster Bisque','Velvety lobster cream, crème fraîche, chive oil and toasted brioche on the side.','Crema aterciopelada de langosta, crème fraîche, aceite de cebollín y brioche tostado al lado.','🦞','$32')">
+          <div class="item-emoji">🦞</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Lobster Bisque</div>
+              <div class="item-name es-only">Bisque de Langosta</div>
+              <div class="item-badges"><span class="badge b-chef">Signature</span></div>
+              <div class="item-desc en-only">Velvety lobster cream, crème fraîche and toasted brioche.</div>
+              <div class="item-desc es-only">Crema aterciopelada de langosta, crème fraîche y brioche tostado.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>32</div>
+              <button class="add-btn" onclick="addToCart(event,'Lobster Bisque',32)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Foie Gras Poêlé','Seared duck liver, caramelized brioche, black fig chutney and Sauternes reduction.','Hígado de pato sellado, brioche caramelizado, chutney de higo negro y reducción de Sauternes.','🦆','$38')">
+          <div class="item-emoji">🦆</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Foie Gras Poêlé</div>
+              <div class="item-badges"><span class="badge b-rare">Premium</span><span class="badge b-chef">Signature</span></div>
+              <div class="item-desc en-only">Seared foie gras, caramelized brioche, fig chutney and Sauternes reduction.</div>
+              <div class="item-desc es-only">Foie sellado, brioche caramelizado, chutney de higo y reducción de Sauternes.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>38</div>
+              <button class="add-btn" onclick="addToCart(event,'Foie Gras Poêlé',38)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Black Truffle Risotto','Creamy Carnaroli rice, Périgord black truffle, 36-month Parmigiano Reggiano and Normandy butter.','Arroz Carnaroli cremoso, trufa negra de Périgord, parmesano Reggiano 36 meses y mantequilla de Normandía.','🍚','$42')">
+          <div class="item-emoji">🍚</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Black Truffle Risotto</div>
+              <div class="item-name es-only">Risotto al Tartufo Nero</div>
+              <div class="item-badges"><span class="badge b-veg">Vegetarian</span><span class="badge b-rare">Truffle</span></div>
+              <div class="item-desc en-only">Creamy Carnaroli, Périgord black truffle and 36-month Parmigiano.</div>
+              <div class="item-desc es-only">Carnaroli cremoso, trufa negra de Périgord y parmesano 36 meses.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>42</div>
+              <button class="add-btn" onclick="addToCart(event,'Black Truffle Risotto',42)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>◆ &nbsp; ◆ &nbsp; ◆</span></div>
+
+    <!-- MAINS -->
+    <div id="mains">
+      <div class="section-header">
+        <div class="sh-left">
+          <div class="sh-label en-only">Second course</div>
+          <div class="sh-label es-only">Segundo tiempo</div>
+          <div class="sh-name en-only">Main Courses</div>
+          <div class="sh-name es-only">Platos Principales</div>
+        </div>
+        <div class="sh-line"></div>
+        <div class="sh-count en-only">4 plates</div>
+        <div class="sh-count es-only">4 platos</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Wagyu A5 — Volcanic Stone','Grade A5 Japanese Wagyu, seared tableside on volcanic stone. Barolo reduction, shaved black truffle and sunchoke purée.','Corte de Wagyu japonés grado A5, sellado en piedra volcánica a la mesa. Reducción de Barolo, trufa negra laminada y puré de tupinambo.','🥩','$85')">
+          <div class="item-emoji">🥩</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Wagyu A5 — Volcanic Stone</div>
+              <div class="item-name es-only">Wagyu A5 — Piedra Volcánica</div>
+              <div class="item-badges"><span class="badge b-rare">Wagyu A5</span><span class="badge b-chef">Signature</span></div>
+              <div class="item-desc en-only">A5 Wagyu seared tableside, Barolo reduction and shaved black truffle.</div>
+              <div class="item-desc es-only">Wagyu japonés sellado a la mesa, reducción de Barolo y trufa negra laminada.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>85</div>
+              <button class="add-btn" onclick="addToCart(event,'Wagyu A5',85)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Bresse Pigeon','Whole roasted D.O.C. French pigeon, carcass jus, white asparagus and roasted cauliflower mousseline.','Pichón francés D.O.C. asado entero, jus de carcasa, espárragos blancos y mousseline de coliflor tostada.','🕊️','$62')">
+          <div class="item-emoji">🕊️</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Bresse Pigeon</div>
+              <div class="item-name es-only">Pichón de Bresse</div>
+              <div class="item-badges"><span class="badge b-rare">D.O.C.</span></div>
+              <div class="item-desc en-only">Whole-roasted French pigeon, carcass jus and white asparagus.</div>
+              <div class="item-desc es-only">Pichón francés asado entero, jus de carcasa y espárragos blancos.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>62</div>
+              <button class="add-btn" onclick="addToCart(event,'Bresse Pigeon',62)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Steamed Grouper — Cantonese Style','Wild grouper fillet steamed with hot sesame oil, light soy, ginger and julienned scallions.','Filete de mero salvaje al vapor con aceite de sésamo caliente, soya ligera, jengibre y cebollín juliana.','🐟','$54')">
+          <div class="item-emoji">🐟</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Steamed Grouper</div>
+              <div class="item-name es-only">Mero al Vapor</div>
+              <div class="item-badges"><span class="badge b-new">Seasonal</span><span class="badge b-rare">Wild</span></div>
+              <div class="item-desc en-only">Wild grouper, hot sesame oil, light soy and fresh ginger.</div>
+              <div class="item-desc es-only">Mero salvaje al vapor, aceite de sésamo, soya ligera y jengibre.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>54</div>
+              <button class="add-btn" onclick="addToCart(event,'Steamed Grouper',54)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('72-Hour Short Rib','Slow-cooked 72 hours, glazed with demi-glace, bone marrow and fresh herb chimichurri.','Lomo bajo cocinado a baja temperatura 72 horas, glaseado con demi-glace, tuétano y chimichurri de hierbas frescas.','🫀','$58')">
+          <div class="item-emoji">🫀</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">72-Hour Short Rib</div>
+              <div class="item-name es-only">Lomo Bajo — 72 Horas</div>
+              <div class="item-badges"><span class="badge b-chef">Slow Cook</span></div>
+              <div class="item-desc en-only">72-hour slow cook, demi-glace glaze, bone marrow and herb chimichurri.</div>
+              <div class="item-desc es-only">Cocinado 72h, glaseado con demi-glace, tuétano y chimichurri de hierbas.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>58</div>
+              <button class="add-btn" onclick="addToCart(event,'72-Hour Short Rib',58)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>◆ &nbsp; ◆ &nbsp; ◆</span></div>
+
+    <!-- CHEESE -->
+    <div id="cheese">
+      <div class="section-header">
+        <div class="sh-left">
+          <div class="sh-label en-only">Artisan selection</div>
+          <div class="sh-label es-only">Selección artesanal</div>
+          <div class="sh-name en-only">Cheese Board</div>
+          <div class="sh-name es-only">Tabla de Quesos</div>
+        </div>
+        <div class="sh-line"></div>
+        <div class="sh-count en-only">2 selections</div>
+        <div class="sh-count es-only">2 selecciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Classic Board — 3 Cheeses','Brie de Meaux, 18-month Comté and Roquefort. Served with truffle honey, toasted walnuts and fig bread.','Brie de Meaux, Comté 18 meses y Roquefort. Acompañados de miel de trufa, nueces tostadas y pan de higo.','🧀','$26')">
+          <div class="item-emoji">🧀</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Classic Board — 3 Cheeses</div>
+              <div class="item-name es-only">Tabla Clásica — 3 Quesos</div>
+              <div class="item-badges"><span class="badge b-veg">Vegetarian</span></div>
+              <div class="item-desc en-only">Brie, 18-month Comté and Roquefort. Truffle honey, walnuts and fig bread.</div>
+              <div class="item-desc es-only">Brie, Comté 18 meses y Roquefort. Miel de trufa, nueces y pan de higo.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>26</div>
+              <button class="add-btn" onclick="addToCart(event,'Classic Board',26)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Premium Board — 5 Cheeses','Époisses, aged Manchego, Stilton blue, Gruyère des Alpes and fresh Chèvre. With artisan quince paste.','Époisses, Manchego curado, Stilton azul, Gruyère des Alpes y Chèvre fresco. Con membrillo artesanal.','🧀','$38')">
+          <div class="item-emoji">🧀</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Premium Board — 5 Cheeses</div>
+              <div class="item-name es-only">Tabla Premium — 5 Quesos</div>
+              <div class="item-badges"><span class="badge b-rare">Premium</span><span class="badge b-veg">Vegetarian</span></div>
+              <div class="item-desc en-only">Époisses, Manchego, Stilton, Gruyère and fresh Chèvre with quince paste.</div>
+              <div class="item-desc es-only">Époisses, Manchego, Stilton, Gruyère y Chèvre fresco con membrillo.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>38</div>
+              <button class="add-btn" onclick="addToCart(event,'Premium Board',38)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>◆ &nbsp; ◆ &nbsp; ◆</span></div>
+
+    <!-- DESSERTS -->
+    <div id="desserts">
+      <div class="section-header">
+        <div class="sh-left">
+          <div class="sh-label en-only">Sweet finale</div>
+          <div class="sh-label es-only">Finale dulce</div>
+          <div class="sh-name en-only">Signature Desserts</div>
+          <div class="sh-name es-only">Postres de Autor</div>
+        </div>
+        <div class="sh-line"></div>
+        <div class="sh-count en-only">3 creations</div>
+        <div class="sh-count es-only">3 creaciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Dark Chocolate Soufflé','Valrhona 72% soufflé, served fresh from the oven with Tahitian vanilla ice cream and salted caramel.','Soufflé de chocolate Valrhona 72%, servido al momento con helado de vainilla de Tahití y caramelo salado.','🍫','$18')">
+          <div class="item-emoji">🍫</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Dark Chocolate Soufflé</div>
+              <div class="item-name es-only">Soufflé au Chocolat Noir</div>
+              <div class="item-badges"><span class="badge b-chef">Signature</span><span class="badge b-veg">Vegetarian</span></div>
+              <div class="item-desc en-only">Valrhona 72%, served from the oven with Tahitian vanilla ice cream.</div>
+              <div class="item-desc es-only">Valrhona 72%, servido al momento con helado de vainilla de Tahití.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>18</div>
+              <button class="add-btn" onclick="addToCart(event,'Chocolate Soufflé',18)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Apple Tarte Tatin','Caramelized golden apple, artisan puff pastry and crème fraîche with Bourbon vanilla.','Manzana golden caramelizada invertida, hojaldre artesanal y crème fraîche con vainilla de Bourbon.','🍎','$16')">
+          <div class="item-emoji">🍎</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Apple Tarte Tatin</div>
+              <div class="item-name es-only">Tarte Tatin de Manzana</div>
+              <div class="item-badges"><span class="badge b-veg">Vegetarian</span><span class="badge b-new">Seasonal</span></div>
+              <div class="item-desc en-only">Caramelized apple, artisan puff pastry and Bourbon crème fraîche.</div>
+              <div class="item-desc es-only">Manzana caramelizada, hojaldre artesanal y crème fraîche con Bourbon.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>16</div>
+              <button class="add-btn" onclick="addToCart(event,'Apple Tarte Tatin',16)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Île Flottante','Floating meringue on vanilla crème anglaise, amber caramel and toasted sliced almonds.','Merengue flotante sobre crema anglaise de vainilla, caramelo ámbar y almendras tostadas laminadas.','🍮','$14')">
+          <div class="item-emoji">🍮</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Île Flottante</div>
+              <div class="item-badges"><span class="badge b-veg">Vegetarian</span></div>
+              <div class="item-desc en-only">Floating meringue, vanilla crème anglaise and amber caramel.</div>
+              <div class="item-desc es-only">Merengue flotante, crema anglaise de vainilla y caramelo ámbar.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>14</div>
+              <button class="add-btn" onclick="addToCart(event,'Île Flottante',14)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>◆ &nbsp; ◆ &nbsp; ◆</span></div>
+
+    <!-- WINES -->
+    <div id="wines">
+      <div class="section-header">
+        <div class="sh-left">
+          <div class="sh-label en-only">Curated cellar</div>
+          <div class="sh-label es-only">Cava seleccionada</div>
+          <div class="sh-name en-only">Wines &amp; Pairings</div>
+          <div class="sh-name es-only">Vinos &amp; Maridaje</div>
+        </div>
+        <div class="sh-line"></div>
+        <div class="sh-count en-only">3 labels</div>
+        <div class="sh-count es-only">3 etiquetas</div>
+      </div>
+      <div class="items-list" style="margin-bottom:5rem;">
+
+        <div class="item-card" onclick="openModal('Veuve Clicquot — Brut','Glass of Veuve Clicquot Yellow Label Brut. Fine bubbles, brioche and white fruits.','Copa de Veuve Clicquot Yellow Label Brut. Burbujas finas, brioche y frutas blancas.','🥂','$24')">
+          <div class="item-emoji">🥂</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Veuve Clicquot Brut</div>
+              <div class="item-badges"><span class="badge b-rare">Champagne</span></div>
+              <div class="item-desc en-only">By the glass. Yellow Label Brut. Fine bubbles, brioche and white fruit.</div>
+              <div class="item-desc es-only">Copa. Yellow Label Brut. Burbujas finas, brioche y frutas blancas.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>24</div>
+              <button class="add-btn" onclick="addToCart(event,'Veuve Clicquot',24)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Barolo DOCG — Giacomo Conterno','2016 Barolo. Piedmontese Nebbiolo, 36 months in barrel. Violet, tobacco and truffle. Perfect with red meats.','Barolo 2016. Nebbiolo piamontés, 36 meses en barrica. Violetas, tabaco y trufa. Maridaje perfecto con carnes.','🍷','$36')">
+          <div class="item-emoji">🍷</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Barolo DOCG — Conterno</div>
+              <div class="item-badges"><span class="badge b-chef">Sommelier</span><span class="badge b-rare">2016</span></div>
+              <div class="item-desc en-only">By the glass. 2016 Nebbiolo, 36 months barrel. Violet, tobacco and truffle.</div>
+              <div class="item-desc es-only">Copa. Nebbiolo 2016, 36 meses barrica. Violetas, tabaco y trufa.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>36</div>
+              <button class="add-btn" onclick="addToCart(event,'Barolo Conterno',36)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Chablis Premier Cru','Unoaked Burgundy Chardonnay. Mineral, citrus and saline. Ideal with seafood and fish.','Chardonnay de Borgoña sin madera. Mineral, cítrico y salino. Ideal con mariscos y pescados.','🥃','$28')">
+          <div class="item-emoji">🥃</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Chablis Premier Cru</div>
+              <div class="item-badges"><span class="badge b-new">White</span></div>
+              <div class="item-desc en-only">By the glass. Unoaked Chardonnay. Mineral, citrus and saline. Great with seafood.</div>
+              <div class="item-desc es-only">Copa. Chardonnay sin madera. Mineral, cítrico y salino. Ideal con mariscos.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>28</div>
+              <button class="add-btn" onclick="addToCart(event,'Chablis Premier Cru',28)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- INFO FOOTER -->
+  <div class="info-footer">
+    <div class="info-ornament">
+      <span class="en-only">Find Us</span>
+      <span class="es-only">Información</span>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label en-only">Address</div>
+        <div class="info-label es-only">Dirección</div>
+        <div class="info-value">15 W 53rd St, New York, NY</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label en-only">Hours</div>
+        <div class="info-label es-only">Horario</div>
+        <div class="info-value">Tue–Sun<br>6:00pm – 11:30pm</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label en-only">Reservations</div>
+        <div class="info-label es-only">Reservas</div>
+        <div class="info-value">(212) 000-0000<br><span class="en-only">Required</span><span class="es-only">Requeridas</span></div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Dress Code</div>
+        <div class="info-value">Smart casual<br><span class="en-only">required</span><span class="es-only">requerido</span></div>
+      </div>
+    </div>
+    <!-- MAP -->
+    <div class="map-wrap">
+      <iframe
+        src="https://maps.google.com/maps?q=9.935290162554685,-84.10372590392429&z=16&output=embed"
+        width="100%" height="220" style="border:0;display:block;" allowfullscreen="" loading="lazy">
+      </iframe>
+      <a href="https://www.google.com/maps?q=9.935290162554685,-84.10372590392429"
+         target="_blank"
+         style="position:absolute;inset:0;z-index:10;display:block;">
+      </a>
+    </div>
+  </div>
+  <div class="powered-by en-only">Menu powered by <span>DigitalMenuPro</span> · $499 setup 🇺🇸</div>
+  <div class="powered-by es-only">Menú creado por <span>DigitalMenuPro</span> · $499 setup 🇺🇸</div>
+
+  <!-- CART -->
+  <div class="cart-bar" id="cartBar">
+    <div style="display:flex;align-items:center;gap:0.6rem;">
+      <div class="cart-count" id="cartCount">0</div>
+      <span class="en-only">My Selection</span>
+      <span class="es-only">Mi Selección</span>
+    </div>
+    <div class="cart-total" id="cartTotal">$0</div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-emoji" id="modalEmoji"></div>
+      <div class="modal-tag en-only">✦ Chef's Selection ✦</div>
+      <div class="modal-tag es-only">✦ Selección del Chef ✦</div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-ornament"><span>◆</span></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <button class="modal-btn" id="modalAddBtn">
+        <span class="en-only">Add to My Selection</span>
+        <span class="es-only">Agregar a mi selección</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Lang toggle
+    function setLang(lang) {
+      document.documentElement.setAttribute('data-lang', lang);
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    }
+
+    // Cart
+    var cart = [];
+    function addToCart(e, name, price) {
+      if(e) e.stopPropagation();
+      cart.push({name, price});
+      var total = cart.reduce(function(s,i){ return s + i.price; }, 0);
+      document.getElementById('cartCount').textContent = cart.length;
+      document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+      document.getElementById('cartBar').classList.toggle('visible', cart.length > 0);
+      if(e) {
+        var btn = e.target;
+        btn.textContent = '✓'; btn.style.background = 'var(--gold)'; btn.style.color = 'var(--navy)';
+        setTimeout(function(){ btn.textContent = '+'; btn.style.background = ''; btn.style.color = ''; }, 1200);
+      }
+    }
+
+    // Modal — accepts both EN and ES descriptions
+    function openModal(name, descEn, descEs, emoji, price) {
+      var lang = document.documentElement.getAttribute('data-lang');
+      document.getElementById('modalName').textContent = name;
+      document.getElementById('modalDesc').textContent = lang === 'es' ? descEs : descEn;
+      document.getElementById('modalEmoji').textContent = emoji;
+      document.getElementById('modalPrice').textContent = price;
+      var p = parseFloat(price.replace('$',''));
+      document.getElementById('modalAddBtn').onclick = function(){ addToCart(null, name, p); closeModal(); };
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+    function closeModal(e) {
+      if(!e || e.target === document.getElementById('modalOverlay'))
+        document.getElementById('modalOverlay').classList.remove('open');
+    }
+
+    // Smooth scroll
+    function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+    function smoothScrollTo(targetY, duration) {
+      var startY = window.pageYOffset, diff = targetY - startY, startTime = null;
+      function step(ct) {
+        if(!startTime) startTime = ct;
+        var p = Math.min((ct-startTime)/duration, 1);
+        window.scrollTo(0, startY + diff * easeInOutCubic(p));
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    function goToSection(btn, id) {
+      document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var el = document.getElementById(id);
+      if(el) smoothScrollTo(el.getBoundingClientRect().top + window.pageYOffset - 60, 800);
+    }
+
+    // Search
+    function searchMenu(q) {
+      var query = q.toLowerCase();
+      document.querySelectorAll('.item-card').forEach(function(card){
+        card.style.display = (card.innerText.toLowerCase().includes(query) || query === '') ? 'flex' : 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>
