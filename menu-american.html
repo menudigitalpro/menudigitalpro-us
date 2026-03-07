@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Liberty Burgers — Digital Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0D0D0D;
+      --charcoal: #1A1A1A;
+      --red: #C0392B;
+      --red2: #E74C3C;
+      --yellow: #F39C12;
+      --cream: #F5F0E8;
+      --gray: #888;
+      --border: rgba(255,255,255,0.07);
+      --border-red: rgba(192,57,43,0.25);
+    }
+    html { scroll-behavior: smooth; background: var(--black); }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      max-width: 520px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+    @media (min-width: 800px) {
+      html { padding: 2rem 0; }
+      body { border-radius: 12px; overflow-y: auto !important; box-shadow: 0 0 80px rgba(192,57,43,0.1); }
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--red);
+      position: relative; overflow: hidden;
+      border-bottom: 3px solid #8B1A0A;
+    }
+    .header-texture {
+      position: absolute; inset: 0; opacity: 0.06;
+      background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%);
+      background-size: 6px 6px;
+    }
+    .header-inner {
+      position: relative; z-index: 1;
+      padding: 2rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+    .header-logo {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: var(--black);
+      border: 3px solid rgba(255,255,255,0.15);
+      margin: 0 auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .header-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem; color: white;
+      letter-spacing: 0.08em; line-height: 1;
+      margin-bottom: 0.2rem;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    }
+    .header-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(255,255,255,0.65); margin-bottom: 0.8rem;
+    }
+    .header-info {
+      display: flex; justify-content: center; gap: 1.5rem;
+      font-size: 0.72rem; color: rgba(255,255,255,0.55); flex-wrap: wrap;
+    }
+
+    /* ── PROMO BANNER ── */
+    .promo-bar {
+      background: var(--yellow); color: var(--black);
+      padding: 0.5rem 1.5rem; text-align: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── CATS ── */
+    .cats-wrapper {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--charcoal); border-bottom: 1px solid var(--border-red);
+    }
+    .cats-scroll { display: flex; overflow-x: auto; scrollbar-width: none; }
+    .cats-scroll::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      padding: 0.85rem 1.1rem; border: none;
+      background: transparent; cursor: pointer;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      color: rgba(245,240,232,0.4);
+      white-space: nowrap; letter-spacing: 0.1em; text-transform: uppercase;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .cat-btn.active { color: var(--red2); border-bottom-color: var(--red2); }
+    .cat-btn:hover { color: var(--cream); }
+
+    /* ── SEARCH ── */
+    .search-bar {
+      padding: 0.65rem 1.2rem;
+      background: var(--charcoal); border-bottom: 1px solid var(--border);
+    }
+    .search-input {
+      width: 100%; padding: 0.55rem 1rem 0.55rem 2.2rem;
+      border: 1px solid var(--border-red); border-radius: 2px;
+      font-family: 'Barlow', sans-serif; font-size: 0.82rem;
+      background: var(--black); color: var(--cream); outline: none;
+      transition: border-color 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='%23C0392B' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: 0.65rem center;
+    }
+    .search-input:focus { border-color: var(--red); }
+    .search-input::placeholder { color: rgba(245,240,232,0.25); }
+
+    /* ── FEATURED ── */
+    .featured {
+      margin: 0.8rem 1.2rem;
+      background: linear-gradient(135deg, #1a0500, #2d0a00);
+      border: 1px solid var(--border-red); border-left: 3px solid var(--red);
+      padding: 1.1rem; display: flex; align-items: center; gap: 1rem;
+      position: relative; overflow: hidden;
+    }
+    .featured::after {
+      content: '🔥'; position: absolute; right: 0.8rem; top: 50%;
+      transform: translateY(-50%); font-size: 2.5rem; opacity: 0.1;
+    }
+    .feat-emoji { font-size: 2.5rem; flex-shrink: 0; }
+    .feat-info { flex: 1; }
+    .feat-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.2rem; }
+    .feat-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; color: white; }
+    .feat-desc { font-size: 0.72rem; color: rgba(245,240,232,0.4); margin-top: 0.1rem; }
+    .feat-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--yellow); flex-shrink: 0; }
+
+    /* ── CONTENT ── */
+    .content { padding: 0 0 6rem; }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      padding: 1.5rem 1.2rem 0.6rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sh-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .sh-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: 0.08em; color: white;
+    }
+    .sh-count {
+      margin-left: auto; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(245,240,232,0.25); border: 1px solid var(--border);
+      padding: 0.15rem 0.6rem;
+    }
+
+    /* ── ITEMS ── */
+    .items-list { padding: 0.5rem 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .item-card {
+      background: var(--charcoal); border-radius: 2px;
+      display: flex; align-items: stretch;
+      border: 1px solid var(--border);
+      overflow: hidden; cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .item-card:hover { border-color: var(--border-red); transform: translateX(3px); }
+
+    .item-emoji {
+      width: 80px; min-height: 88px; flex-shrink: 0;
+      background: #111; display: flex; align-items: center;
+      justify-content: center; font-size: 2.2rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .item-body { padding: 0.85rem 0.9rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .item-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700; color: white;
+      letter-spacing: 0.03em; margin-bottom: 0.15rem; text-transform: uppercase;
+    }
+    .item-badges { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+    .badge {
+      font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.1rem 0.5rem; font-weight: 600; border: 1px solid;
+    }
+    .b-hot  { color: var(--red2); border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.08); }
+    .b-new  { color: var(--yellow); border-color: rgba(243,156,18,0.3); background: rgba(243,156,18,0.06); }
+    .b-pop  { color: rgba(245,240,232,0.5); border-color: var(--border); background: transparent; }
+    .b-veg  { color: #81C784; border-color: rgba(129,199,132,0.3); background: rgba(129,199,132,0.06); }
+    .b-big  { color: #90CAF9; border-color: rgba(144,202,249,0.3); background: rgba(144,202,249,0.06); }
+
+    .item-desc { font-size: 0.72rem; color: rgba(245,240,232,0.4); line-height: 1.5; margin-bottom: 0.5rem; font-weight: 300; }
+    .item-footer { display: flex; align-items: center; justify-content: space-between; }
+    .item-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; color: var(--yellow); letter-spacing: 0.05em; }
+    .add-btn {
+      width: 28px; height: 28px;
+      background: transparent; border: 1px solid var(--border-red);
+      color: var(--red2); font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; border-radius: 1px;
+    }
+    .add-btn:hover { background: var(--red); color: white; border-color: var(--red); }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.3rem 1.2rem; margin: 0.3rem 0;
+    }
+    .section-divider::before, .section-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .section-divider span { color: var(--red); font-size: 0.6rem; letter-spacing: 0.2em; font-family: 'Barlow Condensed', sans-serif; }
+
+    /* ── CART ── */
+    .cart-bar {
+      position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+      background: var(--red); color: white;
+      padding: 0.85rem 1.8rem;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: 0 8px 30px rgba(192,57,43,0.4);
+      cursor: pointer; z-index: 100;
+      min-width: 260px; justify-content: space-between;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 2px;
+    }
+    .cart-bar.visible { opacity: 1; pointer-events: all; }
+    .cart-count {
+      background: white; color: var(--red);
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700;
+    }
+    .cart-total { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
+
+    /* ── INFO FOOTER ── */
+    .info-footer { background: var(--charcoal); padding: 2rem 1.5rem; border-top: 1px solid var(--border-red); }
+    .info-footer-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; margin-bottom: 1rem; text-align: center; color: white; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .info-item { background: var(--black); border: 1px solid var(--border); padding: 0.8rem; }
+    .info-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red2); margin-bottom: 0.3rem; }
+    .info-value { font-size: 0.8rem; color: rgba(245,240,232,0.6); line-height: 1.5; font-weight: 300; }
+
+    .powered-by { text-align: center; padding: 0.8rem; font-size: 0.65rem; color: rgba(245,240,232,0.2); background: var(--black); border-top: 1px solid var(--border); }
+    .powered-by span { color: var(--red2); }
+
+    /* ── MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { background: var(--charcoal); width: 100%; border-top: 3px solid var(--red); padding: 1.5rem; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); max-height: 80vh; overflow-y: auto; position: relative; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-handle { width: 36px; height: 3px; background: var(--border); margin: 0 auto 1.2rem; border-radius: 2px; }
+    .modal-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 0.8rem; }
+    .modal-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.08em; text-align: center; color: white; margin-bottom: 0.8rem; }
+    .modal-desc { font-size: 0.85rem; color: rgba(245,240,232,0.5); text-align: center; line-height: 1.7; margin-bottom: 1.2rem; font-weight: 300; }
+    .modal-price { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--yellow); text-align: center; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+    .modal-btn { width: 100%; background: var(--red); color: white; border: none; padding: 1rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; border-radius: 1px; font-weight: 700; }
+    .modal-btn:hover { background: var(--red2); }
+    .modal-close { position: absolute; top: 1.2rem; right: 1.2rem; background: transparent; border: 1px solid var(--border); color: rgba(245,240,232,0.5); width: 28px; height: 28px; cursor: pointer; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-texture"></div>
+    <div class="header-inner">
+      <div class="header-logo">🍔</div>
+      <div class="header-name">Liberty Burgers</div>
+      <div class="header-sub">Smash Burgers & Craft Wings · Since 2019</div>
+      <div class="header-info">
+        <span>⏰ 11am – 11pm</span>
+        <span>📍 Austin, TX</span>
+        <span>⭐ 4.9</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="promo-bar">🔥 HAPPY HOUR 3–6PM — 50% OFF WINGS · EVERY DAY</div>
+
+  <!-- CATS -->
+  <div class="cats-wrapper">
+    <div class="cats-scroll">
+      <button class="cat-btn active" onclick="goToSection(this,'burgers')">🍔 Burgers</button>
+      <button class="cat-btn" onclick="goToSection(this,'wings')">🍗 Wings</button>
+      <button class="cat-btn" onclick="goToSection(this,'sides')">🍟 Sides</button>
+      <button class="cat-btn" onclick="goToSection(this,'dogs')">🌭 Hot Dogs</button>
+      <button class="cat-btn" onclick="goToSection(this,'drinks')">🥤 Drinks</button>
+      <button class="cat-btn" onclick="goToSection(this,'shakes')">🥤 Shakes</button>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input class="search-input" type="text" placeholder="Search the menu..." oninput="searchMenu(this.value)"/>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="featured">
+    <div class="feat-emoji">🍔</div>
+    <div class="feat-info">
+      <div class="feat-tag">🔥 Tonight's Special</div>
+      <div class="feat-name">The Liberty Stack — Double Smash</div>
+      <div class="feat-desc">Two smashed patties, American cheese, secret sauce</div>
+    </div>
+    <div class="feat-price">$14.99</div>
+  </div>
+
+  <div class="content">
+
+    <!-- BURGERS -->
+    <div id="burgers">
+      <div class="section-header">
+        <div class="sh-icon">🍔</div>
+        <div class="sh-name">Smash Burgers</div>
+        <div class="sh-count">5 options</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('The Liberty Stack','Two smashed beef patties, double American cheese, caramelized onions, pickles and our secret Liberty sauce on a brioche bun.','🍔','$14.99')">
+          <div class="item-emoji">🍔</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">The Liberty Stack</div>
+              <div class="item-badges"><span class="badge b-hot">🔥 Signature</span><span class="badge b-pop">Best Seller</span></div>
+              <div class="item-desc">Double smash, double American cheese, caramelized onions, pickles & secret sauce.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$14.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Liberty Stack',14.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('BBQ Bacon Smash','Single smash patty, crispy bacon, cheddar cheese, BBQ sauce, coleslaw and jalapeños. Sweet, smoky and bold.','🥓','$13.50')">
+          <div class="item-emoji">🥓</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">BBQ Bacon Smash</div>
+              <div class="item-badges"><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc">Crispy bacon, cheddar, BBQ sauce, coleslaw and jalapeños. Bold & smoky.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$13.50</div>
+              <button class="add-btn" onclick="addToCart(event,'BBQ Bacon Smash',13.50)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Spicy Jalapeño Melt','Smash patty, pepper jack cheese, fresh jalapeños, chipotle mayo, crispy onion rings and lettuce.','🌶️','$13.99')">
+          <div class="item-emoji">🌶️</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Spicy Jalapeño Melt</div>
+              <div class="item-badges"><span class="badge b-hot">🌶 Spicy</span></div>
+              <div class="item-desc">Pepper jack, fresh jalapeños, chipotle mayo and crispy onion rings.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$13.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Jalapeño Melt',13.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('The Veggie Smash','Smashed black bean and quinoa patty, avocado, tomato, lettuce, vegan mayo and sourdough bun. 100% plant-based.','🥑','$12.99')">
+          <div class="item-emoji">🥑</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">The Veggie Smash</div>
+              <div class="item-badges"><span class="badge b-veg">🌿 Plant Based</span><span class="badge b-new">New</span></div>
+              <div class="item-desc">Black bean & quinoa patty, avocado, lettuce, tomato and vegan mayo.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$12.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Veggie Smash',12.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('The Monster — Triple Smash','Three smashed patties, three cheeses, bacon, egg, onion rings and the works. Not for the faint-hearted.','🤯','$18.99')">
+          <div class="item-emoji">🤯</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">The Monster</div>
+              <div class="item-badges"><span class="badge b-big">TRIPLE SMASH</span><span class="badge b-hot">🔥 Beast Mode</span></div>
+              <div class="item-desc">Three patties, three cheeses, bacon, egg and onion rings. A real challenge.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$18.99</div>
+              <button class="add-btn" onclick="addToCart(event,'The Monster',18.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦ ✦ ✦</span></div>
+
+    <!-- WINGS -->
+    <div id="wings">
+      <div class="section-header">
+        <div class="sh-icon">🍗</div>
+        <div class="sh-name">Craft Wings</div>
+        <div class="sh-count">5 flavors</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Classic Buffalo Wings (10 pcs)','Crispy wings tossed in our housemade buffalo sauce. Served with celery sticks and blue cheese dip.','🍗','$14.99')">
+          <div class="item-emoji">🍗</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Classic Buffalo (10 pcs)</div>
+              <div class="item-badges"><span class="badge b-pop">Best Seller</span><span class="badge b-hot">Medium Heat</span></div>
+              <div class="item-desc">Crispy wings in housemade buffalo sauce. Celery & blue cheese dip included.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$14.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Buffalo Wings',14.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Honey Garlic Wings (10 pcs)','Crispy wings glazed with sweet honey garlic butter sauce. Sticky, sweet and absolutely addictive.','🍯','$15.50')">
+          <div class="item-emoji">🍯</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Honey Garlic (10 pcs)</div>
+              <div class="item-badges"><span class="badge b-new">Fan Fav</span></div>
+              <div class="item-desc">Glazed with sweet honey garlic butter. Sticky, sweet and totally addictive.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$15.50</div>
+              <button class="add-btn" onclick="addToCart(event,'Honey Garlic Wings',15.50)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Nashville Hot Wings (10 pcs)','Our hottest wings — coated in Nashville hot cayenne paste with pickle slices and white bread. Pure fire.','🔥','$15.99')">
+          <div class="item-emoji">🔥</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Nashville Hot (10 pcs)</div>
+              <div class="item-badges"><span class="badge b-hot">🌶 Extra Hot</span></div>
+              <div class="item-desc">Nashville hot cayenne paste, pickle slices and white bread. Pure fire.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$15.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Nashville Hot Wings',15.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦ ✦ ✦</span></div>
+
+    <!-- SIDES -->
+    <div id="sides">
+      <div class="section-header">
+        <div class="sh-icon">🍟</div>
+        <div class="sh-name">Sides</div>
+        <div class="sh-count">4 options</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Loaded Cheese Fries','Crispy shoestring fries topped with liquid cheddar, bacon bits, jalapeños, sour cream and chives.','🍟','$7.99')">
+          <div class="item-emoji">🍟</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Loaded Cheese Fries</div>
+              <div class="item-badges"><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc">Shoestring fries, liquid cheddar, bacon bits, jalapeños and sour cream.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$7.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Loaded Fries',7.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Onion Rings (8 pcs)','Beer-battered thick cut onion rings, golden and crispy. Served with chipotle dipping sauce.','🧅','$5.99')">
+          <div class="item-emoji">🧅</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Onion Rings (8 pcs)</div>
+              <div class="item-badges"><span class="badge b-veg">🌿 Veggie</span></div>
+              <div class="item-desc">Beer-battered thick cut rings, golden crispy with chipotle dipping sauce.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$5.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Onion Rings',5.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦ ✦ ✦</span></div>
+
+    <!-- HOT DOGS -->
+    <div id="dogs">
+      <div class="section-header">
+        <div class="sh-icon">🌭</div>
+        <div class="sh-name">Craft Hot Dogs</div>
+        <div class="sh-count">2 options</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Texas Chili Dog','All-beef frank, homemade beef chili, shredded cheddar, diced onions and yellow mustard. Texas style.','🌭','$9.99')">
+          <div class="item-emoji">🌭</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Texas Chili Dog</div>
+              <div class="item-badges"><span class="badge b-new">New</span></div>
+              <div class="item-desc">All-beef frank, homemade chili, cheddar, diced onions and yellow mustard.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$9.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Texas Chili Dog',9.99)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦ ✦ ✦</span></div>
+
+    <!-- DRINKS -->
+    <div id="drinks">
+      <div class="section-header">
+        <div class="sh-icon">🥤</div>
+        <div class="sh-name">Drinks</div>
+        <div class="sh-count">3 options</div>
+      </div>
+      <div class="items-list">
+        <div class="item-card" onclick="openModal('Fountain Drink (32oz)','Coke, Diet Coke, Sprite, Dr Pepper, Lemonade or Sweet Tea. Free refills.','🥤','$2.99')">
+          <div class="item-emoji">🥤</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Fountain Drink 32oz</div>
+              <div class="item-badges"><span class="badge b-veg">Free Refills</span></div>
+              <div class="item-desc">Coke, Sprite, Dr Pepper, Lemonade or Sweet Tea. Free refills all day.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$2.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Fountain Drink',2.99)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="item-card" onclick="openModal('Craft Beer (16oz)','Rotating selection of local Texas craft beers on tap. Ask your server for today\'s lineup.','🍺','$6.99')">
+          <div class="item-emoji">🍺</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Craft Beer (16oz)</div>
+              <div class="item-badges"><span class="badge b-new">Local Tap</span></div>
+              <div class="item-desc">Rotating local Texas craft beers on tap. Ask server for today's lineup.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$6.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Craft Beer',6.99)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦ ✦ ✦</span></div>
+
+    <!-- SHAKES -->
+    <div id="shakes">
+      <div class="section-header">
+        <div class="sh-icon">🥛</div>
+        <div class="sh-name">Hand-Spun Shakes</div>
+        <div class="sh-count">3 flavors</div>
+      </div>
+      <div class="items-list" style="margin-bottom:5rem;">
+        <div class="item-card" onclick="openModal('Classic Chocolate Shake','Thick hand-spun chocolate milkshake made with real ice cream and whole milk. Topped with whipped cream.','🍫','$6.99')">
+          <div class="item-emoji">🍫</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Chocolate Shake</div>
+              <div class="item-badges"><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc">Thick hand-spun with real ice cream. Topped with whipped cream.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$6.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Chocolate Shake',6.99)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="item-card" onclick="openModal('Strawberry Shake','Fresh strawberry milkshake hand-spun with real strawberries, vanilla ice cream and whole milk.','🍓','$6.99')">
+          <div class="item-emoji">🍓</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Strawberry Shake</div>
+              <div class="item-badges"><span class="badge b-new">Fresh Made</span></div>
+              <div class="item-desc">Real strawberries, vanilla ice cream, hand-spun fresh to order.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price">$6.99</div>
+              <button class="add-btn" onclick="addToCart(event,'Strawberry Shake',6.99)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- INFO FOOTER -->
+  <div class="info-footer">
+    <div class="info-footer-title">📍 Find Us</div>
+    <div class="info-grid">
+      <div class="info-item"><div class="info-label">Address</div><div class="info-value">1847 S Congress Ave, Austin, TX</div></div>
+      <div class="info-item"><div class="info-label">Hours</div><div class="info-value">Mon–Sun<br>11:00am – 11:00pm</div></div>
+      <div class="info-item"><div class="info-label">Phone</div><div class="info-value">(512) 000-0000</div></div>
+      <div class="info-item"><div class="info-label">Payment</div><div class="info-value">Cash · Card · Apple Pay</div></div>
+    </div>
+  </div>
+  <div class="powered-by">Menu powered by <span>DigitalMenuPro</span> · $199 setup 🇺🇸</div>
+
+  <!-- CART -->
+  <div class="cart-bar" id="cartBar">
+    <div style="display:flex;align-items:center;gap:0.6rem;">
+      <div class="cart-count" id="cartCount">0</div>
+      <span>View Order</span>
+    </div>
+    <div class="cart-total" id="cartTotal">$0.00</div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-emoji" id="modalEmoji"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <button class="modal-btn" id="modalAddBtn">Add to Order</button>
+    </div>
+  </div>
+
+  <script>
+    var cart = [];
+    function addToCart(e, name, price) {
+      if(e) e.stopPropagation();
+      cart.push({name, price});
+      var total = cart.reduce(function(s,i){return s+i.price;},0);
+      document.getElementById('cartCount').textContent = cart.length;
+      document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+      document.getElementById('cartBar').classList.toggle('visible', cart.length > 0);
+      if(e){
+        var btn = e.target;
+        btn.textContent = '✓'; btn.style.background = 'var(--red)'; btn.style.color = 'white';
+        setTimeout(function(){ btn.textContent = '+'; btn.style.background = ''; btn.style.color = ''; }, 1200);
+      }
+    }
+    function openModal(name, desc, emoji, price) {
+      document.getElementById('modalName').textContent = name;
+      document.getElementById('modalDesc').textContent = desc;
+      document.getElementById('modalEmoji').textContent = emoji;
+      document.getElementById('modalPrice').textContent = price;
+      var p = parseFloat(price.replace('$',''));
+      document.getElementById('modalAddBtn').onclick = function(){ addToCart(null,name,p); closeModal(); };
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+    function closeModal(e) {
+      if(!e || e.target === document.getElementById('modalOverlay'))
+        document.getElementById('modalOverlay').classList.remove('open');
+    }
+    function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+    function smoothScrollTo(targetY, duration) {
+      var startY = window.pageYOffset, diff = targetY - startY, startTime = null;
+      function step(ct) {
+        if(!startTime) startTime = ct;
+        var p = Math.min((ct-startTime)/duration, 1);
+        window.scrollTo(0, startY + diff * easeInOutCubic(p));
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    function goToSection(btn, id) {
+      document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var el = document.getElementById(id);
+      if(el) smoothScrollTo(el.getBoundingClientRect().top + window.pageYOffset - 60, 800);
+    }
+    function searchMenu(q) {
+      var query = q.toLowerCase();
+      document.querySelectorAll('.item-card').forEach(function(card){
+        card.style.display = (card.innerText.toLowerCase().includes(query) || query==='') ? 'flex' : 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>
