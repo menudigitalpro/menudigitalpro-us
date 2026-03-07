@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sugar Rush — Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #0D0B14;
+      --bg2:     #13101E;
+      --bg3:     #1A1628;
+      --pink:    #FF2D78;
+      --pink2:   #FF6BA8;
+      --cyan:    #00E5FF;
+      --cyan2:   #7DF9FF;
+      --yellow:  #FFE500;
+      --purple:  #9B5DE5;
+      --green:   #00F593;
+      --cream:   #F9F0FF;
+      --gray:    rgba(249,240,255,0.45);
+      --border:  rgba(255,45,120,0.2);
+      --border2: rgba(255,255,255,0.06);
+    }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg); color: var(--cream);
+      max-width: 520px; margin: 0 auto; min-height: 100vh;
+      position: relative;
+    }
+    @media (min-width: 800px) {
+      html { padding: 2rem 0; }
+      body { border-radius: 16px; overflow-y: auto !important; box-shadow: 0 0 100px rgba(255,45,120,0.15), 0 0 60px rgba(0,229,255,0.08); }
+    }
+
+    /* LANG */
+    html[data-lang="en"] .es-only { display: none !important; }
+    html[data-lang="es"] .en-only { display: none !important; }
+
+    /* LANG BAR */
+    .lang-bar {
+      background: var(--bg2); padding: 0.35rem 1.2rem;
+      display: flex; justify-content: flex-end; gap: 0.4rem; align-items: center;
+      border-bottom: 1px solid var(--border2);
+    }
+    .lang-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--gray); font-size: 0.6rem; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; cursor: pointer;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .lang-btn.active { background: var(--pink); color: white; border-color: var(--pink); box-shadow: 0 0 10px rgba(255,45,120,0.4); }
+
+    /* HEADER */
+    .header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border2);
+      position: relative; overflow: hidden;
+    }
+    .header-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,45,120,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .header-glow {
+      position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+      width: 300px; height: 200px;
+      background: radial-gradient(ellipse, rgba(255,45,120,0.15) 0%, rgba(155,93,229,0.08) 40%, transparent 70%);
+    }
+    .header-inner { position: relative; z-index: 1; padding: 2.5rem 1.5rem 2rem; text-align: center; }
+    .header-badge {
+      display: inline-block; background: var(--pink); color: white;
+      font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 0.2rem 0.8rem; border-radius: 50px; margin-bottom: 0.8rem;
+      font-weight: 700; box-shadow: 0 0 16px rgba(255,45,120,0.5);
+    }
+    .header-name {
+      font-family: 'Righteous', cursive;
+      font-size: 3rem; line-height: 1;
+      background: linear-gradient(135deg, var(--pink), var(--cyan), var(--yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 0.3rem;
+      filter: drop-shadow(0 0 20px rgba(255,45,120,0.3));
+    }
+    .header-sub { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.8rem; font-weight: 500; }
+    .header-tagline { font-size: 0.78rem; color: var(--gray); margin-bottom: 1rem; font-style: italic; }
+    .header-info { display: flex; justify-content: center; gap: 1.2rem; font-size: 0.7rem; color: var(--gray); flex-wrap: wrap; }
+    .header-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan), var(--green), var(--yellow), var(--pink));
+      background-size: 200% 100%;
+      animation: stripe 3s linear infinite;
+    }
+    @keyframes stripe { 0%{background-position:0% 0%} 100%{background-position:200% 0%} }
+
+    /* BANNER */
+    .banner {
+      background: linear-gradient(90deg, var(--bg2), rgba(255,45,120,0.1), var(--bg2));
+      padding: 0.55rem 1.5rem; text-align: center; font-size: 0.72rem;
+      color: var(--pink); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* CATS */
+    .cats-wrapper { position: sticky; top: 0; z-index: 50; background: var(--bg2); border-bottom: 1px solid var(--border2); }
+    .cats-scroll { display: flex; overflow-x: auto; scrollbar-width: none; }
+    .cats-scroll::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      padding: 0.85rem 1.2rem; border: none; background: transparent; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 700;
+      color: var(--gray); white-space: nowrap; letter-spacing: 0.1em; text-transform: uppercase;
+      border-bottom: 2px solid transparent; transition: all 0.2s; flex-shrink: 0;
+    }
+    .cat-btn.active { color: var(--pink); border-bottom-color: var(--pink); text-shadow: 0 0 10px rgba(255,45,120,0.5); }
+    .cat-btn:hover { color: var(--cream); }
+
+    /* SEARCH */
+    .search-bar { padding: 0.65rem 1.2rem; background: var(--bg2); border-bottom: 1px solid var(--border2); }
+    .search-input {
+      width: 100%; padding: 0.6rem 1rem 0.6rem 2.3rem;
+      border: 1px solid var(--border); border-radius: 6px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+      background: var(--bg3); color: var(--cream); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='%23FF2D78' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: 0.75rem center;
+    }
+    .search-input:focus { border-color: var(--pink); box-shadow: 0 0 12px rgba(255,45,120,0.2); }
+    .search-input::placeholder { color: rgba(249,240,255,0.3); }
+
+    /* FEATURED */
+    .featured {
+      margin: 0.8rem 1.2rem;
+      background: linear-gradient(135deg, rgba(255,45,120,0.12), rgba(155,93,229,0.1));
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.2rem; display: flex; align-items: center; gap: 1rem; position: relative; overflow: hidden;
+    }
+    .featured::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,45,120,0.05), transparent); }
+    .featured::after { content: '✦'; position: absolute; right: 1rem; bottom: 0.5rem; font-size: 4rem; color: rgba(255,45,120,0.05); line-height: 1; }
+    .feat-emoji { font-size: 2.5rem; flex-shrink: 0; position: relative; z-index: 1; }
+    .feat-text { flex: 1; position: relative; z-index: 1; }
+    .feat-label { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.2rem; font-weight: 700; }
+    .feat-name { font-family: 'Righteous', cursive; font-size: 1rem; color: var(--cream); margin-bottom: 0.15rem; }
+    .feat-desc { font-size: 0.7rem; color: var(--gray); line-height: 1.5; }
+    .feat-price { font-family: 'Righteous', cursive; font-size: 1.4rem; color: var(--yellow); flex-shrink: 0; position: relative; z-index: 1; text-shadow: 0 0 12px rgba(255,229,0,0.4); }
+
+    /* CONTENT */
+    .content { padding: 0 0 6rem; }
+
+    /* SECTION HEADER */
+    .section-header { padding: 1.8rem 1.2rem 0.7rem; display: flex; align-items: center; gap: 0.8rem; }
+    .sh-icon { font-size: 1.3rem; }
+    .sh-text { flex: 1; }
+    .sh-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.1rem; font-weight: 700; }
+    .sh-name { font-family: 'Righteous', cursive; font-size: 1.2rem; color: var(--cream); }
+    .sh-count { font-size: 0.62rem; color: var(--gray); border: 1px solid var(--border2); padding: 0.15rem 0.55rem; border-radius: 4px; }
+
+    /* ITEMS */
+    .items-list { padding: 0 1.2rem; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 0.5rem; }
+    .item-card {
+      background: var(--bg2); border-radius: 8px; border: 1px solid var(--border2);
+      display: flex; align-items: stretch; cursor: pointer; overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      position: relative;
+    }
+    .item-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--pink); transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s; }
+    .item-card:hover { border-color: rgba(255,45,120,0.35); box-shadow: 0 4px 24px rgba(255,45,120,0.12), inset 0 0 30px rgba(255,45,120,0.02); }
+    .item-card:hover::before { transform: scaleY(1); }
+
+    .item-emoji-wrap {
+      width: 76px; min-height: 88px; background: var(--bg3); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 2.2rem;
+      border-right: 1px solid var(--border2); position: relative; overflow: hidden;
+    }
+    .item-emoji-wrap::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(255,45,120,0.06), transparent 70%); }
+    .item-emoji-wrap.cyan-bg::after { background: radial-gradient(circle at center, rgba(0,229,255,0.06), transparent 70%); }
+    .item-emoji-wrap.yellow-bg::after { background: radial-gradient(circle at center, rgba(255,229,0,0.06), transparent 70%); }
+    .item-emoji-wrap.green-bg::after { background: radial-gradient(circle at center, rgba(0,245,147,0.06), transparent 70%); }
+    .item-emoji-wrap.purple-bg::after { background: radial-gradient(circle at center, rgba(155,93,229,0.08), transparent 70%); }
+
+    .item-body { padding: 0.85rem 0.9rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .item-name { font-family: 'Righteous', cursive; font-size: 0.95rem; color: var(--cream); margin-bottom: 0.1rem; }
+    .item-badges { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+    .badge { font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.1rem 0.5rem; border-radius: 3px; font-weight: 700; border: 1px solid; }
+    .b-pop   { color: var(--pink); border-color: rgba(255,45,120,0.35); background: rgba(255,45,120,0.08); }
+    .b-new   { color: var(--cyan); border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.06); }
+    .b-veg   { color: var(--green); border-color: rgba(0,245,147,0.3); background: rgba(0,245,147,0.06); }
+    .b-sin   { color: var(--purple); border-color: rgba(155,93,229,0.35); background: rgba(155,93,229,0.08); }
+    .b-hot   { color: var(--yellow); border-color: rgba(255,229,0,0.3); background: rgba(255,229,0,0.06); }
+    .item-desc { font-size: 0.73rem; color: var(--gray); line-height: 1.55; margin-bottom: 0.55rem; }
+    .item-footer { display: flex; align-items: center; justify-content: space-between; }
+    .item-price { font-family: 'Righteous', cursive; font-size: 1.1rem; color: var(--yellow); }
+    .item-price .curr { font-size: 0.72rem; font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--gray); }
+    .add-btn {
+      width: 30px; height: 30px; background: transparent; border: 1px solid var(--border);
+      color: var(--pink); font-size: 1.1rem; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .add-btn:hover { background: var(--pink); color: white; border-color: var(--pink); box-shadow: 0 0 12px rgba(255,45,120,0.4); }
+
+    /* DIVIDER */
+    .section-divider { display: flex; align-items: center; gap: 0.8rem; padding: 0.4rem 1.2rem; margin: 0.2rem 0; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
+    .section-divider span { color: var(--pink); font-size: 0.7rem; opacity: 0.6; }
+
+    /* CART */
+    .cart-bar {
+      position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white; padding: 0.85rem 1.8rem; border-radius: 8px;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: 0 8px 30px rgba(255,45,120,0.4), 0 0 40px rgba(155,93,229,0.2);
+      cursor: pointer; z-index: 100; font-size: 0.82rem;
+      min-width: 240px; justify-content: space-between;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      letter-spacing: 0.05em; font-weight: 700;
+    }
+    .cart-bar.visible { opacity: 1; pointer-events: all; }
+    .cart-count { background: white; color: var(--pink); width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; }
+    .cart-total { font-family: 'Righteous', cursive; font-size: 1rem; color: var(--yellow); }
+
+    /* INFO FOOTER */
+    .info-footer { background: var(--bg2); padding: 2rem 1.5rem; border-top: 1px solid var(--border); }
+    .info-title { font-family: 'Righteous', cursive; font-size: 1.1rem; color: var(--pink); text-align: center; margin-bottom: 1.2rem; text-shadow: 0 0 20px rgba(255,45,120,0.3); }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .info-item { background: var(--bg3); border: 1px solid var(--border2); padding: 0.85rem; border-radius: 8px; }
+    .info-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.3rem; font-weight: 700; }
+    .info-value { font-size: 0.78rem; color: rgba(249,240,255,0.7); line-height: 1.55; }
+    .map-wrap { border-radius: 8px; overflow: hidden; position: relative; border: 1px solid var(--border); }
+    .powered-by { text-align: center; padding: 0.8rem; font-size: 0.65rem; color: var(--gray); background: var(--bg); border-top: 1px solid var(--border2); }
+    .powered-by span { color: var(--pink); font-weight: 700; }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(13,11,20,0.85); z-index: 200; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { background: var(--bg2); width: 100%; border-top: 2px solid var(--border); border-radius: 16px 16px 0 0; padding: 1.5rem; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); max-height: 80vh; overflow-y: auto; position: relative; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-handle { width: 36px; height: 3px; background: var(--border); border-radius: 2px; margin: 0 auto 1.2rem; }
+    .modal-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 0.6rem; }
+    .modal-name { font-family: 'Righteous', cursive; font-size: 1.5rem; text-align: center; color: var(--cream); margin-bottom: 0.8rem; }
+    .modal-desc { font-size: 0.85rem; color: var(--gray); text-align: center; line-height: 1.7; margin-bottom: 1.2rem; }
+    .modal-price { font-family: 'Righteous', cursive; font-size: 2rem; color: var(--yellow); text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 20px rgba(255,229,0,0.3); }
+    .modal-btn { width: 100%; background: linear-gradient(135deg, var(--pink), var(--purple)); color: white; border: none; padding: 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; cursor: pointer; border-radius: 8px; transition: opacity 0.2s; box-shadow: 0 4px 20px rgba(255,45,120,0.35); }
+    .modal-btn:hover { opacity: 0.9; }
+    .modal-close { position: absolute; top: 1.2rem; right: 1.2rem; background: var(--bg3); border: 1px solid var(--border2); color: var(--gray); width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">🇺🇸 EN</button>
+    <button class="lang-btn" onclick="setLang('es')" id="btn-es">🇪🇸 ES</button>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-grid"></div>
+    <div class="header-glow"></div>
+    <div class="header-inner">
+      <div class="header-badge en-only">🍬 Sweet Shop · Miami, FL</div>
+      <div class="header-badge es-only">🍬 Dulcería · Miami, FL</div>
+      <div class="header-name">Sugar Rush</div>
+      <div class="header-sub en-only">Handcrafted Sweets &amp; Desserts</div>
+      <div class="header-sub es-only">Dulces Artesanales &amp; Postres</div>
+      <div class="header-tagline en-only">"Life is short — eat the dessert first"</div>
+      <div class="header-tagline es-only">"La vida es corta — primero come el postre"</div>
+      <div class="header-info">
+        <span>⏰ 9:00am – 9:00pm</span>
+        <span>📍 Wynwood, Miami</span>
+        <span>⭐ 4.9</span>
+      </div>
+    </div>
+    <div class="header-stripe"></div>
+  </header>
+
+  <div class="banner en-only">🎉 Custom cakes &amp; party orders available — DM us!</div>
+  <div class="banner es-only">🎉 Pedidos especiales y pasteles personalizados — ¡Escríbenos!</div>
+
+  <!-- CATS -->
+  <div class="cats-wrapper">
+    <div class="cats-scroll">
+      <button class="cat-btn active" onclick="goToSection(this,'cakes')">
+        <span class="en-only">🎂 Cakes</span><span class="es-only">🎂 Pasteles</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'cookies')">
+        <span class="en-only">🍪 Cookies</span><span class="es-only">🍪 Galletas</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'candy')">
+        <span class="en-only">🍭 Candy</span><span class="es-only">🍭 Dulces</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'icecream')">
+        <span class="en-only">🍦 Ice Cream</span><span class="es-only">🍦 Helados</span>
+      </button>
+      <button class="cat-btn" onclick="goToSection(this,'drinks')">
+        <span class="en-only">🧋 Drinks</span><span class="es-only">🧋 Bebidas</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input class="search-input en-only" type="text" placeholder="Search sweets..." oninput="searchMenu(this.value)"/>
+    <input class="search-input es-only" type="text" placeholder="Buscar dulces..." oninput="searchMenu(this.value)"/>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="featured">
+    <div class="feat-emoji">🌈</div>
+    <div class="feat-text">
+      <div class="feat-label en-only">🔥 Today's Drop</div>
+      <div class="feat-label es-only">🔥 Especial de Hoy</div>
+      <div class="feat-name en-only">Rainbow Unicorn Cake</div>
+      <div class="feat-name es-only">Pastel Unicornio Arcoíris</div>
+      <div class="feat-desc en-only">6 vivid layers, cotton candy frosting and edible glitter</div>
+      <div class="feat-desc es-only">6 capas vibrantes, frosting de algodón de azúcar y destellos comestibles</div>
+    </div>
+    <div class="feat-price">$42</div>
+  </div>
+
+  <div class="content">
+
+    <!-- CAKES -->
+    <div id="cakes">
+      <div class="section-header">
+        <div class="sh-icon">🎂</div>
+        <div class="sh-text">
+          <div class="sh-label en-only">Freshly baked daily</div>
+          <div class="sh-label es-only">Horneados diariamente</div>
+          <div class="sh-name en-only">Cakes &amp; Cupcakes</div>
+          <div class="sh-name es-only">Pasteles &amp; Cupcakes</div>
+        </div>
+        <div class="sh-count en-only">5 options</div>
+        <div class="sh-count es-only">5 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Rainbow Unicorn Cake','6 vivid rainbow layers, cotton candy Swiss meringue frosting and edible glitter and sprinkles.','6 capas arcoíris, frosting de merengue suizo sabor algodón de azúcar y destellos comestibles.','🌈','$42')">
+          <div class="item-emoji-wrap">🌈</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Rainbow Unicorn Cake</div>
+              <div class="item-name es-only">Pastel Unicornio Arcoíris</div>
+              <div class="item-badges"><span class="badge b-pop">🔥 Trending</span><span class="badge b-new">New</span></div>
+              <div class="item-desc en-only">6 vivid layers, cotton candy frosting and edible glitter. Slice.</div>
+              <div class="item-desc es-only">6 capas vibrantes, frosting de algodón de azúcar y destellos comestibles. Por rebanada.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>42</div>
+              <button class="add-btn" onclick="addToCart(event,'Rainbow Unicorn Cake',42)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Cookies & Cream Cake','Dark chocolate layers, Oreo cream cheese frosting and crushed Oreo topping.','Capas de chocolate negro, frosting de queso crema con Oreo y Oreos trituradas encima.','🖤','$14')">
+          <div class="item-emoji-wrap purple-bg">🖤</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Cookies &amp; Cream Cake</div>
+              <div class="item-name es-only">Pastel Cookies &amp; Cream</div>
+              <div class="item-badges"><span class="badge b-pop">Popular</span></div>
+              <div class="item-desc en-only">Dark chocolate cake, Oreo cream cheese frosting and crushed Oreos. Slice.</div>
+              <div class="item-desc es-only">Chocolate negro, frosting de queso crema con Oreo y Oreos trituradas. Por rebanada.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>14</div>
+              <button class="add-btn" onclick="addToCart(event,'Cookies & Cream Cake',14)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Strawberry Shortcake','Light vanilla sponge, fresh strawberries, whipped cream and strawberry compote.','Bizcocho de vainilla, fresas frescas, crema batida y compota de fresas.','🍓','$10')">
+          <div class="item-emoji-wrap">🍓</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Strawberry Shortcake</div>
+              <div class="item-badges"><span class="badge b-new">Classic</span></div>
+              <div class="item-desc en-only">Light vanilla sponge, fresh strawberries, whipped cream and compote. Slice.</div>
+              <div class="item-desc es-only">Bizcocho de vainilla, fresas frescas, crema batida y compota. Por rebanada.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>10</div>
+              <button class="add-btn" onclick="addToCart(event,'Strawberry Shortcake',10)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Churro Cupcake','Cinnamon sugar cupcake with dulce de leche filling and cinnamon cream cheese swirl.','Cupcake de canela con relleno de dulce de leche y swirl de queso crema con canela.','🍮','$5')">
+          <div class="item-emoji-wrap yellow-bg">🍮</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Churro Cupcake</div>
+              <div class="item-badges"><span class="badge b-pop">Fan Fave</span></div>
+              <div class="item-desc en-only">Cinnamon sugar cupcake, dulce de leche filling and cream cheese swirl.</div>
+              <div class="item-desc es-only">Cupcake de canela, relleno de dulce de leche y swirl de queso crema.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>5</div>
+              <button class="add-btn" onclick="addToCart(event,'Churro Cupcake',5)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Birthday Cake Pop','Vanilla cake ball dipped in rainbow white chocolate and covered in rainbow sprinkles.','Bolita de pastel de vainilla bañada en chocolate blanco arcoíris y confeti.','🎉','$4')">
+          <div class="item-emoji-wrap cyan-bg">🎉</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Birthday Cake Pop</div>
+              <div class="item-name es-only">Cake Pop de Cumpleaños</div>
+              <div class="item-badges"><span class="badge b-new">Fun!</span></div>
+              <div class="item-desc en-only">Vanilla cake ball dipped in rainbow chocolate and sprinkles.</div>
+              <div class="item-desc es-only">Bolita de vainilla bañada en chocolate arcoíris y confeti.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>4</div>
+              <button class="add-btn" onclick="addToCart(event,'Cake Pop',4)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- COOKIES -->
+    <div id="cookies">
+      <div class="section-header">
+        <div class="sh-icon">🍪</div>
+        <div class="sh-text">
+          <div class="sh-label en-only">Baked fresh</div>
+          <div class="sh-label es-only">Recién horneadas</div>
+          <div class="sh-name en-only">Cookies &amp; Bars</div>
+          <div class="sh-name es-only">Galletas &amp; Barras</div>
+        </div>
+        <div class="sh-count en-only">4 options</div>
+        <div class="sh-count es-only">4 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('NYC Giant Cookie','Oversized soft-baked cookie: choose dark choc, M&M, snickerdoodle or PB chips.','Galleta gigante estilo NYC: elige chocolate negro, M&M, snickerdoodle o chips de mantequilla.','🍪','$6')">
+          <div class="item-emoji-wrap yellow-bg">🍪</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">NYC Giant Cookie</div>
+              <div class="item-name es-only">Galleta Gigante NYC</div>
+              <div class="item-badges"><span class="badge b-pop">🔥 Best Seller</span></div>
+              <div class="item-desc en-only">Oversized soft-baked. Choose: dark choc, M&amp;M, snickerdoodle or PB chips.</div>
+              <div class="item-desc es-only">Enorme y blandita. Elige: chocolate negro, M&amp;M, snickerdoodle o mantequilla.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>6</div>
+              <button class="add-btn" onclick="addToCart(event,'NYC Giant Cookie',6)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Cosmic Brownie','Fudgy brownie topped with rainbow chip frosting, just like the classic — but better.','Brownie húmedo con frosting de chips arcoíris, como el clásico pero más rico.','🌌','$5')">
+          <div class="item-emoji-wrap purple-bg">🌌</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Cosmic Brownie</div>
+              <div class="item-badges"><span class="badge b-pop">Nostalgia</span></div>
+              <div class="item-desc en-only">Fudgy brownie with rainbow chip frosting. Nostalgic but elevated.</div>
+              <div class="item-desc es-only">Brownie húmedo con frosting de chips arcoíris. Nostalgia mejorada.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>5</div>
+              <button class="add-btn" onclick="addToCart(event,'Cosmic Brownie',5)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Rice Crispy Pop','Marshmallow rice crispy treat on a stick, dipped in pink chocolate and sprinkles.','Cuadrado de arroz con malvaviscos en palito, bañado en chocolate rosa y confeti.','🩷','$4')">
+          <div class="item-emoji-wrap">🩷</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Rice Crispy Pop</div>
+              <div class="item-name es-only">Rice Crispy Pop</div>
+              <div class="item-badges"><span class="badge b-new">Fun!</span></div>
+              <div class="item-desc en-only">Marshmallow rice crispy on a stick, dipped in pink chocolate and sprinkles.</div>
+              <div class="item-desc es-only">Rice crispy con malvaviscos en palito, bañado en chocolate rosa y confeti.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>4</div>
+              <button class="add-btn" onclick="addToCart(event,'Rice Crispy Pop',4)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('GF Oat Cookie','Gluten-free oat cookie with dark chocolate chunks, almond butter and sea salt.','Galleta de avena sin gluten con trozos de chocolate negro, mantequilla de almendra y sal marina.','🌾','$5')">
+          <div class="item-emoji-wrap green-bg">🌾</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">GF Oat Cookie</div>
+              <div class="item-name es-only">Galleta Avena Sin Gluten</div>
+              <div class="item-badges"><span class="badge b-sin">Gluten-Free</span><span class="badge b-veg">Vegan</span></div>
+              <div class="item-desc en-only">Oat cookie with dark chocolate chunks, almond butter and sea salt.</div>
+              <div class="item-desc es-only">Galleta de avena con chocolate negro, mantequilla de almendra y sal marina.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>5</div>
+              <button class="add-btn" onclick="addToCart(event,'GF Oat Cookie',5)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- CANDY -->
+    <div id="candy">
+      <div class="section-header">
+        <div class="sh-icon">🍭</div>
+        <div class="sh-text">
+          <div class="sh-label en-only">Pick &amp; mix</div>
+          <div class="sh-label es-only">A elegir</div>
+          <div class="sh-name en-only">Candy &amp; Sweets</div>
+          <div class="sh-name es-only">Dulces &amp; Golosinas</div>
+        </div>
+        <div class="sh-count en-only">3 options</div>
+        <div class="sh-count es-only">3 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Candy Charcuterie Board','Curated sweet board: gummies, sour belts, chocolate, lollipops and cotton candy. Serves 2-4.','Tabla de dulces variados: gomitas, tiras ácidas, chocolate, paletas y algodón de azúcar. Para 2-4 personas.','🍬','$18')">
+          <div class="item-emoji-wrap">🍬</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Candy Charcuterie Board</div>
+              <div class="item-name es-only">Tabla de Dulces</div>
+              <div class="item-badges"><span class="badge b-pop">🔥 Trending</span></div>
+              <div class="item-desc en-only">Curated board: gummies, sour belts, chocolate, lollipops and cotton candy. Serves 2–4.</div>
+              <div class="item-desc es-only">Tabla variada: gomitas, tiras ácidas, chocolate, paletas y algodón. Para 2–4 personas.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>18</div>
+              <button class="add-btn" onclick="addToCart(event,'Candy Board',18)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Gummy Bear Bag (4oz)','Premium handcrafted gummy bears in classic flavors or sour coated. Pick your style.','Gomitas artesanales en sabores clásicos o con cobertura ácida. Elige tu estilo.','🐻','$8')">
+          <div class="item-emoji-wrap cyan-bg">🐻</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Gummy Bear Bag (4oz)</div>
+              <div class="item-name es-only">Bolsa de Gomitas (4oz)</div>
+              <div class="item-badges"><span class="badge b-new">Artisan</span></div>
+              <div class="item-desc en-only">Handcrafted gummies in classic or sour. Choose your style.</div>
+              <div class="item-desc es-only">Gomitas artesanales en clásico o ácido. Elige tu estilo.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>8</div>
+              <button class="add-btn" onclick="addToCart(event,'Gummy Bears',8)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Cotton Candy Tub','Fluffy cotton candy in wild flavors: blue raspberry, strawberry or bubblegum. Large tub.','Algodón de azúcar esponjoso en sabores: frambuesa azul, fresa o chicle. Recipiente grande.','☁️','$7')">
+          <div class="item-emoji-wrap purple-bg">☁️</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Cotton Candy Tub</div>
+              <div class="item-name es-only">Algodón de Azúcar</div>
+              <div class="item-badges"><span class="badge b-veg">Vegan</span></div>
+              <div class="item-desc en-only">Blue raspberry, strawberry or bubblegum. Fluffy large tub.</div>
+              <div class="item-desc es-only">Frambuesa azul, fresa o chicle. Esponjoso, recipiente grande.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>7</div>
+              <button class="add-btn" onclick="addToCart(event,'Cotton Candy',7)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- ICE CREAM -->
+    <div id="icecream">
+      <div class="section-header">
+        <div class="sh-icon">🍦</div>
+        <div class="sh-text">
+          <div class="sh-label en-only">Cold &amp; creamy</div>
+          <div class="sh-label es-only">Frío y cremoso</div>
+          <div class="sh-name en-only">Ice Cream &amp; Gelato</div>
+          <div class="sh-name es-only">Helados &amp; Gelato</div>
+        </div>
+        <div class="sh-count en-only">3 options</div>
+        <div class="sh-count es-only">3 opciones</div>
+      </div>
+      <div class="items-list">
+
+        <div class="item-card" onclick="openModal('Loaded Ice Cream Cup','3 scoops of your choice + brownie chunks, hot fudge, whip, caramel and sprinkles.','3 bolas a elección + trozos de brownie, fudge caliente, crema, caramelo y confeti.','🍨','$12')">
+          <div class="item-emoji-wrap">🍨</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Loaded Ice Cream Cup</div>
+              <div class="item-name es-only">Copa Helado Cargada</div>
+              <div class="item-badges"><span class="badge b-pop">🔥 Popular</span></div>
+              <div class="item-desc en-only">3 scoops of your choice + brownie, hot fudge, whip and caramel.</div>
+              <div class="item-desc es-only">3 bolas a elección + brownie, fudge caliente, crema y caramelo.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>12</div>
+              <button class="add-btn" onclick="addToCart(event,'Loaded Ice Cream Cup',12)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Mochi Ice Cream (3 pcs)','Japanese mochi filled with gelato: mango, strawberry and matcha.','Mochi japonés relleno de gelato: mango, fresa y matcha.','🍡','$9')">
+          <div class="item-emoji-wrap cyan-bg">🍡</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Mochi Ice Cream (3 pcs)</div>
+              <div class="item-name es-only">Mochi Ice Cream (3 pzs)</div>
+              <div class="item-badges"><span class="badge b-new">Trending</span></div>
+              <div class="item-desc en-only">Japanese mochi filled with gelato: mango, strawberry and matcha.</div>
+              <div class="item-desc es-only">Mochi japonés relleno de gelato: mango, fresa y matcha.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>9</div>
+              <button class="add-btn" onclick="addToCart(event,'Mochi Ice Cream',9)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Rolled Ice Cream','Thai-style rolled ice cream with your choice of mix-ins: Oreo, mango, matcha or strawberry.','Helado enrollado estilo tailandés con toppings a elección: Oreo, mango, matcha o fresa.','🌀','$11')">
+          <div class="item-emoji-wrap green-bg">🌀</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Rolled Ice Cream</div>
+              <div class="item-name es-only">Helado Enrollado</div>
+              <div class="item-badges"><span class="badge b-new">New!</span></div>
+              <div class="item-desc en-only">Thai-style rolled. Choose: Oreo, mango, matcha or strawberry mix-in.</div>
+              <div class="item-desc es-only">Estilo tailandés enrollado. Elige: Oreo, mango, matcha o fresa.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>11</div>
+              <button class="add-btn" onclick="addToCart(event,'Rolled Ice Cream',11)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"><span>✦</span></div>
+
+    <!-- DRINKS -->
+    <div id="drinks">
+      <div class="section-header">
+        <div class="sh-icon">🧋</div>
+        <div class="sh-text">
+          <div class="sh-label en-only">Sip &amp; enjoy</div>
+          <div class="sh-label es-only">Bebidas especiales</div>
+          <div class="sh-name en-only">Drinks &amp; Shakes</div>
+          <div class="sh-name es-only">Bebidas &amp; Malteadas</div>
+        </div>
+        <div class="sh-count en-only">3 options</div>
+        <div class="sh-count es-only">3 opciones</div>
+      </div>
+      <div class="items-list" style="margin-bottom:5rem;">
+
+        <div class="item-card" onclick="openModal('Freak Shake','Extreme milkshake: chocolate shake topped with a brownie, cotton candy, cookie and whipped cream.','Malteada extrema: batido de chocolate con brownie, algodón de azúcar, cookie y crema batida encima.','🥤','$14')">
+          <div class="item-emoji-wrap purple-bg">🥤</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Freak Shake</div>
+              <div class="item-badges"><span class="badge b-pop">🔥 Viral</span></div>
+              <div class="item-desc en-only">Chocolate shake topped with a brownie, cotton candy, cookie and whip.</div>
+              <div class="item-desc es-only">Batido de chocolate con brownie, algodón, cookie y crema batida encima.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>14</div>
+              <button class="add-btn" onclick="addToCart(event,'Freak Shake',14)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Pink Boba','Strawberry milk with tapioca pearls, lychee jelly and pink sago. Super cute!','Leche de fresa con perlas de tapioca, gelatina de lychee y sago rosa. ¡Súper cute!','🩷','$8')">
+          <div class="item-emoji-wrap">🩷</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name">Pink Boba</div>
+              <div class="item-badges"><span class="badge b-new">Trending</span><span class="badge b-veg">Vegan</span></div>
+              <div class="item-desc en-only">Strawberry milk, tapioca pearls, lychee jelly and pink sago. Super cute!</div>
+              <div class="item-desc es-only">Leche de fresa, perlas de tapioca, gelatina de lychee y sago rosa.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>8</div>
+              <button class="add-btn" onclick="addToCart(event,'Pink Boba',8)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card" onclick="openModal('Iced Matcha Lemonade','Ceremonial grade matcha blended with fresh lemonade and honey. Refreshing and unique.','Matcha de grado ceremonial con limonada fresca y miel. Refrescante y único.','🍵','$7')">
+          <div class="item-emoji-wrap green-bg">🍵</div>
+          <div class="item-body">
+            <div>
+              <div class="item-name en-only">Iced Matcha Lemonade</div>
+              <div class="item-name es-only">Limonada de Matcha Frío</div>
+              <div class="item-badges"><span class="badge b-veg">Vegan</span><span class="badge b-hot">Energy</span></div>
+              <div class="item-desc en-only">Ceremonial matcha blended with fresh lemonade and honey.</div>
+              <div class="item-desc es-only">Matcha ceremonial con limonada fresca y miel. Refrescante.</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-price"><span class="curr">$</span>7</div>
+              <button class="add-btn" onclick="addToCart(event,'Matcha Lemonade',7)">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- INFO FOOTER -->
+  <div class="info-footer">
+    <div class="info-title en-only">📍 Find Us</div>
+    <div class="info-title es-only">📍 Encuéntranos</div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label en-only">Address</div>
+        <div class="info-label es-only">Dirección</div>
+        <div class="info-value">2200 NW 2nd Ave, Miami, FL</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label en-only">Hours</div>
+        <div class="info-label es-only">Horario</div>
+        <div class="info-value">Mon–Sun<br>9:00am – 9:00pm</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label en-only">Orders</div>
+        <div class="info-label es-only">Pedidos</div>
+        <div class="info-value">(305) 000-0000<br>Instagram DM</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label en-only">Payment</div>
+        <div class="info-label es-only">Pago</div>
+        <div class="info-value">Cash · Card<br>Apple/Google Pay</div>
+      </div>
+    </div>
+    <div class="map-wrap">
+      <iframe src="https://maps.google.com/maps?q=9.935290162554685,-84.10372590392429&z=16&output=embed"
+        width="100%" height="200" style="border:0;display:block;" allowfullscreen="" loading="lazy"></iframe>
+      <a href="https://www.google.com/maps?q=9.935290162554685,-84.10372590392429" target="_blank"
+        style="position:absolute;inset:0;z-index:10;display:block;"></a>
+    </div>
+  </div>
+  <div class="powered-by en-only">Menu powered by <span>DigitalMenuPro</span> · $499 setup 🇺🇸</div>
+  <div class="powered-by es-only">Menú creado por <span>DigitalMenuPro</span> · $499 setup 🇺🇸</div>
+
+  <!-- CART -->
+  <div class="cart-bar" id="cartBar">
+    <div style="display:flex;align-items:center;gap:0.6rem;">
+      <div class="cart-count" id="cartCount">0</div>
+      <span class="en-only">My Order</span>
+      <span class="es-only">Mi Pedido</span>
+    </div>
+    <div class="cart-total" id="cartTotal">$0.00</div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-emoji" id="modalEmoji"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <button class="modal-btn" id="modalAddBtn">
+        <span class="en-only">Add to Order</span>
+        <span class="es-only">Agregar al Pedido</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function setLang(lang) {
+      document.documentElement.setAttribute('data-lang', lang);
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    }
+    var cart = [];
+    function addToCart(e, name, price) {
+      if(e) e.stopPropagation();
+      cart.push({name, price});
+      var total = cart.reduce(function(s,i){return s+i.price;},0);
+      document.getElementById('cartCount').textContent = cart.length;
+      document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+      document.getElementById('cartBar').classList.toggle('visible', cart.length > 0);
+      if(e){ var btn=e.target; btn.textContent='✓'; btn.style.background='var(--pink)'; btn.style.color='white'; setTimeout(function(){btn.textContent='+';btn.style.background='';btn.style.color='';},1200); }
+    }
+    function openModal(name, descEn, descEs, emoji, price) {
+      var lang = document.documentElement.getAttribute('data-lang');
+      document.getElementById('modalName').textContent = name;
+      document.getElementById('modalDesc').textContent = lang==='en' ? descEn : descEs;
+      document.getElementById('modalEmoji').textContent = emoji;
+      document.getElementById('modalPrice').textContent = price;
+      var p = parseFloat(price.replace('$',''));
+      document.getElementById('modalAddBtn').onclick = function(){ addToCart(null,name,p); closeModal(); };
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+    function closeModal(e) {
+      if(!e || e.target===document.getElementById('modalOverlay'))
+        document.getElementById('modalOverlay').classList.remove('open');
+    }
+    function easeInOutCubic(t){return t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+    function smoothScrollTo(targetY,duration){
+      var startY=window.pageYOffset,diff=targetY-startY,startTime=null;
+      function step(ct){if(!startTime)startTime=ct;var p=Math.min((ct-startTime)/duration,1);window.scrollTo(0,startY+diff*easeInOutCubic(p));if(p<1)requestAnimationFrame(step);}
+      requestAnimationFrame(step);
+    }
+    function goToSection(btn,id){
+      document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var el=document.getElementById(id);
+      if(el)smoothScrollTo(el.getBoundingClientRect().top+window.pageYOffset-60,800);
+    }
+    function searchMenu(q){
+      var query=q.toLowerCase();
+      document.querySelectorAll('.item-card').forEach(function(card){
+        card.style.display=(card.innerText.toLowerCase().includes(query)||query==='')?'flex':'none';
+      });
+    }
+  </script>
+</body>
+</html>
