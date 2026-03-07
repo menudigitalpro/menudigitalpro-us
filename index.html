@@ -131,7 +131,10 @@
 
     /* PRICING */
     .pricing-section { padding: 6rem 3rem; background: var(--section-bg); text-align: center; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; max-width: 860px; margin: 3rem auto 0; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; max-width: 700px; margin: 3rem auto 0; }
+    .setup-banner { max-width:700px; margin: 0 auto; background:white; border:1px solid var(--border); padding:1.5rem 2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    .setup-badge { display:inline-block; background:var(--gold); color:var(--dark); font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.15rem 0.7rem; margin-bottom:0.3rem; }
+    .no-commission-bar { max-width:700px; margin: 1.5rem auto 0; background: rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); padding:0.8rem 1.5rem; display:flex; align-items:center; justify-content:center; gap:0.6rem; font-size:0.78rem; color:var(--warm-gray); }
     .pricing-card { background: white; border: 1px solid var(--border); padding: 2rem 1.5rem; transition: transform 0.3s, box-shadow 0.3s; position: relative; }
     .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(26,20,8,0.1); }
     .pricing-card.featured { background: var(--dark); border-color: var(--gold); transform: scale(1.03); }
@@ -159,6 +162,47 @@
     .domain-url { font-family: monospace; font-size: 0.68rem; color: rgba(245,240,232,0.25); word-break: break-all; }
     .domain-url.nice { font-size: 1rem; color: var(--gold-light); font-weight: bold; }
     .domain-price-box { display: inline-block; border: 1px dashed rgba(201,168,76,0.3); padding: 1.5rem 2.5rem; margin-bottom: 2rem; }
+
+    /* SAME DAY UPDATES STRIP */
+    .updates-strip { background: var(--dark); padding: 4rem 3rem; text-align: center; }
+    .updates-strip h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight: 300; color: var(--cream); margin-bottom: 0.8rem; }
+    .updates-strip h2 em { color: var(--gold); font-style: italic; }
+    .updates-strip p { color: rgba(245,240,232,0.5); font-size: 0.88rem; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .updates-examples { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; max-width: 820px; margin: 0 auto; }
+    .update-chip { border: 1px solid rgba(201,168,76,0.2); padding: 0.9rem 1.4rem; text-align: left; min-width: 210px; flex: 1; }
+    .update-chip-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .update-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: #4CAF50; flex-shrink: 0; }
+    .update-chip-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: #4CAF50; }
+    .update-chip-time { font-size: 0.6rem; color: rgba(245,240,232,0.25); margin-left: auto; }
+    .update-chip-msg { font-size: 0.82rem; color: rgba(245,240,232,0.7); line-height: 1.45; }
+    .update-chip-result { font-size: 0.72rem; color: var(--gold); margin-top: 0.5rem; }
+
+    /* COMPARISON TABLE */
+    .compare-section { padding: 6rem 3rem; background: var(--section-bg); text-align: center; }
+    .compare-table { width: 100%; max-width: 860px; margin: 3rem auto 0; border-collapse: collapse; }
+    .compare-table th { padding: 1rem 1.2rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
+    .compare-table th.col-us { background: var(--dark); color: var(--gold); border: 2px solid var(--gold); }
+    .compare-table th.col-diy { background: white; color: var(--warm-gray); border: 1px solid var(--border); }
+    .compare-table th.col-feat { background: transparent; color: var(--warm-gray); font-size: 0.65rem; text-align: left; }
+    .compare-table td { padding: 0.85rem 1.2rem; font-size: 0.82rem; border-bottom: 1px solid var(--border); }
+    .compare-table td.col-us { background: rgba(26,20,8,0.03); border-left: 2px solid var(--gold); border-right: 2px solid var(--gold); color: var(--dark); font-weight: 500; }
+    .compare-table td.col-diy { background: white; color: var(--warm-gray); border: 1px solid var(--border); }
+    .compare-table td.col-feat { text-align: left; color: var(--warm-gray); font-size: 0.78rem; background: transparent; }
+    .compare-table tr:last-child td.col-us { border-bottom: 2px solid var(--gold); }
+    .compare-check { color: #4CAF50; font-size: 1rem; }
+    .compare-x { color: #c0392b; font-size: 1rem; }
+    .compare-maybe { color: var(--gold); font-size: 0.85rem; }
+    @media(max-width:768px) { .compare-section { padding: 4rem 1rem; } .compare-table th, .compare-table td { padding: 0.6rem 0.5rem; font-size: 0.72rem; } }
+
+    /* NO COMMISSION */
+    .nocomm-section { padding: 5rem 3rem; background: white; text-align: center; }
+    .nocomm-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; max-width: 800px; margin: 3rem auto 0; }
+    .nocomm-card { border: 1px solid var(--border); padding: 2rem 1.5rem; }
+    .nocomm-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .nocomm-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; margin-bottom: 0.4rem; }
+    .nocomm-desc { font-size: 0.8rem; color: var(--warm-gray); line-height: 1.6; }
+    .nocomm-highlight { color: var(--gold); font-weight: 500; }
+    @media(max-width:768px) { .nocomm-grid { grid-template-columns: 1fr; } .updates-examples { flex-direction: column; } }
 
     /* PAYMENT */
     .payment-section { padding: 4rem 3rem; background: white; text-align: center; }
@@ -220,6 +264,7 @@
       <li><a onclick="scrollTo('features')" class="en-only">Features</a><a onclick="scrollTo('features')" class="es-only">Funciones</a></li>
       <li><a onclick="scrollTo('demos')" class="en-only">Demo</a><a onclick="scrollTo('demos')" class="es-only">Demo</a></li>
       <li><a onclick="scrollTo('pricing')" class="en-only">Pricing</a><a onclick="scrollTo('pricing')" class="es-only">Precios</a></li>
+      <li><a onclick="scrollTo('compare')" class="en-only">Compare</a><a onclick="scrollTo('compare')" class="es-only">Comparar</a></li>
       <li><a onclick="window.open('https://wa.me/50671186158','_blank')" class="nav-cta en-only">Get Started</a><a onclick="window.open('https://wa.me/50671186158','_blank')" class="nav-cta es-only">Comenzar</a></li>
     </ul>
   </nav>
@@ -232,12 +277,12 @@
       <div class="hero-badge">✦ <span class="en-only">Digital menus for restaurants</span><span class="es-only">Menús digitales para restaurantes</span></div>
       <h1 class="hero-title en-only">Your restaurant<br>deserves a <em>beautiful</em><br>digital menu</h1>
       <h1 class="hero-title es-only">Tu restaurante<br>merece un <em>hermoso</em><br>menú digital</h1>
-      <p class="hero-sub en-only">A professional digital menu accessible from any phone — no app download required. One-time setup, stunning design, always up to date.</p>
-      <p class="hero-sub es-only">Un menú digital profesional accesible desde cualquier teléfono — sin descargar apps. Configuración única, diseño impresionante, siempre actualizado.</p>
+      <p class="hero-sub en-only">A professional digital menu accessible from any phone — no app download required. Custom design, your own domain, and always up to date.</p>
+      <p class="hero-sub es-only">Un menú digital profesional accesible desde cualquier teléfono — sin descargar apps. Diseño personalizado, dominio propio y siempre actualizado.</p>
       <div class="hero-actions">
         <button class="btn-primary" onclick="window.open('https://wa.me/50671186158','_blank')">
-          <span class="en-only">Get Your Menu — $199</span>
-          <span class="es-only">Obtener Mi Menú — $199</span>
+          <span class="en-only">Get Your Menu — $250</span>
+          <span class="es-only">Obtener Mi Menú — $250</span>
         </button>
         <button class="btn-secondary" onclick="scrollTo('demos')">
           <span class="en-only">View Live Demos →</span>
@@ -346,25 +391,65 @@
   <section class="pricing-section" id="pricing">
     <div class="section-label en-only">Simple, transparent pricing</div>
     <div class="section-label es-only">Precios simples y transparentes</div>
-    <h2 class="section-title en-only">One investment,<br>endless returns</h2>
-    <h2 class="section-title es-only">Una inversión,<br>beneficios infinitos</h2>
+    <h2 class="section-title en-only">Everything included,<br>no surprises</h2>
+    <h2 class="section-title es-only">Todo incluido,<br>sin sorpresas</h2>
+
+    <!-- Setup Banner -->
+    <div class="setup-banner">
+      <div>
+        <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="en-only">Step 1 — Website Creation (one-time)</div>
+        <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="es-only">Paso 1 — Creación del sitio (único)</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--warm-gray);" class="en-only">We build your full website · Custom design · QR code · Delivered in 48h</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--warm-gray);" class="es-only">Construimos tu sitio completo · Diseño personalizado · QR · Entrega en 48h</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:0.82rem;color:var(--warm-gray);text-decoration:line-through;" class="en-only">Regular: $500</div>
+        <div style="font-size:0.82rem;color:var(--warm-gray);text-decoration:line-through;" class="es-only">Normal: $500</div>
+        <div class="setup-badge en-only">50% OFF — Limited Time</div>
+        <div class="setup-badge es-only">50% DESCUENTO — Tiempo Limitado</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;color:var(--dark);line-height:1;">$250</div>
+      </div>
+    </div>
+
+    <div style="max-width:700px;margin:0.8rem auto 0;text-align:center;">
+      <p style="font-size:0.78rem;color:var(--warm-gray);" class="en-only">Then choose your monthly maintenance plan — keeping your site live, your domain active, and your menu always updated.</p>
+      <p style="font-size:0.78rem;color:var(--warm-gray);" class="es-only">Luego elegís tu plan mensual de mantenimiento — para mantener el sitio activo, el dominio vigente y el menú siempre actualizado.</p>
+    </div>
+
+    <div style="max-width:700px;margin:1rem auto 0;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);padding:0.8rem 1.5rem;display:flex;align-items:center;justify-content:center;gap:0.6rem;font-size:0.78rem;color:var(--warm-gray);">
+      <span style="color:var(--gold);">✦</span>
+      <span class="en-only">0% commissions · No contracts · Cancel anytime · Domain &amp; hosting included</span>
+      <span class="es-only">0% comisiones · Sin contratos · Cancela cuando quieras · Dominio y hosting incluidos</span>
+    </div>
+
+    <div style="max-width:700px;margin:1.5rem auto 1.5rem;display:flex;align-items:center;justify-content:center;gap:1rem;">
+      <div style="height:1px;flex:1;background:var(--border);"></div>
+      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);" class="en-only">Step 2 — Choose your maintenance plan</div>
+      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);" class="es-only">Paso 2 — Elegí tu plan de mantenimiento</div>
+      <div style="height:1px;flex:1;background:var(--border);"></div>
+    </div>
+
     <div class="pricing-grid">
 
       <div class="pricing-card">
-        <div class="pricing-name en-only">Setup Fee</div>
-        <div class="pricing-name es-only">Creación</div>
-        <div class="pricing-price">$<span>199</span></div>
-        <div class="pricing-period en-only">one-time payment</div>
-        <div class="pricing-period es-only">pago único</div>
+        <div class="pricing-name en-only">Monthly Maintenance</div>
+        <div class="pricing-name es-only">Mantenimiento Mensual</div>
+        <div class="pricing-price">$<span>50</span></div>
+        <div class="pricing-period en-only">per month · billed monthly</div>
+        <div class="pricing-period es-only">por mes · cobro mensual</div>
         <ul class="pricing-features">
-          <li class="en-only">Custom design for your brand</li>
-          <li class="es-only">Diseño personalizado</li>
-          <li class="en-only">All your menu items included</li>
-          <li class="es-only">Todos tus platillos incluidos</li>
-          <li class="en-only">QR code ready to print</li>
-          <li class="es-only">Código QR listo para imprimir</li>
-          <li class="en-only">Delivered in 48 hours</li>
-          <li class="es-only">Entregado en 48 horas</li>
+          <li class="en-only">Domain hosting &amp; renewal included</li>
+          <li class="es-only">Hosting y renovación del dominio incluidos</li>
+          <li class="en-only">Site stays live 24/7</li>
+          <li class="es-only">Sitio activo 24/7</li>
+          <li class="en-only">Unlimited menu updates</li>
+          <li class="es-only">Actualizaciones ilimitadas del menú</li>
+          <li class="en-only">Price &amp; item changes same day</li>
+          <li class="es-only">Cambios de precios el mismo día</li>
+          <li class="en-only">Priority WhatsApp support</li>
+          <li class="es-only">Soporte prioritario por WhatsApp</li>
+          <li class="en-only">Cancel anytime — no contracts</li>
+          <li class="es-only">Cancela cuando quieras</li>
         </ul>
         <button class="pricing-btn" onclick="window.open('https://wa.me/50671186158','_blank')">
           <span class="en-only">Get Started</span>
@@ -373,88 +458,237 @@
       </div>
 
       <div class="pricing-card featured">
-        <div class="pricing-tag en-only">⭐ Most Popular</div>
-        <div class="pricing-tag es-only">⭐ Más Popular</div>
-        <div class="pricing-name en-only">Monthly Plan</div>
-        <div class="pricing-name es-only">Plan Mensual</div>
-        <div class="pricing-price">$<span>29</span></div>
-        <div class="pricing-period en-only">per month · after setup</div>
-        <div class="pricing-period es-only">por mes · después de creación</div>
+        <div class="pricing-tag en-only">🏆 Best Value — Save $120/yr</div>
+        <div class="pricing-tag es-only">🏆 Mejor Precio — Ahorrá $120/año</div>
+        <div class="pricing-name en-only">Annual Maintenance</div>
+        <div class="pricing-name es-only">Mantenimiento Anual</div>
+        <div class="pricing-price">$<span>40</span></div>
+        <div class="pricing-period en-only">per month · billed $480/year</div>
+        <div class="pricing-period es-only">por mes · se cobra $480/año</div>
         <ul class="pricing-features">
-          <li class="en-only">Unlimited menu updates</li>
-          <li class="es-only">Actualizaciones ilimitadas</li>
-          <li class="en-only">Price & item changes anytime</li>
-          <li class="es-only">Cambios de precios cuando quieras</li>
-          <li class="en-only">Priority support via WhatsApp</li>
-          <li class="es-only">Soporte prioritario por WhatsApp</li>
-          <li class="en-only">Seasonal menu updates</li>
-          <li class="es-only">Actualizaciones de temporada</li>
+          <li class="en-only">Everything in Monthly plan</li>
+          <li class="es-only">Todo del plan Mensual</li>
+          <li class="en-only">Domain hosting &amp; renewal included</li>
+          <li class="es-only">Hosting y renovación del dominio incluidos</li>
+          <li class="en-only">Save $120 vs paying monthly</li>
+          <li class="es-only">Ahorrás $120 vs pago mensual</li>
+          <li class="en-only">Seasonal design refresh</li>
+          <li class="es-only">Rediseño visual de temporada</li>
+          <li class="en-only">First priority for new features</li>
+          <li class="es-only">Prioridad en nuevas funciones</li>
         </ul>
         <button class="pricing-btn" onclick="window.open('https://wa.me/50671186158','_blank')">
-          <span class="en-only">Get Started</span>
-          <span class="es-only">Comenzar</span>
-        </button>
-      </div>
-
-      <div class="pricing-card">
-        <div class="pricing-name en-only">Year 1 Total</div>
-        <div class="pricing-name es-only">Total Primer Año</div>
-        <div class="pricing-price">$<span>547</span></div>
-        <div class="pricing-period en-only">setup + 12 months</div>
-        <div class="pricing-period es-only">creación + 12 meses</div>
-        <ul class="pricing-features">
-          <li class="en-only">Less than $1.50 per day</li>
-          <li class="es-only">Menos de $1.50 por día</li>
-          <li class="en-only">Everything in Monthly Plan</li>
-          <li class="es-only">Todo del Plan Mensual</li>
-          <li class="en-only">Free domain setup ($25 value)</li>
-          <li class="es-only">Configuración dominio gratis ($25)</li>
-          <li class="en-only">Best value for new restaurants</li>
-          <li class="es-only">Mejor valor para nuevos clientes</li>
-        </ul>
-        <button class="pricing-btn" onclick="window.open('https://wa.me/50671186158','_blank')">
-          <span class="en-only">Contact Us</span>
-          <span class="es-only">Consultar</span>
+          <span class="en-only">Get Best Deal</span>
+          <span class="es-only">Obtener Mejor Precio</span>
         </button>
       </div>
 
     </div>
   </section>
 
-  <!-- DOMAIN -->
+  <!-- WHAT MAINTENANCE COVERS -->
   <section class="domain-section">
-    <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;" class="en-only">Add-on Service</div>
-    <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;" class="es-only">Servicio Adicional</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;color:#F5F0E8;margin-bottom:1rem;" class="en-only">Want your own <em style="color:var(--gold);font-style:italic;">.com domain?</em></h2>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;color:#F5F0E8;margin-bottom:1rem;" class="es-only">¿Querés tu propio <em style="color:var(--gold);font-style:italic;">dominio .com?</em></h2>
-    <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;max-width:460px;margin:0 auto 2.5rem;line-height:1.7;" class="en-only">Same menu, better address. Go from a long link to <strong style="color:var(--gold);">myrestaurant.com</strong></p>
-    <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;max-width:460px;margin:0 auto 2.5rem;line-height:1.7;" class="es-only">El mismo menú, mejor dirección. De un link largo a <strong style="color:var(--gold);">mirestaurante.com</strong></p>
-    <div class="domain-grid">
-      <div class="domain-box">
-        <div style="font-size:1.5rem;margin-bottom:0.6rem;">🔗</div>
-        <div class="domain-label en-only">Without domain</div>
-        <div class="domain-label es-only">Sin dominio</div>
-        <div class="domain-url">username.github.io/myrestaurant/</div>
+    <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;" class="en-only">What your $50/mo covers</div>
+    <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;" class="es-only">Qué cubre tu $50/mes</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;color:#F5F0E8;margin-bottom:1rem;" class="en-only">One flat fee.<br><em style="color:var(--gold);font-style:italic;">Everything taken care of.</em></h2>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;color:#F5F0E8;margin-bottom:1rem;" class="es-only">Una tarifa fija.<br><em style="color:var(--gold);font-style:italic;">Todo resuelto.</em></h2>
+    <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;max-width:500px;margin:0 auto 2.5rem;line-height:1.7;" class="en-only">Your monthly maintenance fee keeps your entire digital presence running — no hidden renewals, no surprise bills.</p>
+    <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;max-width:500px;margin:0 auto 2.5rem;line-height:1.7;" class="es-only">Tu cuota mensual mantiene toda tu presencia digital funcionando — sin renovaciones ocultas ni cobros sorpresa.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:680px;margin:0 auto 2.5rem;text-align:left;">
+      <div style="border:1px solid rgba(201,168,76,0.2);padding:1.2rem;">
+        <div style="font-size:1.4rem;margin-bottom:0.5rem;">🌐</div>
+        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="en-only">Domain</div>
+        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="es-only">Dominio</div>
+        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="en-only">Your .com domain registration &amp; annual renewal — fully managed by us.</div>
+        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="es-only">Registro y renovación anual de tu dominio .com — lo gestionamos nosotros.</div>
       </div>
-      <div class="domain-box highlight">
-        <div style="font-size:1.5rem;margin-bottom:0.6rem;">✨</div>
-        <div class="domain-label en-only">With own domain</div>
-        <div class="domain-label es-only">Con dominio propio</div>
-        <div class="domain-url nice">myrestaurant.com</div>
+      <div style="border:1px solid rgba(201,168,76,0.2);padding:1.2rem;">
+        <div style="font-size:1.4rem;margin-bottom:0.5rem;">⚙️</div>
+        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="en-only">Hosting &amp; uptime</div>
+        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="es-only">Hosting y uptime</div>
+        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="en-only">Site stays online 24/7, fast loading on any phone, anywhere.</div>
+        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="es-only">El sitio se mantiene en línea 24/7, carga rápido en cualquier celular.</div>
+      </div>
+      <div style="border:1px solid rgba(201,168,76,0.2);padding:1.2rem;">
+        <div style="font-size:1.4rem;margin-bottom:0.5rem;">✏️</div>
+        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="en-only">Menu updates</div>
+        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="es-only">Actualizaciones del menú</div>
+        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="en-only">Prices, items, photos — unlimited changes, same day via WhatsApp.</div>
+        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="es-only">Precios, platos, fotos — cambios ilimitados, el mismo día por WhatsApp.</div>
       </div>
     </div>
-    <div class="domain-price-box">
-      <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="en-only">Domain price</div>
-      <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="es-only">Precio del dominio</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:#F5F0E8;line-height:1;">$25 <span style="font-size:1rem;color:rgba(245,240,232,0.4);">/ year</span></div>
-      <div style="font-size:0.75rem;color:rgba(245,240,232,0.35);margin-top:0.3rem;" class="en-only">Hosting stays free on GitHub.</div>
-      <div style="font-size:0.75rem;color:rgba(245,240,232,0.35);margin-top:0.3rem;" class="es-only">El hosting sigue gratis en GitHub.</div>
+    <div style="border:1px dashed rgba(201,168,76,0.3);display:inline-block;padding:1.2rem 2.5rem;margin-bottom:2rem;">
+      <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="en-only">All of the above, per month</div>
+      <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="es-only">Todo lo anterior, por mes</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:#F5F0E8;line-height:1;">$50 <span style="font-size:1rem;color:rgba(245,240,232,0.4);" class="en-only">/ month</span><span style="font-size:1rem;color:rgba(245,240,232,0.4);" class="es-only">/ mes</span></div>
+      <div style="font-size:0.75rem;color:rgba(245,240,232,0.35);margin-top:0.4rem;" class="en-only">Or $40/mo paying annually — save $120/year.</div>
+      <div style="font-size:0.75rem;color:rgba(245,240,232,0.35);margin-top:0.4rem;" class="es-only">O $40/mes pagando anual — ahorrás $120/año.</div>
     </div>
     <div>
       <button onclick="window.open('https://wa.me/50671186158','_blank')" style="background:transparent;color:rgba(245,240,232,0.7);border:1px solid rgba(201,168,76,0.3);padding:0.85rem 2rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.3s;">
-        <span class="en-only">Add a Domain →</span>
-        <span class="es-only">Agregar Dominio →</span>
+        <span class="en-only">Get Started →</span>
+        <span class="es-only">Comenzar →</span>
       </button>
+    </div>
+  </section>
+
+  <!-- SAME DAY UPDATES -->
+  <section class="updates-strip">
+    <div class="section-label en-only">Always up to date</div>
+    <div class="section-label es-only">Siempre actualizado</div>
+    <h2 class="en-only">Menu changes done<br><em>the same day</em></h2>
+    <h2 class="es-only">Cambios en el menú<br><em>el mismo día</em></h2>
+    <p class="en-only">Just send us a WhatsApp message. No logins, no forms, no waiting days. Your customers see the update within hours — sometimes minutes.</p>
+    <p class="es-only">Solo mandanos un WhatsApp. Sin logins, sin formularios, sin esperar días. Tus clientes ven el cambio en horas, a veces en minutos.</p>
+    <div class="updates-examples">
+      <div class="update-chip">
+        <div class="update-chip-top">
+          <div class="update-chip-dot"></div>
+          <div class="update-chip-label en-only">Update sent</div>
+          <div class="update-chip-label es-only">Cambio enviado</div>
+          <div class="update-chip-time en-only">Today, 10:14 AM</div>
+          <div class="update-chip-time es-only">Hoy, 10:14 AM</div>
+        </div>
+        <div class="update-chip-msg en-only">"Can you raise the Ribeye steak to $34 and add a new Weekend Brunch section?"</div>
+        <div class="update-chip-msg es-only">"¿Podés subir el Ribeye a $34 y agregar una sección de Brunch de fin de semana?"</div>
+        <div class="update-chip-result en-only">✦ Done & live by 11:00 AM</div>
+        <div class="update-chip-result es-only">✦ Listo y en vivo a las 11:00 AM</div>
+      </div>
+      <div class="update-chip">
+        <div class="update-chip-top">
+          <div class="update-chip-dot"></div>
+          <div class="update-chip-label en-only">Update sent</div>
+          <div class="update-chip-label es-only">Cambio enviado</div>
+          <div class="update-chip-time en-only">Today, 2:30 PM</div>
+          <div class="update-chip-time es-only">Hoy, 2:30 PM</div>
+        </div>
+        <div class="update-chip-msg en-only">"We're out of the salmon today, can you mark it unavailable?"</div>
+        <div class="update-chip-msg es-only">"Hoy no tenemos salmón, ¿podés marcarlo como no disponible?"</div>
+        <div class="update-chip-result en-only">✦ Updated in under 30 minutes</div>
+        <div class="update-chip-result es-only">✦ Actualizado en menos de 30 minutos</div>
+      </div>
+      <div class="update-chip">
+        <div class="update-chip-top">
+          <div class="update-chip-dot"></div>
+          <div class="update-chip-label en-only">Update sent</div>
+          <div class="update-chip-label es-only">Cambio enviado</div>
+          <div class="update-chip-time en-only">Today, 5:05 PM</div>
+          <div class="update-chip-time es-only">Hoy, 5:05 PM</div>
+        </div>
+        <div class="update-chip-msg en-only">"Adding 3 new cocktails for the summer — sending you photos and prices now."</div>
+        <div class="update-chip-msg es-only">"Agregamos 3 cócteles nuevos para el verano, te mando fotos y precios."</div>
+        <div class="update-chip-result en-only">✦ Live before dinner service</div>
+        <div class="update-chip-result es-only">✦ En vivo antes de la cena</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="compare-section" id="compare">
+    <div class="section-label en-only">How we compare</div>
+    <div class="section-label es-only">Cómo nos comparamos</div>
+    <h2 class="section-title en-only">DigitalMenuPro vs<br><em style="font-style:italic;color:var(--gold);">DIY platforms</em></h2>
+    <h2 class="section-title es-only">DigitalMenuPro vs<br><em style="font-style:italic;color:var(--gold);">plataformas de autoservicio</em></h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-feat"></th>
+          <th class="col-us">DigitalMenuPro</th>
+          <th class="col-diy en-only">Toast / Square / MenuDrive</th>
+          <th class="col-diy es-only">Toast / Square / MenuDrive</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-feat en-only">Setup &amp; design</td>
+          <td class="col-feat es-only">Configuración y diseño</td>
+          <td class="col-us en-only"><span class="compare-check">✔</span> We do everything for you</td>
+          <td class="col-us es-only"><span class="compare-check">✔</span> Lo hacemos todo por vos</td>
+          <td class="col-diy en-only"><span class="compare-x">✘</span> You build it yourself</td>
+          <td class="col-diy es-only"><span class="compare-x">✘</span> Tú lo armas solo</td>
+        </tr>
+        <tr>
+          <td class="col-feat en-only">Same-day menu updates</td>
+          <td class="col-feat es-only">Actualizaciones el mismo día</td>
+          <td class="col-us en-only"><span class="compare-check">✔</span> Just send a WhatsApp</td>
+          <td class="col-us es-only"><span class="compare-check">✔</span> Solo mandá un WhatsApp</td>
+          <td class="col-diy en-only"><span class="compare-maybe">~</span> You log in and edit</td>
+          <td class="col-diy es-only"><span class="compare-maybe">~</span> Tú entras y editas</td>
+        </tr>
+        <tr>
+          <td class="col-feat en-only">Commission per order</td>
+          <td class="col-feat es-only">Comisión por orden</td>
+          <td class="col-us en-only"><span class="compare-check">✔</span> $0 — flat fee only</td>
+          <td class="col-us es-only"><span class="compare-check">✔</span> $0 — tarifa fija</td>
+          <td class="col-diy en-only"><span class="compare-x">✘</span> Up to 5–15% per order</td>
+          <td class="col-diy es-only"><span class="compare-x">✘</span> Hasta 5–15% por orden</td>
+        </tr>
+        <tr>
+          <td class="col-feat en-only">Monthly cost</td>
+          <td class="col-feat es-only">Costo mensual</td>
+          <td class="col-us en-only"><span class="compare-check">✔</span> $50/mo — domain included</td>
+          <td class="col-us es-only"><span class="compare-check">✔</span> $50/mes — dominio incluido</td>
+          <td class="col-diy en-only"><span class="compare-x">✘</span> $75–$200+/mo + extras</td>
+          <td class="col-diy es-only"><span class="compare-x">✘</span> $75–$200+/mes + extras</td>
+        </tr>
+        <tr>
+          <td class="col-feat en-only">No contract required</td>
+          <td class="col-feat es-only">Sin contrato</td>
+          <td class="col-us en-only"><span class="compare-check">✔</span> Cancel anytime</td>
+          <td class="col-us es-only"><span class="compare-check">✔</span> Cancela cuando quieras</td>
+          <td class="col-diy en-only"><span class="compare-x">✘</span> Annual contracts common</td>
+          <td class="col-diy es-only"><span class="compare-x">✘</span> Contratos anuales comunes</td>
+        </tr>
+        <tr>
+          <td class="col-feat en-only">Works on any phone</td>
+          <td class="col-feat es-only">Funciona en cualquier teléfono</td>
+          <td class="col-us en-only"><span class="compare-check">✔</span> Scan QR, no app needed</td>
+          <td class="col-us es-only"><span class="compare-check">✔</span> QR, sin descargar app</td>
+          <td class="col-diy en-only"><span class="compare-maybe">~</span> Often requires their app</td>
+          <td class="col-diy es-only"><span class="compare-maybe">~</span> A veces requiere su app</td>
+        </tr>
+        <tr>
+          <td class="col-feat en-only">Dedicated support</td>
+          <td class="col-feat es-only">Soporte dedicado</td>
+          <td class="col-us en-only"><span class="compare-check">✔</span> Direct WhatsApp, real person</td>
+          <td class="col-us es-only"><span class="compare-check">✔</span> WhatsApp directo, persona real</td>
+          <td class="col-diy en-only"><span class="compare-x">✘</span> Ticket system, long waits</td>
+          <td class="col-diy es-only"><span class="compare-x">✘</span> Sistema de tickets, esperas largas</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- NO COMMISSION -->
+  <section class="nocomm-section">
+    <div class="section-label en-only">The honest math</div>
+    <div class="section-label es-only">Las cuentas claras</div>
+    <h2 class="section-title en-only">Other platforms take<br><em style="font-style:italic;color:var(--rust);">a cut of every order</em></h2>
+    <h2 class="section-title es-only">Otras plataformas cobran<br><em style="font-style:italic;color:var(--rust);">un porcentaje de cada orden</em></h2>
+    <p style="color:var(--warm-gray);font-size:0.88rem;max-width:520px;margin:0 auto;line-height:1.7;" class="en-only">A restaurant doing $15,000/month in orders on a platform charging 10% commissions pays <strong>$1,500 every month</strong> just in fees — on top of their subscription. With DigitalMenuPro, you pay a flat $50/month. Period.</p>
+    <p style="color:var(--warm-gray);font-size:0.88rem;max-width:520px;margin:0 auto;line-height:1.7;" class="es-only">Un restaurante que factura $15,000/mes en pedidos con una plataforma que cobra 10% de comisión paga <strong>$1,500 cada mes</strong> solo en comisiones. Con DigitalMenuPro, pagás $50 fijos. Sin sorpresas.</p>
+    <div class="nocomm-grid">
+      <div class="nocomm-card">
+        <div class="nocomm-icon">📊</div>
+        <div class="nocomm-title en-only">Typical competitor cost</div>
+        <div class="nocomm-title es-only">Costo típico de competidores</div>
+        <div class="nocomm-desc en-only">$100–$200/mo subscription<br>+ <span class="nocomm-highlight">5–15% per order</span><br>= easily $500–$2,000+/mo</div>
+        <div class="nocomm-desc es-only">$100–$200/mes de suscripción<br>+ <span class="nocomm-highlight">5–15% por orden</span><br>= fácilmente $500–$2,000+/mes</div>
+      </div>
+      <div class="nocomm-card" style="border-color:var(--gold);background:rgba(201,168,76,0.03);">
+        <div class="nocomm-icon">✦</div>
+        <div class="nocomm-title en-only">DigitalMenuPro</div>
+        <div class="nocomm-title es-only">DigitalMenuPro</div>
+        <div class="nocomm-desc en-only"><span class="nocomm-highlight" style="font-size:1.6rem;font-family:'Cormorant Garamond',serif;font-weight:300;">$50/mo</span><br>Flat. Always.<br>0% commissions, ever.</div>
+        <div class="nocomm-desc es-only"><span class="nocomm-highlight" style="font-size:1.6rem;font-family:'Cormorant Garamond',serif;font-weight:300;">$50/mes</span><br>Fijo. Siempre.<br>0% de comisiones, nunca.</div>
+      </div>
+      <div class="nocomm-card">
+        <div class="nocomm-icon">💰</div>
+        <div class="nocomm-title en-only">Your savings / year</div>
+        <div class="nocomm-title es-only">Tu ahorro anual</div>
+        <div class="nocomm-desc en-only">Average restaurant saves <span class="nocomm-highlight">$4,000–$18,000/year</span> switching from commission-based platforms to DigitalMenuPro.</div>
+        <div class="nocomm-desc es-only">Un restaurante promedio ahorra <span class="nocomm-highlight">$4,000–$18,000 al año</span> al cambiar plataformas basadas en comisión a DigitalMenuPro.</div>
+      </div>
     </div>
   </section>
 
