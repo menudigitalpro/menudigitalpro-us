@@ -283,14 +283,79 @@
   </div>
   <div class="hero-right">
     <div class="phone-glow"></div>
-    <div class="phone-mockup">
+    <a href="https://menudigitalpro.github.io/menudigitalpro/catalogo.html" target="_blank" class="phone-mockup" id="phoneMockup" title="View all styles →" style="cursor:pointer;text-decoration:none;display:block;">
       <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <iframe src="https://menudigitalpro.github.io/menudigitalpro/menu-american.html" loading="lazy"></iframe>
+      <div class="phone-screen" id="phoneScreen">
+        <iframe id="menuFrame" src="https://menudigitalpro.github.io/menudigitalpro/menu-american.html" loading="lazy"></iframe>
       </div>
-    </div>
-    <div class="phone-badge">✓ Live Demo</div>
+      <div class="phone-slide-fade" id="phoneFade"></div>
+    </a>
+    <div class="phone-badge" id="phoneBadge">🍔 Urban Street · tap to see all →</div>
+    <!-- dots -->
+    <div class="phone-dots" id="phoneDots"></div>
   </div>
+
+  <style>
+    .phone-mockup { position:relative; }
+    .phone-slide-fade {
+      position:absolute; inset:0; border-radius:34px;
+      background:var(--black); opacity:0; pointer-events:none;
+      transition:opacity 0.4s ease; z-index:5;
+    }
+    .phone-slide-fade.active { opacity:1; }
+    .phone-dots { display:flex; gap:6px; justify-content:center; margin-top:1.2rem; }
+    .phone-dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.15); transition:all 0.3s; cursor:pointer; }
+    .phone-dot.active { background:var(--gold); width:18px; border-radius:3px; }
+    @media(max-width:900px){ .phone-dots { display:none; } }
+  </style>
+
+  <script>
+    const menus = [
+      { url: 'https://menudigitalpro.github.io/menudigitalpro/menu-american.html',  label: '🍔 Urban Street' },
+      { url: 'https://menudigitalpro.github.io/menudigitalpro/menu-japones.html',   label: '🍣 Japanese' },
+      { url: 'https://menudigitalpro.github.io/menudigitalpro/menu-gourmet.html',   label: '🍷 Fine Dining' },
+      { url: 'https://menudigitalpro.github.io/menudigitalpro/menu-cafe.html',      label: '☕ Café & Bakery' },
+      { url: 'https://menudigitalpro.github.io/menudigitalpro/menu-organico.html',  label: '🥗 Organic' },
+      { url: 'https://menudigitalpro.github.io/menudigitalpro/menu-pizzeria-us.html', label: '🍕 Pizzeria' },
+    ];
+    let current = 0;
+    const frame  = document.getElementById('menuFrame');
+    const fade   = document.getElementById('phoneFade');
+    const badge  = document.getElementById('phoneBadge');
+    const dotsEl = document.getElementById('phoneDots');
+
+    // build dots
+    menus.forEach((m, i) => {
+      const d = document.createElement('div');
+      d.className = 'phone-dot' + (i === 0 ? ' active' : '');
+      d.onclick = (e) => { e.preventDefault(); goTo(i); };
+      dotsEl.appendChild(d);
+    });
+
+    function updateDots(idx) {
+      dotsEl.querySelectorAll('.phone-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+    }
+
+    function goTo(idx) {
+      fade.classList.add('active');
+      setTimeout(() => {
+        frame.src = menus[idx].url;
+        badge.textContent = menus[idx].label + ' · tap to see all →';
+        current = idx;
+        updateDots(idx);
+        setTimeout(() => fade.classList.remove('active'), 300);
+      }, 400);
+    }
+
+    // preload next iframes in hidden divs
+    menus.forEach(m => {
+      const lnk = document.createElement('link');
+      lnk.rel = 'prefetch'; lnk.href = m.url;
+      document.head.appendChild(lnk);
+    });
+
+    setInterval(() => goTo((current + 1) % menus.length), 3000);
+  </script>
 </div>
 
 <!-- TRUSTED BAR -->
@@ -432,48 +497,72 @@
     <div class="section-header">
       <span class="section-label">Available styles</span>
       <h2 class="section-title">Pick the style that fits<br/>your restaurant.</h2>
-      <p class="section-sub">Real, live demos — click any card to explore the full menu.</p>
+      <p class="section-sub">Real menus, live previews — exactly what your customers will see.</p>
     </div>
-    <div class="styles-grid">
+
+    <div class="styles-grid" style="grid-template-columns:1fr 1fr;">
+
+      <!-- CARD 1: Liberty Burgers / American -->
       <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-american.html','_blank')">
-        <div class="style-thumb" style="background:linear-gradient(135deg,#0C0B12,#1B192E);">
-          <div class="style-thumb-inner"><div class="style-thumb-emoji">🍔</div><div class="style-thumb-name" style="color:#8B5CF6;">Urban · Street</div></div>
+        <div class="style-iframe-wrap">
+          <iframe src="https://menudigitalpro.github.io/menudigitalpro/menu-american.html" loading="lazy" tabindex="-1" scrolling="no"></iframe>
+          <div class="style-iframe-overlay"></div>
         </div>
-        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Urban Street Food</div><div class="style-desc">Neon dark theme. For burger joints, tacos, wings, and fast casual spots.</div><span class="style-link">Open live demo →</span></div>
+        <div class="style-body">
+          <span class="style-avail">✓ Available — Live Preview</span>
+          <div class="style-name">Liberty Burgers — Urban Street</div>
+          <div class="style-desc">Bold neon dark theme. Burgers, tacos, wings, and fast casual restaurants.</div>
+          <span class="style-link">Open full demo →</span>
+        </div>
       </div>
+
+      <!-- CARD 2: Sakura House / Japanese -->
       <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-japones.html','_blank')">
-        <div class="style-thumb" style="background:linear-gradient(135deg,#0A0E1A,#1a2035);">
-          <div class="style-thumb-inner"><div class="style-thumb-emoji">🍣</div><div class="style-thumb-name" style="color:#C9A84C;">Japanese</div></div>
+        <div class="style-iframe-wrap">
+          <iframe src="https://menudigitalpro.github.io/menudigitalpro/menu-japones.html" loading="lazy" tabindex="-1" scrolling="no"></iframe>
+          <div class="style-iframe-overlay"></div>
         </div>
-        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Japanese</div><div class="style-desc">Elegant dark with gold accents. Sushi bars, ramen, and Asian cuisine.</div><span class="style-link">Open live demo →</span></div>
-      </div>
-      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-gourmet.html','_blank')">
-        <div class="style-thumb" style="background:linear-gradient(135deg,#0A1628,#1a2a45);">
-          <div class="style-thumb-inner"><div class="style-thumb-emoji">🍷</div><div class="style-thumb-name" style="color:#C9A84C;">Gourmet</div></div>
+        <div class="style-body">
+          <span class="style-avail">✓ Available — Live Preview</span>
+          <div class="style-name">Sakura House — Japanese</div>
+          <div class="style-desc">Elegant dark with gold accents. Sushi bars, ramen shops, and Asian cuisine.</div>
+          <span class="style-link">Open full demo →</span>
         </div>
-        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Fine Dining &amp; Gourmet</div><div class="style-desc">Navy and gold, ultra-refined. Upscale restaurants, steakhouses, wine bars.</div><span class="style-link">Open live demo →</span></div>
       </div>
-      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-cafe.html','_blank')">
-        <div class="style-thumb" style="background:linear-gradient(135deg,#2C1A0E,#4A3728);">
-          <div class="style-thumb-inner"><div class="style-thumb-emoji">☕</div><div class="style-thumb-name" style="color:#D4A843;">Café</div></div>
-        </div>
-        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Café &amp; Bakery</div><div class="style-desc">Warm cream tones, elegant serif. Cafés, bakeries, brunch, patisseries.</div><span class="style-link">Open live demo →</span></div>
-      </div>
-      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-organico.html','_blank')">
-        <div class="style-thumb" style="background:linear-gradient(135deg,#0F2218,#1B3A2D);">
-          <div class="style-thumb-inner"><div class="style-thumb-emoji">🥗</div><div class="style-thumb-name" style="color:#7FB069;">Organic</div></div>
-        </div>
-        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Natural &amp; Organic</div><div class="style-desc">Forest greens, organic textures. Vegan restaurants, healthy food, smoothie bars.</div><span class="style-link">Open live demo →</span></div>
-      </div>
-      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-pizzeria-us.html','_blank')">
-        <div class="style-thumb" style="background:linear-gradient(135deg,#0A0603,#1a0f08);">
-          <div class="style-thumb-inner"><div class="style-thumb-emoji">🍕</div><div class="style-thumb-name" style="color:#C96A1A;">Pizzeria</div></div>
-        </div>
-        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Pizzeria</div><div class="style-desc">Bold Italian-American style. Pizza spots, pasta restaurants, Italian cuisine.</div><span class="style-link">Open live demo →</span></div>
-      </div>
+
+    </div>
+
+    <!-- VER MÁS -->
+    <div style="text-align:center; margin-top:2.5rem;">
+      <a href="https://menudigitalpro.github.io/menudigitalpro/catalogo.html" target="_blank" class="btn-ghost" style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.9rem 2.2rem;font-size:0.9rem;">
+        View All Styles &amp; Demos
+        <span style="font-size:1rem;">→</span>
+      </a>
+      <p style="margin-top:0.9rem;font-size:0.75rem;color:rgba(255,255,255,0.25);letter-spacing:0.05em;">9+ styles available · Fine Dining · Café · Organic · Pizzeria · and more</p>
     </div>
   </div>
 </section>
+
+<style>
+  .style-iframe-wrap {
+    position:relative; height:320px; overflow:hidden;
+    background:var(--black); border-bottom:1px solid var(--border);
+  }
+  .style-iframe-wrap iframe {
+    width:900px; height:900px; border:none;
+    transform:scale(0.44); transform-origin:top left;
+    pointer-events:none;
+  }
+  .style-iframe-overlay {
+    position:absolute; inset:0; z-index:2;
+    background:linear-gradient(to bottom, transparent 60%, rgba(24,24,24,0.95) 100%);
+  }
+  @media(max-width:640px){
+    #styles .styles-grid { grid-template-columns:1fr !important; }
+    .style-iframe-wrap { height:240px; }
+    .style-iframe-wrap iframe { width:700px; height:700px; transform:scale(0.37); }
+  }
+</style>
 
 <!-- TESTIMONIALS -->
 <section style="background:var(--dark2);border-top:1px solid var(--border);" id="testimonials">
@@ -637,7 +726,7 @@
           <div class="cb-icon">📘</div>
           <div class="cb-body"><div class="cb-label">Facebook</div><div class="cb-sub">Menu Digital Pro</div></div>
         </a>
-        <a href="mailto:digitalmenupros@gmail.com" class="contact-btn cb-email">
+        <a href="/cdn-cgi/l/email-protection#2f4b4648465b4e43424a415a5f5d405c6f48424e4643014c4042" class="contact-btn cb-email">
           <div class="cb-icon">✉️</div>
           <div class="cb-body"><div class="cb-label">Email Us</div><div class="cb-sub">Tap to send us a message</div></div>
         </a>
@@ -653,7 +742,7 @@
     <div class="legal-grid">
       <div class="legal-block">
         <h4>Privacy Policy</h4>
-        <p>We collect only the information necessary to deliver your menu (name, restaurant name, email, and menu content). We do not sell or share your data with third parties. You may request deletion of your data at any time by contacting us at digitalmenupros@gmail.com.</p>
+        <p>We collect only the information necessary to deliver your menu (name, restaurant name, email, and menu content). We do not sell or share your data with third parties. You may request deletion of your data at any time by contacting us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0c4c9c7c9d4c1cccdc5ced5d0d2cfd3e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</a>.</p>
       </div>
       <div class="legal-block">
         <h4>Terms of Service</h4>
@@ -669,11 +758,4 @@
   <div class="footer-links">
     <a href="https://instagram.com/digitalmenupro" target="_blank">Instagram</a>
     <a href="https://facebook.com/MenuDigitalPro" target="_blank">Facebook</a>
-    <a href="mailto:digitalmenupros@gmail.com">Email</a>
-    <a href="sms:+13057077853">Text (USA)</a>
-  </div>
-  <div class="footer-copy">© 2026 DigitalMenuPro · Digital menu design service · Not affiliated with any restaurant chain</div>
-</footer>
-
-</body>
-</html>
+    <a href="/cdn-cgi/l/email-protection#2b4f424c425f4a47464e455e5b5944586b4c464a424705484446
