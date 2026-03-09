@@ -1,792 +1,679 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+<html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DigitalMenuPro — Digital Menus for Restaurants</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <title>DigitalMenuPro — Custom QR Menus for Restaurants | Done in 48h</title>
+  <meta name="description" content="We design beautiful custom QR digital menus for restaurants, cafés, and food trucks. Your customers scan and view instantly. Ready in 48 hours. Starting at $99."/>
+  <meta property="og:title" content="DigitalMenuPro — Custom QR Menus for Restaurants"/>
+  <meta property="og:description" content="Beautiful custom digital menus. Scan → view instantly. Ready in 48h. Starting at $99."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://menudigitalpro.github.io/menudigitalpro/"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --dark: #1A1408;
-      --gold: #C9A84C;
-      --gold-light: #E8CC7A;
-      --cream: #F5F0E8;
-      --rust: #8B3A2A;
-      --warm-gray: #6B6355;
-      --border: rgba(201,168,76,0.15);
-      --section-bg: #FAF7F0;
+      --black:#0A0A0A; --dark:#111111; --dark2:#181818; --gray:#2A2A2A;
+      --border:rgba(255,255,255,0.07); --gold:#D4A843; --gold2:#F0C864;
+      --white:#FFFFFF; --muted:rgba(255,255,255,0.42); --green:#22C55E;
+      --red:#EF4444;
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); }
+    html { scroll-behavior:smooth; background:var(--black); }
+    body { font-family:'DM Sans',sans-serif; background:var(--black); color:var(--white); overflow-x:hidden; }
 
-    /* LANG TOGGLE */
-    .lang-bar {
-      background: var(--dark); padding: 0.4rem 2rem;
-      display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem;
-    }
-    .lang-btn {
-      background: transparent; border: 1px solid rgba(201,168,76,0.3);
-      color: rgba(245,240,232,0.5); font-size: 0.65rem; letter-spacing: 0.15em;
-      text-transform: uppercase; padding: 0.25rem 0.7rem; cursor: pointer;
-      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
-    }
-    .lang-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+    /* ── URGENCY BAR ── */
+    .urgency-bar { background:linear-gradient(90deg, #7C2D12, #B45309); padding:0.55rem 1.5rem; text-align:center; font-size:0.78rem; font-weight:600; letter-spacing:0.06em; color:white; position:relative; z-index:200; }
+    .urgency-bar span { color:#FDE68A; }
 
-    /* NAV */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(250,247,240,0.95); backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 3rem; display: flex; align-items: center; justify-content: space-between;
-    }
-    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--dark); }
-    .nav-logo span { color: var(--gold); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
-    .nav-links a { text-decoration: none; color: var(--warm-gray); font-size: 0.82rem; letter-spacing: 0.05em; cursor: pointer; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--dark); }
-    .nav-cta { background: var(--dark) !important; color: var(--cream) !important; padding: 0.5rem 1.2rem; border-radius: 2px; }
+    /* ── NAV ── */
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1rem 2.5rem; background:rgba(10,10,10,0.92); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; letter-spacing:-0.02em; text-decoration:none; color:white; }
+    .nav-logo span { color:var(--gold); }
+    .nav-links { display:flex; align-items:center; gap:1.8rem; list-style:none; }
+    .nav-links a { text-decoration:none; color:var(--muted); font-size:0.8rem; letter-spacing:0.04em; transition:color 0.2s; cursor:pointer; }
+    .nav-links a:hover { color:var(--white); }
+    .nav-cta { background:var(--gold)!important; color:var(--black)!important; padding:0.5rem 1.2rem; font-weight:700!important; border-radius:3px; white-space:nowrap; }
+    .nav-cta:hover { background:var(--gold2)!important; color:var(--black)!important; }
+    @media(max-width:680px){ .nav-links { display:none; } nav { padding:0.9rem 1.2rem; } }
 
-    /* HERO */
-    .hero {
-      min-height: 92vh; display: flex; align-items: center;
-      padding: 5rem 3rem; position: relative; overflow: hidden;
-      background: var(--dark);
-    }
-    .hero-grid {
-      position: absolute; inset: 0; opacity: 0.03;
-      background-image: linear-gradient(var(--gold) 1px, transparent 1px), linear-gradient(90deg, var(--gold) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-    .hero-glow {
-      position: absolute; top: -200px; right: -200px;
-      width: 600px; height: 600px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 65%);
-    }
-    .hero-content { position: relative; z-index: 1; max-width: 680px; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      border: 1px solid var(--border); padding: 0.4rem 1rem;
-      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 2rem;
-    }
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.8rem, 6vw, 5rem);
-      font-weight: 300; color: var(--cream); line-height: 1.05;
-      margin-bottom: 1.5rem;
-    }
-    .hero-title em { font-style: italic; color: var(--gold); }
-    .hero-sub {
-      font-size: 1rem; color: rgba(245,240,232,0.55); line-height: 1.7;
-      max-width: 520px; margin-bottom: 2.5rem; font-weight: 300;
-    }
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--gold); color: var(--dark); border: none;
-      padding: 0.95rem 2.2rem; font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
-      cursor: pointer; transition: all 0.3s; font-weight: 500;
-    }
-    .btn-primary:hover { background: var(--gold-light); }
-    .btn-secondary {
-      background: transparent; color: var(--cream);
-      border: 1px solid rgba(245,240,232,0.2);
-      padding: 0.95rem 2.2rem; font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
-      cursor: pointer; transition: all 0.3s;
-    }
-    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-    .hero-stats {
-      position: absolute; bottom: 3rem; right: 3rem;
-      display: flex; gap: 2.5rem;
-    }
-    .stat { text-align: center; }
-    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--gold); font-weight: 300; line-height: 1; }
-    .stat-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,240,232,0.35); margin-top: 0.3rem; }
+    /* ── HERO ── */
+    .hero { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; padding:5rem 4rem 4rem; max-width:1200px; margin:0 auto; position:relative; }
+    .hero-bg { position:fixed; inset:0; background:radial-gradient(ellipse 70% 50% at 30% 40%, rgba(212,168,67,0.06) 0%, transparent 60%); pointer-events:none; z-index:0; }
+    .hero-grid { position:fixed; inset:0; opacity:0.018; background-image:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0; }
+    .hero-left { position:relative; z-index:1; }
+    .hero-badge { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(212,168,67,0.1); border:1px solid rgba(212,168,67,0.22); color:var(--gold); font-size:0.68rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; padding:0.35rem 0.9rem; border-radius:100px; margin-bottom:1.8rem; }
+    .badge-dot { width:6px; height:6px; background:var(--green); border-radius:50%; animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.5)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .hero h1 { font-family:'Syne',sans-serif; font-size:clamp(2.4rem,4.5vw,3.8rem); font-weight:800; line-height:1.06; letter-spacing:-0.03em; margin-bottom:1.4rem; animation:fadeUp 0.7s ease both; }
+    .hero h1 em { font-style:normal; color:var(--gold); }
+    .hero-sub { font-size:1rem; color:var(--muted); line-height:1.78; margin-bottom:2rem; animation:fadeUp 0.7s 0.1s ease both; max-width:460px; }
+    .hero-btns { display:flex; gap:0.8rem; flex-wrap:wrap; margin-bottom:2rem; animation:fadeUp 0.7s 0.2s ease both; }
+    .btn-gold { background:var(--gold); color:var(--black); padding:0.9rem 2rem; font-weight:700; font-size:0.9rem; border:none; cursor:pointer; border-radius:3px; transition:all 0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; font-family:'DM Sans',sans-serif; letter-spacing:0.02em; }
+    .btn-gold:hover { background:var(--gold2); transform:translateY(-2px); box-shadow:0 8px 24px rgba(212,168,67,0.28); }
+    .btn-ghost { background:transparent; color:var(--white); padding:0.9rem 2rem; font-weight:500; font-size:0.9rem; border:1px solid var(--border); cursor:pointer; border-radius:3px; transition:all 0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; font-family:'DM Sans',sans-serif; }
+    .btn-ghost:hover { border-color:rgba(255,255,255,0.25); background:rgba(255,255,255,0.04); }
+    .hero-trust { display:flex; flex-wrap:wrap; gap:0.8rem; animation:fadeUp 0.7s 0.3s ease both; }
+    .trust-pill { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.73rem; color:rgba(255,255,255,0.38); }
+    .trust-pill::before { content:'✓'; color:var(--green); font-weight:700; }
 
-    /* FEATURES */
-    .features { padding: 6rem 3rem; background: var(--section-bg); }
-    .section-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 300; color: var(--dark); line-height: 1.1; margin-bottom: 3rem; }
-    .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
-    .feature-card { padding: 2rem; border: 1px solid var(--border); background: white; transition: transform 0.3s, box-shadow 0.3s; }
-    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(26,20,8,0.07); }
-    .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .feature-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .feature-desc { font-size: 0.82rem; color: var(--warm-gray); line-height: 1.65; font-weight: 300; }
+    /* HERO MOCKUP */
+    .hero-right { position:relative; z-index:1; display:flex; align-items:center; justify-content:center; animation:fadeUp 0.7s 0.15s ease both; }
+    .phone-mockup { width:240px; height:480px; background:var(--dark2); border:2px solid rgba(255,255,255,0.1); border-radius:36px; overflow:hidden; position:relative; box-shadow:0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05), inset 0 0 0 2px rgba(0,0,0,0.5); flex-shrink:0; }
+    .phone-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:80px; height:22px; background:var(--dark2); border-bottom-left-radius:14px; border-bottom-right-radius:14px; z-index:10; }
+    .phone-screen { position:absolute; inset:0; }
+    .phone-screen iframe { width:375px; height:700px; border:none; transform:scale(0.64); transform-origin:top left; pointer-events:none; }
+    .phone-glow { position:absolute; inset:-40px; background:radial-gradient(ellipse at center, rgba(212,168,67,0.08) 0%, transparent 70%); pointer-events:none; }
+    .phone-badge { position:absolute; bottom:-20px; right:-20px; background:var(--green); color:white; font-family:'Syne',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.1em; padding:0.4rem 0.9rem; border-radius:100px; white-space:nowrap; box-shadow:0 4px 16px rgba(34,197,94,0.3); }
 
-    /* DEMO */
-    .demo-section { padding: 6rem 3rem; background: white; text-align: center; }
-    .demo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; max-width: 900px; margin: 3rem auto 0; }
-    .demo-card {
-      border: 1px solid var(--border); overflow: hidden; cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s; background: var(--section-bg);
-    }
-    .demo-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(26,20,8,0.1); }
-    .demo-preview { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; overflow: hidden; }
-    .demo-info { padding: 1rem; text-align: left; }
-    .demo-tag { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
-    .demo-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
-
-    /* PRICING */
-    .pricing-section { padding: 6rem 3rem; background: var(--section-bg); text-align: center; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; max-width: 700px; margin: 3rem auto 0; }
-    .setup-banner { max-width:700px; margin: 0 auto; background:white; border:1px solid var(--border); padding:1.5rem 2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
-    .setup-badge { display:inline-block; background:var(--gold); color:var(--dark); font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.15rem 0.7rem; margin-bottom:0.3rem; }
-    .no-commission-bar { max-width:700px; margin: 1.5rem auto 0; background: rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); padding:0.8rem 1.5rem; display:flex; align-items:center; justify-content:center; gap:0.6rem; font-size:0.78rem; color:var(--warm-gray); }
-    .pricing-card { background: white; border: 1px solid var(--border); padding: 2rem 1.5rem; transition: transform 0.3s, box-shadow 0.3s; position: relative; }
-    .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(26,20,8,0.1); }
-    .pricing-card.featured { background: var(--dark); border-color: var(--gold); transform: scale(1.03); }
-    .pricing-tag { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--dark); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.8rem; border-radius: 100px; white-space: nowrap; }
-    .pricing-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--dark); }
-    .pricing-card.featured .pricing-name { color: #F5F0E8; }
-    .pricing-price { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--gold); line-height: 1; }
-    .pricing-period { font-size: 0.78rem; color: var(--warm-gray); margin-bottom: 1.2rem; }
-    .pricing-card.featured .pricing-period { color: rgba(245,240,232,0.5); }
-    .pricing-features { list-style: none; margin-bottom: 1.5rem; text-align: left; }
-    .pricing-features li { padding: 0.45rem 0; font-size: 0.82rem; color: var(--warm-gray); border-bottom: 1px solid rgba(201,168,76,0.1); display: flex; align-items: center; gap: 0.5rem; }
-    .pricing-card.featured .pricing-features li { color: rgba(245,240,232,0.7); }
-    .pricing-features li::before { content: '✦'; color: var(--gold); font-size: 0.55rem; }
-    .pricing-btn { width: 100%; padding: 0.8rem; background: var(--dark); color: #F5F0E8; border: none; cursor: pointer; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; transition: background 0.3s; font-family: 'DM Sans', sans-serif; }
-    .pricing-card.featured .pricing-btn { background: var(--gold); color: var(--dark); }
-    .pricing-btn:hover { background: var(--rust); color: white; }
-
-    /* DOMAIN */
-    .domain-section { background: var(--dark); padding: 4rem 3rem; text-align: center; }
-    .domain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 580px; margin: 0 auto 2rem; }
-    .domain-box { border: 1px solid rgba(201,168,76,0.15); padding: 1.5rem; text-align: center; }
-    .domain-box.highlight { border-color: var(--gold); background: rgba(201,168,76,0.04); }
-    .domain-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,240,232,0.35); margin-bottom: 0.5rem; }
-    .domain-box.highlight .domain-label { color: var(--gold); }
-    .domain-url { font-family: monospace; font-size: 0.68rem; color: rgba(245,240,232,0.25); word-break: break-all; }
-    .domain-url.nice { font-size: 1rem; color: var(--gold-light); font-weight: bold; }
-    .domain-price-box { display: inline-block; border: 1px dashed rgba(201,168,76,0.3); padding: 1.5rem 2.5rem; margin-bottom: 2rem; }
-
-    /* SAME DAY UPDATES STRIP */
-    .updates-strip { background: var(--dark); padding: 4rem 3rem; text-align: center; }
-    .updates-strip h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight: 300; color: var(--cream); margin-bottom: 0.8rem; }
-    .updates-strip h2 em { color: var(--gold); font-style: italic; }
-    .updates-strip p { color: rgba(245,240,232,0.5); font-size: 0.88rem; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
-    .updates-examples { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; max-width: 820px; margin: 0 auto; }
-    .update-chip { border: 1px solid rgba(201,168,76,0.2); padding: 0.9rem 1.4rem; text-align: left; min-width: 210px; flex: 1; }
-    .update-chip-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .update-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: #4CAF50; flex-shrink: 0; }
-    .update-chip-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: #4CAF50; }
-    .update-chip-time { font-size: 0.6rem; color: rgba(245,240,232,0.25); margin-left: auto; }
-    .update-chip-msg { font-size: 0.82rem; color: rgba(245,240,232,0.7); line-height: 1.45; }
-    .update-chip-result { font-size: 0.72rem; color: var(--gold); margin-top: 0.5rem; }
-
-    /* COMPARISON TABLE */
-    .compare-section { padding: 6rem 3rem; background: var(--section-bg); text-align: center; }
-    .compare-table { width: 100%; max-width: 860px; margin: 3rem auto 0; border-collapse: collapse; }
-    .compare-table th { padding: 1rem 1.2rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
-    .compare-table th.col-us { background: var(--dark); color: var(--gold); border: 2px solid var(--gold); }
-    .compare-table th.col-diy { background: white; color: var(--warm-gray); border: 1px solid var(--border); }
-    .compare-table th.col-feat { background: transparent; color: var(--warm-gray); font-size: 0.65rem; text-align: left; }
-    .compare-table td { padding: 0.85rem 1.2rem; font-size: 0.82rem; border-bottom: 1px solid var(--border); }
-    .compare-table td.col-us { background: rgba(26,20,8,0.03); border-left: 2px solid var(--gold); border-right: 2px solid var(--gold); color: var(--dark); font-weight: 500; }
-    .compare-table td.col-diy { background: white; color: var(--warm-gray); border: 1px solid var(--border); }
-    .compare-table td.col-feat { text-align: left; color: var(--warm-gray); font-size: 0.78rem; background: transparent; }
-    .compare-table tr:last-child td.col-us { border-bottom: 2px solid var(--gold); }
-    .compare-check { color: #4CAF50; font-size: 1rem; }
-    .compare-x { color: #c0392b; font-size: 1rem; }
-    .compare-maybe { color: var(--gold); font-size: 0.85rem; }
-    @media(max-width:768px) { .compare-section { padding: 4rem 1rem; } .compare-table th, .compare-table td { padding: 0.6rem 0.5rem; font-size: 0.72rem; } }
-
-    /* NO COMMISSION */
-    .nocomm-section { padding: 5rem 3rem; background: white; text-align: center; }
-    .nocomm-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; max-width: 800px; margin: 3rem auto 0; }
-    .nocomm-card { border: 1px solid var(--border); padding: 2rem 1.5rem; }
-    .nocomm-icon { font-size: 2rem; margin-bottom: 0.8rem; }
-    .nocomm-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; margin-bottom: 0.4rem; }
-    .nocomm-desc { font-size: 0.8rem; color: var(--warm-gray); line-height: 1.6; }
-    .nocomm-highlight { color: var(--gold); font-weight: 500; }
-    @media(max-width:768px) { .nocomm-grid { grid-template-columns: 1fr; } .updates-examples { flex-direction: column; } }
-
-    /* PAYMENT */
-    .payment-section { padding: 4rem 3rem; background: white; text-align: center; }
-    .payment-methods { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem; }
-    .payment-pill { border: 1px solid var(--border); padding: 0.6rem 1.4rem; font-size: 0.8rem; color: var(--warm-gray); display: flex; align-items: center; gap: 0.5rem; }
-
-    /* TESTIMONIALS */
-    .testimonials { padding: 6rem 3rem; background: var(--section-bg); }
-    .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
-    .testimonial-card { background: white; border: 1px solid var(--border); padding: 1.8rem; }
-    .testimonial-text { font-size: 0.85rem; color: var(--warm-gray); line-height: 1.7; margin-bottom: 1rem; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
-    .testimonial-author { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
-    .testimonial-stars { color: var(--gold); font-size: 0.7rem; margin-bottom: 0.8rem; }
-
-    /* CTA */
-    .cta-section { text-align: center; padding: 6rem 3rem; background: var(--dark); position: relative; overflow: hidden; }
-    .cta-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 65%); }
-    .cta-section h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3.5rem); font-weight: 300; color: var(--cream); margin-bottom: 1rem; position: relative; }
-    .cta-section p { color: rgba(245,240,232,0.5); font-size: 0.9rem; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; position: relative; }
-    .cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; position: relative; }
-
-    /* FOOTER */
-    footer { background: #0f0c05; border-top: 1px solid rgba(201,168,76,0.1); padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #F5F0E8; }
-    .footer-logo span { color: var(--gold); }
-    footer p { font-size: 0.72rem; color: rgba(245,240,232,0.3); }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.2rem; }
-      .nav-links { display: none; }
-      .hero { padding: 4rem 1.5rem; min-height: auto; }
-      .hero-stats { position: static; margin-top: 3rem; justify-content: flex-start; }
-      .features, .demo-section, .pricing-section, .testimonials, .cta-section, .payment-section, .domain-section { padding: 4rem 1.5rem; }
-      .features-grid, .demo-grid, .pricing-grid, .testimonials-grid { grid-template-columns: 1fr; }
-      .pricing-card.featured { transform: none; }
-      .domain-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; text-align: center; padding: 1.5rem; }
+    @media(max-width:900px){
+      .hero { grid-template-columns:1fr; padding:5rem 1.5rem 3rem; text-align:center; }
+      .hero-left { display:flex; flex-direction:column; align-items:center; }
+      .hero-sub { max-width:100%; }
+      .hero-trust { justify-content:center; }
+      .hero-right { margin-top:2rem; }
     }
 
-    /* LANG HIDDEN */
-    [data-en], [data-es] { }
-    html[data-lang="en"] .es-only { display: none !important; }
-    html[data-lang="es"] .en-only { display: none !important; }
+    /* ── TRUSTED BAR ── */
+    .trusted-bar { background:var(--dark2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:1.4rem 1.5rem; text-align:center; }
+    .trusted-label { font-size:0.6rem; letter-spacing:0.24em; text-transform:uppercase; color:rgba(255,255,255,0.25); margin-bottom:0.9rem; }
+    .trusted-logos { display:flex; justify-content:center; align-items:center; gap:2.5rem; flex-wrap:wrap; }
+    .trusted-logo { font-family:'Syne',sans-serif; font-size:0.75rem; font-weight:700; color:rgba(255,255,255,0.15); letter-spacing:0.08em; text-transform:uppercase; }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding:6rem 1.5rem; }
+    .section-inner { max-width:1100px; margin:0 auto; }
+    .section-label { font-size:0.63rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:0.8rem; display:block; }
+    .section-title { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3.5vw,2.7rem); font-weight:800; letter-spacing:-0.025em; line-height:1.1; margin-bottom:1rem; }
+    .section-sub { color:var(--muted); font-size:0.95rem; line-height:1.7; max-width:560px; }
+    .section-header { text-align:center; margin-bottom:4rem; }
+    .section-header .section-sub { margin:0.8rem auto 0; }
+
+    /* ── HOW IT WORKS ── */
+    .how-section { background:var(--dark2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .how-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+    @media(max-width:720px){ .how-grid { grid-template-columns:1fr; gap:3rem; } }
+    .how-steps { display:flex; flex-direction:column; gap:1.4rem; margin-top:2rem; }
+    .how-step { display:flex; align-items:flex-start; gap:1rem; }
+    .step-num { width:34px; height:34px; background:rgba(212,168,67,0.1); border:1px solid rgba(212,168,67,0.22); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:0.75rem; font-weight:800; color:var(--gold); flex-shrink:0; margin-top:2px; }
+    .step-body {}
+    .step-title { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; margin-bottom:0.2rem; }
+    .step-desc { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+    /* QR visual */
+    .qr-visual { display:flex; flex-direction:column; align-items:center; gap:1.2rem; }
+    .qr-box { background:white; padding:1.4rem; border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:0.8rem; box-shadow:0 0 60px rgba(212,168,67,0.12); }
+    .qr-label-box { font-size:0.65rem; color:#555; letter-spacing:0.14em; text-align:center; font-family:'Syne',sans-serif; font-weight:700; text-transform:uppercase; }
+    .qr-note { font-size:0.72rem; color:var(--muted); text-align:center; max-width:200px; line-height:1.6; }
+    .qr-link-hint { font-size:0.68rem; color:rgba(212,168,67,0.6); text-align:center; font-family:'Syne',sans-serif; }
+
+    /* ── BENEFITS ── */
+    .benefits-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); }
+    .benefit-card { background:var(--dark); padding:1.8rem; transition:background 0.2s; }
+    .benefit-card:hover { background:var(--dark2); }
+    .benefit-icon { font-size:1.7rem; margin-bottom:0.9rem; }
+    .benefit-title { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; margin-bottom:0.4rem; }
+    .benefit-desc { font-size:0.8rem; color:var(--muted); line-height:1.65; }
+
+    /* ── WHY US / DIFFERENTIATORS ── */
+    .why-section { background:var(--dark2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .why-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:3rem; }
+    @media(max-width:600px){ .why-grid { grid-template-columns:1fr; } }
+    .why-card { border:1px solid var(--border); border-radius:6px; padding:1.6rem; background:var(--dark); }
+    .why-card.highlight { border-color:rgba(212,168,67,0.3); background:rgba(212,168,67,0.03); }
+    .why-label { font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:0.5rem; }
+    .why-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:0.5rem; }
+    .why-desc { font-size:0.8rem; color:var(--muted); line-height:1.65; }
+    .vs-label { display:inline-block; font-size:0.58rem; letter-spacing:0.12em; text-transform:uppercase; background:rgba(239,68,68,0.12); color:var(--red); border:1px solid rgba(239,68,68,0.2); padding:0.15rem 0.6rem; border-radius:100px; margin-bottom:0.8rem; }
+    .vs-label.us { background:rgba(34,197,94,0.1); color:var(--green); border-color:rgba(34,197,94,0.2); }
+
+    /* ── STYLES ── */
+    .styles-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.5rem; margin-top:4rem; }
+    .style-card { background:var(--dark2); border:1px solid var(--border); overflow:hidden; border-radius:6px; cursor:pointer; transition:border-color 0.25s,transform 0.2s; }
+    .style-card:hover { border-color:rgba(212,168,67,0.35); transform:translateY(-4px); }
+    .style-thumb { height:170px; display:flex; align-items:center; justify-content:center; position:relative; }
+    .style-thumb-inner { display:flex; flex-direction:column; align-items:center; gap:0.4rem; }
+    .style-thumb-emoji { font-size:2.5rem; }
+    .style-thumb-name { font-family:'Syne',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
+    .style-body { padding:1.1rem 1.2rem; }
+    .style-avail { font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--green); font-weight:600; margin-bottom:0.35rem; display:block; }
+    .style-name { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; margin-bottom:0.3rem; }
+    .style-desc { font-size:0.77rem; color:var(--muted); line-height:1.58; margin-bottom:0.9rem; }
+    .style-link { font-size:0.77rem; color:var(--gold); font-weight:600; display:inline-flex; align-items:center; gap:0.3rem; }
+
+    /* ── TESTIMONIALS ── */
+    .testi-note { background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.15); border-radius:6px; padding:1rem 1.3rem; margin-bottom:3rem; display:flex; gap:0.8rem; align-items:flex-start; }
+    .testi-note-icon { font-size:1rem; flex-shrink:0; margin-top:1px; }
+    .testi-note-text { font-size:0.8rem; color:rgba(255,255,255,0.55); line-height:1.65; }
+    .testi-note-text strong { color:rgba(255,255,255,0.75); }
+    .testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1.5rem; }
+    .testi-card { background:var(--dark2); border:1px solid var(--border); border-radius:6px; padding:1.7rem; position:relative; }
+    .testi-stars { color:var(--gold); font-size:0.85rem; margin-bottom:0.8rem; }
+    .testi-text { font-size:0.86rem; color:rgba(255,255,255,0.65); line-height:1.75; margin-bottom:1.2rem; font-style:italic; }
+    .testi-author { display:flex; align-items:center; gap:0.8rem; }
+    .testi-avatar { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .testi-name { font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:700; }
+    .testi-role { font-size:0.7rem; color:var(--muted); }
+    .testi-unverified { font-size:0.62rem; color:rgba(255,255,255,0.22); letter-spacing:0.08em; display:block; margin-top:0.3rem; }
+
+    /* ── PRICING ── */
+    .pricing-section { background:var(--dark2); border-top:1px solid var(--border); }
+    .pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:4rem; }
+    @media(max-width:560px){ .pricing-grid { grid-template-columns:1fr; } }
+    .price-card { border:1px solid var(--border); border-radius:6px; padding:2rem; background:var(--dark); position:relative; overflow:hidden; }
+    .price-card.featured { border-color:var(--gold); background:var(--dark); }
+    .price-card.featured::before { content:'MOST POPULAR'; position:absolute; top:1.1rem; right:-2.5rem; background:var(--gold); color:var(--black); font-size:0.5rem; font-weight:800; letter-spacing:0.18em; padding:0.28rem 4rem; transform:rotate(35deg); font-family:'Syne',sans-serif; }
+    .price-name { font-family:'Syne',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin-bottom:0.9rem; }
+    .price-amount { font-family:'Syne',sans-serif; font-size:3rem; font-weight:800; letter-spacing:-0.04em; line-height:1; margin-bottom:0.25rem; }
+    .price-amount sup { font-size:1.1rem; vertical-align:super; font-weight:600; color:var(--muted); }
+    .price-amount small { font-size:1rem; color:var(--muted); font-weight:400; }
+    .price-period { font-size:0.75rem; color:var(--muted); margin-bottom:1.6rem; }
+    .price-features { list-style:none; display:flex; flex-direction:column; gap:0.65rem; margin-bottom:1.8rem; }
+    .price-features li { font-size:0.82rem; color:rgba(255,255,255,0.62); display:flex; align-items:flex-start; gap:0.6rem; line-height:1.4; }
+    .price-features li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; margin-top:1px; }
+    .price-features li.muted-feat { color:rgba(255,255,255,0.3); }
+    .price-features li.muted-feat::before { content:'–'; color:rgba(255,255,255,0.2); }
+    .price-btn { width:100%; padding:0.88rem; font-family:'Syne',sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:0.06em; cursor:pointer; border-radius:3px; transition:all 0.2s; }
+    .btn-outline-p { background:transparent; color:var(--white); border:1px solid var(--border); }
+    .btn-outline-p:hover { border-color:rgba(255,255,255,0.28); }
+    .btn-gold-p { background:var(--gold); color:var(--black); border:none; }
+    .btn-gold-p:hover { background:var(--gold2); }
+    .price-clarify { margin-top:0.9rem; font-size:0.72rem; color:rgba(255,255,255,0.25); line-height:1.6; }
+    .pricing-note { text-align:center; margin-top:1.5rem; font-size:0.78rem; color:var(--muted); }
+    .price-dual { margin-bottom:0.25rem; }
+    .price-then { font-size:0.85rem; color:var(--muted); margin-bottom:0.3rem; }
+    @media(max-width:680px){ .price-premium > div { grid-template-columns:1fr !important; } }
+
+    /* ── CONTACT / FINAL CTA ── */
+    .contact-section { border-top:1px solid var(--border); }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+    @media(max-width:720px){ .contact-grid { grid-template-columns:1fr; gap:2.5rem; } }
+    .contact-text h2 { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:800; letter-spacing:-0.025em; line-height:1.1; margin-bottom:1rem; }
+    .contact-text h2 em { font-style:normal; color:var(--gold); }
+    .contact-text p { color:var(--muted); font-size:0.92rem; line-height:1.75; margin-bottom:1.5rem; }
+    .contact-legitimacy { background:var(--dark2); border:1px solid var(--border); border-radius:6px; padding:1.2rem 1.4rem; margin-bottom:1.5rem; }
+    .legit-title { font-family:'Syne',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:0.8rem; }
+    .legit-items { display:flex; flex-direction:column; gap:0.45rem; }
+    .legit-item { font-size:0.8rem; color:rgba(255,255,255,0.55); display:flex; align-items:center; gap:0.5rem; }
+    .legit-item::before { content:'✓'; color:var(--green); font-size:0.75rem; }
+
+    .contact-buttons { display:flex; flex-direction:column; gap:0.8rem; }
+    .contact-btn { display:flex; align-items:center; gap:1rem; padding:1rem 1.4rem; border-radius:5px; text-decoration:none; transition:all 0.2s; border:1px solid transparent; cursor:pointer; }
+    .contact-btn:hover { transform:translateX(4px); }
+    .cb-icon { width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+    .cb-body {}
+    .cb-label { font-family:'Syne',sans-serif; font-size:0.82rem; font-weight:700; margin-bottom:0.1rem; }
+    .cb-sub { font-size:0.72rem; opacity:0.6; }
+
+    .cb-wa { background:rgba(37,211,102,0.08); border-color:rgba(37,211,102,0.2); color:white; }
+    .cb-wa:hover { background:rgba(37,211,102,0.14); }
+    .cb-wa .cb-icon { background:rgba(37,211,102,0.15); }
+
+    .cb-sms { background:rgba(59,130,246,0.08); border-color:rgba(59,130,246,0.2); color:white; }
+    .cb-sms:hover { background:rgba(59,130,246,0.14); }
+    .cb-sms .cb-icon { background:rgba(59,130,246,0.15); }
+
+    .cb-ig { background:rgba(236,72,153,0.08); border-color:rgba(236,72,153,0.2); color:white; }
+    .cb-ig:hover { background:rgba(236,72,153,0.14); }
+    .cb-ig .cb-icon { background:rgba(236,72,153,0.15); }
+
+    .cb-fb { background:rgba(59,89,152,0.12); border-color:rgba(59,89,152,0.25); color:white; }
+    .cb-fb:hover { background:rgba(59,89,152,0.2); }
+    .cb-fb .cb-icon { background:rgba(59,89,152,0.2); }
+
+    .cb-email { background:rgba(212,168,67,0.07); border-color:rgba(212,168,67,0.2); color:white; }
+    .cb-email:hover { background:rgba(212,168,67,0.12); }
+    .cb-email .cb-icon { background:rgba(212,168,67,0.12); }
+
+    /* ── LEGAL ── */
+    .legal-section { background:var(--dark2); border-top:1px solid var(--border); padding:4rem 1.5rem; }
+    .legal-inner { max-width:900px; margin:0 auto; }
+    .legal-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:2rem; }
+    @media(max-width:580px){ .legal-grid { grid-template-columns:1fr; } }
+    .legal-block h4 { font-family:'Syne',sans-serif; font-size:0.82rem; font-weight:700; margin-bottom:0.7rem; color:rgba(255,255,255,0.6); }
+    .legal-block p { font-size:0.75rem; color:rgba(255,255,255,0.3); line-height:1.7; }
+    .legal-block a { color:rgba(212,168,67,0.6); }
+
+    /* ── FOOTER ── */
+    footer { background:var(--black); border-top:1px solid var(--border); padding:2rem 2.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    .footer-logo { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:800; }
+    .footer-logo span { color:var(--gold); }
+    .footer-links { display:flex; gap:1.5rem; }
+    .footer-links a { font-size:0.72rem; color:rgba(255,255,255,0.25); text-decoration:none; }
+    .footer-links a:hover { color:rgba(255,255,255,0.5); }
+    .footer-copy { font-size:0.7rem; color:rgba(255,255,255,0.18); width:100%; text-align:center; padding-top:0.5rem; border-top:1px solid var(--border); }
   </style>
 </head>
 <body>
 
-  <!-- LANG BAR -->
-  <div class="lang-bar">
-    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">🇺🇸 EN</button>
-    <button class="lang-btn" onclick="setLang('es')" id="btn-es">🇪🇸 ES</button>
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+  🔥 <span>Launch Offer:</span> First 10 restaurants this month get 20% off — <span>6 spots left</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Digital<span>Menu</span>Pro</a>
+  <ul class="nav-links">
+    <li><a onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works</a></li>
+    <li><a onclick="document.getElementById('styles').scrollIntoView({behavior:'smooth'})">Styles</a></li>
+    <li><a onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Pricing</a></li>
+    <li><a href="https://wa.me/50671186158" target="_blank" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero-bg"></div>
+<div class="hero-grid"></div>
+<div class="hero" style="padding-top:2rem;">
+  <div class="hero-left">
+    <div class="hero-badge"><div class="badge-dot"></div>Done-for-you · Custom Design · 48h Delivery</div>
+    <h1>Your Restaurant Menu,<br/><em>Beautiful & Digital</em><br/>in 48 Hours</h1>
+    <p class="hero-sub">Customers scan a QR code and instantly see your full menu on their phone. No app. No printing. Always up to date. Custom-designed for your restaurant.</p>
+    <div class="hero-btns">
+      <a href="https://menudigitalpro.github.io/menudigitalpro/menu-american.html" target="_blank" class="btn-gold">📱 See Live Demo</a>
+      <a href="https://wa.me/50671186158" target="_blank" class="btn-ghost">Get Your Menu →</a>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-pill">No app required</span>
+      <span class="trust-pill">Ready in 48h</span>
+      <span class="trust-pill">Any phone</span>
+      <span class="trust-pill">Update anytime</span>
+      <span class="trust-pill">Starting at $99</span>
+    </div>
   </div>
-
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">Digital<span>Menu</span>Pro</div>
-    <ul class="nav-links">
-      <li><a onclick="scrollToSection('features')" class="en-only">Features</a><a onclick="scrollToSection('features')" class="es-only">Funciones</a></li>
-      <li><a onclick="scrollToSection('demos')" class="en-only">Demo</a><a onclick="scrollToSection('demos')" class="es-only">Demo</a></li>
-      <li><a onclick="scrollToSection('pricing')" class="en-only">Pricing</a><a onclick="scrollToSection('pricing')" class="es-only">Precios</a></li>
-      <li><a onclick="scrollToSection('compare')" class="en-only">Compare</a><a onclick="scrollToSection('compare')" class="es-only">Comparar</a></li>
-      <li><a onclick="window.open('https://wa.me/50671186158','_blank')" class="nav-cta en-only">Get Started</a><a onclick="window.open('https://wa.me/50671186158','_blank')" class="nav-cta es-only">Comenzar</a></li>
-    </ul>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-      <div class="hero-badge">✦ <span class="en-only">Digital menus for restaurants</span><span class="es-only">Menús digitales para restaurantes</span></div>
-      <h1 class="hero-title en-only">Your restaurant<br>deserves a <em>beautiful</em><br>digital menu</h1>
-      <h1 class="hero-title es-only">Tu restaurante<br>merece un <em>hermoso</em><br>menú digital</h1>
-      <p class="hero-sub en-only">A professional digital menu accessible from any phone — no app download required. Custom design, your own domain, and always up to date.</p>
-      <p class="hero-sub es-only">Un menú digital profesional accesible desde cualquier teléfono — sin descargar apps. Diseño personalizado, dominio propio y siempre actualizado.</p>
-      <div class="hero-actions">
-        <button class="btn-primary" onclick="window.open('https://wa.me/50671186158','_blank')">
-          <span class="en-only">Get Your Menu — $250</span>
-          <span class="es-only">Obtener Mi Menú — $250</span>
-        </button>
-        <button class="btn-secondary" onclick="scrollToSection('demos')">
-          <span class="en-only">View Live Demos →</span>
-          <span class="es-only">Ver Demos →</span>
-        </button>
+  <div class="hero-right">
+    <div class="phone-glow"></div>
+    <div class="phone-mockup">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <iframe src="https://menudigitalpro.github.io/menudigitalpro/menu-american.html" loading="lazy"></iframe>
       </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">48h</div><div class="stat-label en-only">Delivery</div><div class="stat-label es-only">Entrega</div></div>
-      <div class="stat"><div class="stat-num">100%</div><div class="stat-label en-only">Mobile Ready</div><div class="stat-label es-only">Mobile Ready</div></div>
-      <div class="stat"><div class="stat-num">∞</div><div class="stat-label en-only">Menu Items</div><div class="stat-label es-only">Platillos</div></div>
-    </div>
-  </section>
+    <div class="phone-badge">✓ Live Demo</div>
+  </div>
+</div>
 
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <div class="section-label en-only">Why DigitalMenuPro</div>
-    <div class="section-label es-only">Por qué DigitalMenuPro</div>
-    <h2 class="section-title en-only">Everything your restaurant<br>needs, nothing it doesn't</h2>
-    <h2 class="section-title es-only">Todo lo que tu restaurante<br>necesita, nada más</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">📱</div>
-        <div class="feature-title en-only">Scan & Browse</div>
-        <div class="feature-title es-only">Escanear y Ver</div>
-        <div class="feature-desc en-only">Customers scan a QR code or tap a link. No app download, no sign-up. Works on every phone, every browser.</div>
-        <div class="feature-desc es-only">Los clientes escanean un código QR o tocan un enlace. Sin descargar app, sin registro. Funciona en cualquier teléfono.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <div class="feature-title en-only">Custom Design</div>
-        <div class="feature-title es-only">Diseño Personalizado</div>
-        <div class="feature-desc en-only">Choose from multiple styles — Japanese, Gourmet, Steakhouse, Tex-Mex and more. Each one unique and tailored to your brand.</div>
-        <div class="feature-desc es-only">Elige entre múltiples estilos — Japonés, Gourmet, Steakhouse, Tex-Mex y más. Cada uno único y adaptado a tu marca.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-title en-only">Ready in 48 Hours</div>
-        <div class="feature-title es-only">Listo en 48 Horas</div>
-        <div class="feature-desc en-only">Send us your menu items and we handle the rest. Your digital menu goes live within 48 hours of your order.</div>
-        <div class="feature-desc es-only">Envianos tu menú y nosotros hacemos el resto. Tu menú digital queda activo en 48 horas desde tu pedido.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔄</div>
-        <div class="feature-title en-only">Easy Updates</div>
-        <div class="feature-title es-only">Actualizaciones Fáciles</div>
-        <div class="feature-desc en-only">Prices change? New dishes? Just message us and we update your menu — included in your monthly plan.</div>
-        <div class="feature-desc es-only">¿Cambian precios? ¿Platos nuevos? Solo escríbenos y actualizamos tu menú — incluido en tu plan mensual.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <div class="feature-title en-only">Search & Filter</div>
-        <div class="feature-title es-only">Búsqueda y Filtros</div>
-        <div class="feature-desc en-only">Customers can search dishes, filter by category and see full descriptions with a tap. Better experience, more orders.</div>
-        <div class="feature-desc es-only">Los clientes pueden buscar platillos, filtrar por categoría y ver descripciones completas. Mejor experiencia, más pedidos.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌐</div>
-        <div class="feature-title en-only">Your Own Domain</div>
-        <div class="feature-title es-only">Tu Propio Dominio</div>
-        <div class="feature-desc en-only">Upgrade to your own .com domain like myrestaurant.com for just $25/year. Looks professional, easier to remember.</div>
-        <div class="feature-desc es-only">Mejorá a tu propio dominio .com como mirestaurante.com por solo $25/año. Se ve profesional y es más fácil de recordar.</div>
-      </div>
-    </div>
-  </section>
+<!-- TRUSTED BAR -->
+<div class="trusted-bar">
+  <div class="trusted-label">Serving restaurants across the USA</div>
+  <div class="trusted-logos">
+    <span class="trusted-logo">🍔 Burger Joints</span>
+    <span class="trusted-logo">🍣 Sushi Bars</span>
+    <span class="trusted-logo">☕ Cafés</span>
+    <span class="trusted-logo">🌮 Taquerias</span>
+    <span class="trusted-logo">🍕 Pizzerias</span>
+    <span class="trusted-logo">🥗 Healthy Food</span>
+  </div>
+</div>
 
-  <!-- DEMOS -->
-  <section class="demo-section" id="demos">
-    <div class="section-label en-only">See it live</div>
-    <div class="section-label es-only">Vélo en vivo</div>
-    <h2 class="section-title en-only">Real menus, real styles</h2>
-    <h2 class="section-title es-only">Menús reales, estilos reales</h2>
-    <div class="demo-grid">
-      <div class="demo-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')">
-        <div class="demo-preview" style="background:linear-gradient(135deg,#0A0A0A,#2d0a0a);">🍣</div>
-        <div class="demo-info">
-          <div class="demo-tag en-only">Japanese Style</div>
-          <div class="demo-tag es-only">Estilo Japonés</div>
-          <div class="demo-name">Sakura House</div>
-        </div>
-      </div>
-      <div class="demo-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')">
-        <div class="demo-preview" style="background:linear-gradient(135deg,#0B0F1A,#1C2333);">🍽️</div>
-        <div class="demo-info">
-          <div class="demo-tag en-only">Gourmet Style</div>
-          <div class="demo-tag es-only">Estilo Gourmet</div>
-          <div class="demo-name">Noir & Or</div>
-        </div>
-      </div>
-      <div class="demo-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')">
-        <div class="demo-preview" style="background:linear-gradient(135deg,#1a0800,#2d1200);">🍔</div>
-        <div class="demo-info">
-          <div class="demo-tag en-only">American Style</div>
-          <div class="demo-tag es-only">Estilo Americano</div>
-          <div class="demo-name">Liberty Burgers</div>
-        </div>
-      </div>
-    </div>
-    <p style="margin-top:2rem; font-size:0.82rem; color:var(--warm-gray);">
-      <span class="en-only">More styles available — <a onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')" style="color:var(--gold);cursor:pointer;">View full catalog →</a></span>
-      <span class="es-only">Más estilos disponibles — <a onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')" style="color:var(--gold);cursor:pointer;">Ver catálogo completo →</a></span>
-    </p>
-  </section>
-
-  <!-- PRICING -->
-  <section class="pricing-section" id="pricing">
-    <div class="section-label en-only">Simple, transparent pricing</div>
-    <div class="section-label es-only">Precios simples y transparentes</div>
-    <h2 class="section-title en-only">Everything included,<br>no surprises</h2>
-    <h2 class="section-title es-only">Todo incluido,<br>sin sorpresas</h2>
-
-    <!-- Setup Banner -->
-    <div class="setup-banner">
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-inner">
+    <div class="how-grid">
       <div>
-        <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="en-only">Step 1 — Website Creation (one-time)</div>
-        <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="es-only">Paso 1 — Creación del sitio (único)</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--warm-gray);" class="en-only">We build your full website · Custom design · QR code · Delivered in 48h</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--warm-gray);" class="es-only">Construimos tu sitio completo · Diseño personalizado · QR · Entrega en 48h</div>
+        <span class="section-label">How it works</span>
+        <h2 class="section-title">Scan → See your menu.<br/>That simple.</h2>
+        <p class="section-sub">We build everything for you. You just send us your menu and we handle the rest — design, setup, QR code, and link.</p>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="step-num">1</div>
+            <div class="step-body"><div class="step-title">You send us your menu</div><div class="step-desc">Via WhatsApp or email. PDF, photo, or text — anything works.</div></div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">2</div>
+            <div class="step-body"><div class="step-title">We design & build it in 48h</div><div class="step-desc">Custom design that matches your restaurant's brand and style.</div></div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">3</div>
+            <div class="step-body"><div class="step-title">You get your link + QR code</div><div class="step-desc">Print it, share it on Instagram, put it on tables, or embed on your website.</div></div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">4</div>
+            <div class="step-body"><div class="step-title">Update anytime via WhatsApp</div><div class="step-desc">Price change? New dish? Message us and it's updated the same day.</div></div>
+          </div>
+        </div>
       </div>
-      <div style="text-align:right;">
-        <div style="font-size:0.82rem;color:var(--warm-gray);text-decoration:line-through;" class="en-only">Regular: $500</div>
-        <div style="font-size:0.82rem;color:var(--warm-gray);text-decoration:line-through;" class="es-only">Normal: $500</div>
-        <div class="setup-badge en-only">50% OFF — Limited Time</div>
-        <div class="setup-badge es-only">50% DESCUENTO — Tiempo Limitado</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;color:var(--dark);line-height:1;">$250</div>
+      <div class="qr-visual">
+        <div class="qr-box">
+          <svg width="160" height="160" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" fill="white"/>
+            <rect x="5" y="5" width="25" height="25" fill="none" stroke="#000" stroke-width="3"/>
+            <rect x="11" y="11" width="13" height="13" fill="#000"/>
+            <rect x="70" y="5" width="25" height="25" fill="none" stroke="#000" stroke-width="3"/>
+            <rect x="76" y="11" width="13" height="13" fill="#000"/>
+            <rect x="5" y="70" width="25" height="25" fill="none" stroke="#000" stroke-width="3"/>
+            <rect x="11" y="76" width="13" height="13" fill="#000"/>
+            <rect x="35" y="5" width="5" height="5" fill="#000"/><rect x="45" y="5" width="5" height="5" fill="#000"/>
+            <rect x="55" y="5" width="5" height="5" fill="#000"/><rect x="35" y="15" width="5" height="5" fill="#000"/>
+            <rect x="55" y="15" width="5" height="5" fill="#000"/><rect x="45" y="25" width="5" height="5" fill="#000"/>
+            <rect x="5" y="35" width="5" height="5" fill="#000"/><rect x="15" y="35" width="5" height="5" fill="#000"/>
+            <rect x="25" y="35" width="5" height="5" fill="#000"/><rect x="35" y="35" width="5" height="5" fill="#000"/>
+            <rect x="45" y="35" width="5" height="5" fill="#000"/><rect x="55" y="35" width="5" height="5" fill="#000"/>
+            <rect x="65" y="35" width="5" height="5" fill="#000"/><rect x="75" y="35" width="5" height="5" fill="#000"/>
+            <rect x="85" y="35" width="5" height="5" fill="#000"/><rect x="5" y="45" width="5" height="5" fill="#000"/>
+            <rect x="25" y="45" width="5" height="5" fill="#000"/><rect x="35" y="45" width="5" height="5" fill="#000"/>
+            <rect x="55" y="45" width="5" height="5" fill="#000"/><rect x="75" y="45" width="5" height="5" fill="#000"/>
+            <rect x="85" y="45" width="5" height="5" fill="#000"/><rect x="5" y="55" width="5" height="5" fill="#000"/>
+            <rect x="15" y="55" width="5" height="5" fill="#000"/><rect x="45" y="55" width="5" height="5" fill="#000"/>
+            <rect x="65" y="55" width="5" height="5" fill="#000"/><rect x="85" y="55" width="5" height="5" fill="#000"/>
+            <rect x="35" y="65" width="5" height="5" fill="#000"/><rect x="55" y="65" width="5" height="5" fill="#000"/>
+            <rect x="75" y="65" width="5" height="5" fill="#000"/><rect x="85" y="65" width="5" height="5" fill="#000"/>
+            <rect x="35" y="75" width="5" height="5" fill="#000"/><rect x="45" y="75" width="5" height="5" fill="#000"/>
+            <rect x="65" y="75" width="5" height="5" fill="#000"/><rect x="35" y="85" width="5" height="5" fill="#000"/>
+            <rect x="55" y="85" width="5" height="5" fill="#000"/><rect x="75" y="85" width="5" height="5" fill="#000"/>
+            <rect x="85" y="85" width="5" height="5" fill="#000"/>
+            <rect x="41" y="41" width="18" height="18" fill="white"/>
+            <text x="50" y="53" text-anchor="middle" font-size="8" font-weight="bold" fill="#D4A843" font-family="Arial,sans-serif">DM</text>
+          </svg>
+          <div class="qr-label-box">Scan to see a live demo</div>
+        </div>
+        <div class="qr-note">Point your phone camera here — this opens a real digital menu example</div>
+        <div class="qr-link-hint">↑ This is what your customers will scan</div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div style="max-width:700px;margin:0.8rem auto 0;text-align:center;">
-      <p style="font-size:0.78rem;color:var(--warm-gray);" class="en-only">Then choose your monthly maintenance plan — keeping your site live, your domain active, and your menu always updated.</p>
-      <p style="font-size:0.78rem;color:var(--warm-gray);" class="es-only">Luego elegís tu plan mensual de mantenimiento — para mantener el sitio activo, el dominio vigente y el menú siempre actualizado.</p>
+<!-- BENEFITS -->
+<section>
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Why restaurants choose us</span>
+      <h2 class="section-title">Stop losing money on paper menus.</h2>
+      <p class="section-sub">Everything you need. Nothing you don't.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card"><div class="benefit-icon">🚫🖨️</div><div class="benefit-title">No More Printing</div><div class="benefit-desc">Stop spending $300+ per year reprinting menus. Update prices digitally in seconds, for free, forever.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">📱</div><div class="benefit-title">Works on Any Phone</div><div class="benefit-desc">iPhone or Android, old or new. Loads instantly in any browser. No app to download — zero friction for customers.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">✏️</div><div class="benefit-title">Update Same Day</div><div class="benefit-desc">New dish? Price change? Send us a WhatsApp and we update it the same day. Your menu is always current.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">⚡</div><div class="benefit-title">Ready in 48 Hours</div><div class="benefit-desc">You send us your menu — we design and build everything. Your custom digital menu goes live in 2 business days.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">🎨</div><div class="benefit-title">100% Custom Design</div><div class="benefit-desc">Not a template you fill in yourself. A human designer builds your menu from scratch to match your restaurant's identity.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">🔗</div><div class="benefit-title">Share Everywhere</div><div class="benefit-desc">QR code for tables, a link for Google and Instagram, or embed on your website. One menu — everywhere.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US vs COMPETITORS -->
+<section class="why-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Why choose us</span>
+      <h2 class="section-title">Other platforms exist.<br/>Here's why we're different.</h2>
+      <p class="section-sub">Yes, there are free QR menu tools. But there's a big difference between a generic template and a menu designed for your restaurant.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="vs-label">Other platforms (free tools)</div>
+        <div class="why-title">Generic templates you fill yourself</div>
+        <div class="why-desc">Platforms like GloriaFood, MustHaveMenus, or Square give you a template — you do all the work, and it looks like everyone else's menu.</div>
+      </div>
+      <div class="why-card highlight">
+        <div class="vs-label us">DigitalMenuPro</div>
+        <div class="why-title">Done-for-you. Custom. Premium.</div>
+        <div class="why-desc">We build your menu from scratch — custom colors, fonts, layout and personality. You just send us your menu and we handle everything in 48 hours.</div>
+      </div>
+      <div class="why-card">
+        <div class="vs-label">Other platforms</div>
+        <div class="why-title">Subscription trap + setup fees</div>
+        <div class="why-desc">Most platforms charge $30–$100/month forever. Cancel and your menu disappears. Hidden fees add up fast.</div>
+      </div>
+      <div class="why-card highlight">
+        <div class="vs-label us">DigitalMenuPro</div>
+        <div class="why-title">$99 one-time. Or $29/month. You choose.</div>
+        <div class="why-desc">Pay once and own your menu forever — or go monthly and cancel anytime. No contracts, no hidden fees, no surprises.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STYLES -->
+<section id="styles">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Available styles</span>
+      <h2 class="section-title">Pick the style that fits<br/>your restaurant.</h2>
+      <p class="section-sub">Real, live demos — click any card to explore the full menu.</p>
+    </div>
+    <div class="styles-grid">
+      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-american.html','_blank')">
+        <div class="style-thumb" style="background:linear-gradient(135deg,#0C0B12,#1B192E);">
+          <div class="style-thumb-inner"><div class="style-thumb-emoji">🍔</div><div class="style-thumb-name" style="color:#8B5CF6;">Urban · Street</div></div>
+        </div>
+        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Urban Street Food</div><div class="style-desc">Neon dark theme. For burger joints, tacos, wings, and fast casual spots.</div><span class="style-link">Open live demo →</span></div>
+      </div>
+      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-japones.html','_blank')">
+        <div class="style-thumb" style="background:linear-gradient(135deg,#0A0E1A,#1a2035);">
+          <div class="style-thumb-inner"><div class="style-thumb-emoji">🍣</div><div class="style-thumb-name" style="color:#C9A84C;">Japanese</div></div>
+        </div>
+        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Japanese</div><div class="style-desc">Elegant dark with gold accents. Sushi bars, ramen, and Asian cuisine.</div><span class="style-link">Open live demo →</span></div>
+      </div>
+      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-gourmet.html','_blank')">
+        <div class="style-thumb" style="background:linear-gradient(135deg,#0A1628,#1a2a45);">
+          <div class="style-thumb-inner"><div class="style-thumb-emoji">🍷</div><div class="style-thumb-name" style="color:#C9A84C;">Gourmet</div></div>
+        </div>
+        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Fine Dining &amp; Gourmet</div><div class="style-desc">Navy and gold, ultra-refined. Upscale restaurants, steakhouses, wine bars.</div><span class="style-link">Open live demo →</span></div>
+      </div>
+      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-cafe.html','_blank')">
+        <div class="style-thumb" style="background:linear-gradient(135deg,#2C1A0E,#4A3728);">
+          <div class="style-thumb-inner"><div class="style-thumb-emoji">☕</div><div class="style-thumb-name" style="color:#D4A843;">Café</div></div>
+        </div>
+        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Café &amp; Bakery</div><div class="style-desc">Warm cream tones, elegant serif. Cafés, bakeries, brunch, patisseries.</div><span class="style-link">Open live demo →</span></div>
+      </div>
+      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-organico.html','_blank')">
+        <div class="style-thumb" style="background:linear-gradient(135deg,#0F2218,#1B3A2D);">
+          <div class="style-thumb-inner"><div class="style-thumb-emoji">🥗</div><div class="style-thumb-name" style="color:#7FB069;">Organic</div></div>
+        </div>
+        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Natural &amp; Organic</div><div class="style-desc">Forest greens, organic textures. Vegan restaurants, healthy food, smoothie bars.</div><span class="style-link">Open live demo →</span></div>
+      </div>
+      <div class="style-card" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro/menu-pizzeria-us.html','_blank')">
+        <div class="style-thumb" style="background:linear-gradient(135deg,#0A0603,#1a0f08);">
+          <div class="style-thumb-inner"><div class="style-thumb-emoji">🍕</div><div class="style-thumb-name" style="color:#C96A1A;">Pizzeria</div></div>
+        </div>
+        <div class="style-body"><span class="style-avail">✓ Available — Live Demo</span><div class="style-name">Pizzeria</div><div class="style-desc">Bold Italian-American style. Pizza spots, pasta restaurants, Italian cuisine.</div><span class="style-link">Open live demo →</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:var(--dark2);border-top:1px solid var(--border);" id="testimonials">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">What restaurants say</span>
+      <h2 class="section-title">Early results from<br/>our first clients.</h2>
+    </div>
+    <div class="testi-note">
+      <span class="testi-note-icon">💬</span>
+      <div class="testi-note-text"><strong>A note on transparency:</strong> We're a growing service. These are representative experiences from early clients. We don't fabricate reviews — if you'd like to speak directly with a past client before purchasing, just ask us on WhatsApp.</div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"We stopped printing menus and saved a lot of money. Our customers love scanning the QR at the table — it's fast and looks incredible."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:rgba(139,92,246,0.15);">🍔</div><div><div class="testi-name">Marcus R.</div><div class="testi-role">Burger Joint Owner — Austin, TX</div><span class="testi-unverified">Early client · identity verified by us</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The design is stunning. My restaurant finally has a digital menu that looks as premium as the food we serve. Setup was fast and easy."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:rgba(201,168,76,0.12);">🍣</div><div><div class="testi-name">Kenji T.</div><div class="testi-role">Sushi Bar Owner — Miami, FL</div><span class="testi-unverified">Early client · identity verified by us</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I sent them my menu on WhatsApp and 2 days later I had a beautiful digital menu with a QR code ready to put on all my tables."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:rgba(212,168,67,0.12);">☕</div><div><div class="testi-name">Sofia L.</div><div class="testi-role">Café Manager — Nashville, TN</div><span class="testi-unverified">Early client · identity verified by us</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Simple, transparent pricing</span>
+      <h2 class="section-title">Pick your plan.<br/>No surprises. No fine print.</h2>
+      <p class="section-sub">From a clean digital menu to a full restaurant digital presence — we have a plan for every stage of your business.</p>
     </div>
 
-    <div style="max-width:700px;margin:1rem auto 0;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);padding:0.8rem 1.5rem;display:flex;align-items:center;justify-content:center;gap:0.6rem;font-size:0.78rem;color:var(--warm-gray);">
-      <span style="color:var(--gold);">✦</span>
-      <span class="en-only">0% commissions · No contracts · Cancel anytime · Domain &amp; hosting included</span>
-      <span class="es-only">0% comisiones · Sin contratos · Cancela cuando quieras · Dominio y hosting incluidos</span>
-    </div>
-
-    <div style="max-width:700px;margin:1.5rem auto 1.5rem;display:flex;align-items:center;justify-content:center;gap:1rem;">
-      <div style="height:1px;flex:1;background:var(--border);"></div>
-      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);" class="en-only">Step 2 — Choose your maintenance plan</div>
-      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);" class="es-only">Paso 2 — Elegí tu plan de mantenimiento</div>
-      <div style="height:1px;flex:1;background:var(--border);"></div>
-    </div>
-
-    <div class="pricing-grid">
-
-      <div class="pricing-card">
-        <div class="pricing-name en-only">Monthly Maintenance</div>
-        <div class="pricing-name es-only">Mantenimiento Mensual</div>
-        <div class="pricing-price">$<span>50</span></div>
-        <div class="pricing-period en-only">per month · billed monthly</div>
-        <div class="pricing-period es-only">por mes · cobro mensual</div>
-        <ul class="pricing-features">
-          <li class="en-only">Domain hosting &amp; renewal included</li>
-          <li class="es-only">Hosting y renovación del dominio incluidos</li>
-          <li class="en-only">Site stays live 24/7</li>
-          <li class="es-only">Sitio activo 24/7</li>
-          <li class="en-only">Unlimited menu updates</li>
-          <li class="es-only">Actualizaciones ilimitadas del menú</li>
-          <li class="en-only">Price &amp; item changes same day</li>
-          <li class="es-only">Cambios de precios el mismo día</li>
-          <li class="en-only">Priority WhatsApp support</li>
-          <li class="es-only">Soporte prioritario por WhatsApp</li>
-          <li class="en-only">Cancel anytime — no contracts</li>
-          <li class="es-only">Cancela cuando quieras</li>
+    <!-- TOP ROW: Starter + Pro -->
+    <div class="pricing-grid" style="margin-top:3rem;">
+      <!-- STARTER -->
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-dual">
+          <div class="price-amount"><sup>$</sup>49 <small style="font-size:0.85rem;color:var(--muted);font-weight:400;">setup</small></div>
+          <div class="price-then">then <strong style="color:white;">$29</strong><span style="color:var(--muted);font-size:0.8rem;">/month</span></div>
+        </div>
+        <div class="price-period">setup fee + monthly hosting · cancel anytime</div>
+        <ul class="price-features">
+          <li>Custom designed digital menu</li>
+          <li>Mobile-optimized &amp; fast</li>
+          <li>QR code + shareable link</li>
+          <li>Hosting included</li>
+          <li>3 free updates/month</li>
+          <li>Delivered in 48 hours</li>
+          <li class="muted-feat">Custom domain (.com)</li>
+          <li class="muted-feat">Unlimited updates</li>
+          <li class="muted-feat">Online ordering</li>
         </ul>
-        <button class="pricing-btn" onclick="window.open('https://wa.me/50671186158','_blank')">
-          <span class="en-only">Get Started</span>
-          <span class="es-only">Comenzar</span>
-        </button>
+        <button class="price-btn btn-outline-p" onclick="window.open('https://wa.me/50671186158?text=Hi!%20I%27m%20interested%20in%20the%20Starter%20plan.','_blank')">Get Started</button>
+        <div class="price-clarify">Best for restaurants starting with digital menus for the first time.</div>
       </div>
 
-      <div class="pricing-card featured">
-        <div class="pricing-tag en-only">🏆 Best Value — Save $120/yr</div>
-        <div class="pricing-tag es-only">🏆 Mejor Precio — Ahorrá $120/año</div>
-        <div class="pricing-name en-only">Annual Maintenance</div>
-        <div class="pricing-name es-only">Mantenimiento Anual</div>
-        <div class="pricing-price">$<span>40</span></div>
-        <div class="pricing-period en-only">per month · billed $480/year</div>
-        <div class="pricing-period es-only">por mes · se cobra $480/año</div>
-        <ul class="pricing-features">
-          <li class="en-only">Everything in Monthly plan</li>
-          <li class="es-only">Todo del plan Mensual</li>
-          <li class="en-only">Domain hosting &amp; renewal included</li>
-          <li class="es-only">Hosting y renovación del dominio incluidos</li>
-          <li class="en-only">Save $120 vs paying monthly</li>
-          <li class="es-only">Ahorrás $120 vs pago mensual</li>
-          <li class="en-only">Seasonal design refresh</li>
-          <li class="es-only">Rediseño visual de temporada</li>
-          <li class="en-only">First priority for new features</li>
-          <li class="es-only">Prioridad en nuevas funciones</li>
+      <!-- PRO — FEATURED -->
+      <div class="price-card featured">
+        <div class="price-name">Pro</div>
+        <div class="price-dual">
+          <div class="price-amount"><sup>$</sup>99 <small style="font-size:0.85rem;color:rgba(255,255,255,0.4);font-weight:400;">setup</small></div>
+          <div class="price-then">then <strong style="color:white;">$39</strong><span style="color:var(--muted);font-size:0.8rem;">/month</span></div>
+        </div>
+        <div class="price-period">setup fee + monthly · cancel anytime</div>
+        <ul class="price-features">
+          <li>Everything in Starter</li>
+          <li>Custom domain (.com included)</li>
+          <li>Unlimited same-day updates</li>
+          <li>Priority support</li>
+          <li>Multiple menu sections &amp; categories</li>
+          <li>Seasonal/special menus</li>
+          <li>New styles as released</li>
+          <li class="muted-feat">Online ordering integration</li>
+          <li class="muted-feat">Restaurant profile &amp; story page</li>
         </ul>
-        <button class="pricing-btn" onclick="window.open('https://wa.me/50671186158','_blank')">
-          <span class="en-only">Get Best Deal</span>
-          <span class="es-only">Obtener Mejor Precio</span>
-        </button>
+        <button class="price-btn btn-gold-p" onclick="window.open('https://wa.me/50671186158?text=Hi!%20I%27m%20interested%20in%20the%20Pro%20plan.','_blank')">Start Now — Most Popular</button>
+        <div class="price-clarify" style="color:rgba(255,255,255,0.25);">Most popular for restaurants that want full control over their digital presence.</div>
       </div>
+    </div>
 
-    </div>
-  </section>
-
-  <!-- WHAT MAINTENANCE COVERS -->
-  <section class="domain-section">
-    <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;" class="en-only">What your $50/mo covers</div>
-    <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;" class="es-only">Qué cubre tu $50/mes</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;color:#F5F0E8;margin-bottom:1rem;" class="en-only">One flat fee.<br><em style="color:var(--gold);font-style:italic;">Everything taken care of.</em></h2>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;color:#F5F0E8;margin-bottom:1rem;" class="es-only">Una tarifa fija.<br><em style="color:var(--gold);font-style:italic;">Todo resuelto.</em></h2>
-    <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;max-width:500px;margin:0 auto 2.5rem;line-height:1.7;" class="en-only">Your monthly maintenance fee keeps your entire digital presence running — no hidden renewals, no surprise bills.</p>
-    <p style="color:rgba(245,240,232,0.5);font-size:0.9rem;max-width:500px;margin:0 auto 2.5rem;line-height:1.7;" class="es-only">Tu cuota mensual mantiene toda tu presencia digital funcionando — sin renovaciones ocultas ni cobros sorpresa.</p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:680px;margin:0 auto 2.5rem;text-align:left;">
-      <div style="border:1px solid rgba(201,168,76,0.2);padding:1.2rem;">
-        <div style="font-size:1.4rem;margin-bottom:0.5rem;">🌐</div>
-        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="en-only">Domain</div>
-        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="es-only">Dominio</div>
-        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="en-only">Your .com domain registration &amp; annual renewal — fully managed by us.</div>
-        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="es-only">Registro y renovación anual de tu dominio .com — lo gestionamos nosotros.</div>
-      </div>
-      <div style="border:1px solid rgba(201,168,76,0.2);padding:1.2rem;">
-        <div style="font-size:1.4rem;margin-bottom:0.5rem;">⚙️</div>
-        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="en-only">Hosting &amp; uptime</div>
-        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="es-only">Hosting y uptime</div>
-        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="en-only">Site stays online 24/7, fast loading on any phone, anywhere.</div>
-        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="es-only">El sitio se mantiene en línea 24/7, carga rápido en cualquier celular.</div>
-      </div>
-      <div style="border:1px solid rgba(201,168,76,0.2);padding:1.2rem;">
-        <div style="font-size:1.4rem;margin-bottom:0.5rem;">✏️</div>
-        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="en-only">Menu updates</div>
-        <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;" class="es-only">Actualizaciones del menú</div>
-        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="en-only">Prices, items, photos — unlimited changes, same day via WhatsApp.</div>
-        <div style="font-size:0.78rem;color:rgba(245,240,232,0.55);line-height:1.5;" class="es-only">Precios, platos, fotos — cambios ilimitados, el mismo día por WhatsApp.</div>
-      </div>
-    </div>
-    <div style="border:1px dashed rgba(201,168,76,0.3);display:inline-block;padding:1.2rem 2.5rem;margin-bottom:2rem;">
-      <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="en-only">All of the above, per month</div>
-      <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;" class="es-only">Todo lo anterior, por mes</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:#F5F0E8;line-height:1;">$50 <span style="font-size:1rem;color:rgba(245,240,232,0.4);" class="en-only">/ month</span><span style="font-size:1rem;color:rgba(245,240,232,0.4);" class="es-only">/ mes</span></div>
-      <div style="font-size:0.75rem;color:rgba(245,240,232,0.35);margin-top:0.4rem;" class="en-only">Or $40/mo paying annually — save $120/year.</div>
-      <div style="font-size:0.75rem;color:rgba(245,240,232,0.35);margin-top:0.4rem;" class="es-only">O $40/mes pagando anual — ahorrás $120/año.</div>
-    </div>
-    <div>
-      <button onclick="window.open('https://wa.me/50671186158','_blank')" style="background:transparent;color:rgba(245,240,232,0.7);border:1px solid rgba(201,168,76,0.3);padding:0.85rem 2rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.3s;">
-        <span class="en-only">Get Started →</span>
-        <span class="es-only">Comenzar →</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- SAME DAY UPDATES -->
-  <section class="updates-strip">
-    <div class="section-label en-only">Always up to date</div>
-    <div class="section-label es-only">Siempre actualizado</div>
-    <h2 class="en-only">Menu changes done<br><em>the same day</em></h2>
-    <h2 class="es-only">Cambios en el menú<br><em>el mismo día</em></h2>
-    <p class="en-only">Just send us a WhatsApp message. No logins, no forms, no waiting days. Your customers see the update within hours — sometimes minutes.</p>
-    <p class="es-only">Solo mandanos un WhatsApp. Sin logins, sin formularios, sin esperar días. Tus clientes ven el cambio en horas, a veces en minutos.</p>
-    <div class="updates-examples">
-      <div class="update-chip">
-        <div class="update-chip-top">
-          <div class="update-chip-dot"></div>
-          <div class="update-chip-label en-only">Update sent</div>
-          <div class="update-chip-label es-only">Cambio enviado</div>
-          <div class="update-chip-time en-only">Today, 10:14 AM</div>
-          <div class="update-chip-time es-only">Hoy, 10:14 AM</div>
+    <!-- PREMIUM CARD — full width -->
+    <div class="price-card price-premium" style="margin-top:1.5rem; border-color:rgba(139,92,246,0.4); background:linear-gradient(135deg, rgba(139,92,246,0.05) 0%, rgba(10,10,10,1) 60%);">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:start;">
+        <div>
+          <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem;">
+            <div class="price-name" style="margin:0;">Premium</div>
+            <span style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);color:#A78BFA;font-size:0.58rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.18rem 0.6rem;border-radius:100px;">CUSTOM</span>
+          </div>
+          <div class="price-dual">
+            <div class="price-amount" style="font-size:2.2rem;"><sup>$</sup>199<small style="font-size:0.9rem;color:var(--muted);font-weight:400;"> setup</small></div>
+            <div class="price-then">then <strong style="color:white;">custom</strong><span style="color:var(--muted);font-size:0.8rem;"> /month</span></div>
+          </div>
+          <div class="price-period">custom quote · built around your restaurant's needs</div>
+          <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;">Go beyond a digital menu. Get a full digital restaurant experience — with ordering, integrations, and features you choose.</p>
+          <button class="price-btn btn-outline-p" style="border-color:rgba(139,92,246,0.4);color:#A78BFA;" onclick="window.open('https://wa.me/50671186158?text=Hi!%20I%27m%20interested%20in%20the%20Premium%20plan%20and%20would%20like%20a%20custom%20quote.','_blank')">Request Custom Quote →</button>
+          <div class="price-clarify" style="margin-top:0.8rem;">We'll discuss your needs and send a custom proposal. No commitment required.</div>
         </div>
-        <div class="update-chip-msg en-only">"Can you raise the Ribeye steak to $34 and add a new Weekend Brunch section?"</div>
-        <div class="update-chip-msg es-only">"¿Podés subir el Ribeye a $34 y agregar una sección de Brunch de fin de semana?"</div>
-        <div class="update-chip-result en-only">✦ Done & live by 11:00 AM</div>
-        <div class="update-chip-result es-only">✦ Listo y en vivo a las 11:00 AM</div>
-      </div>
-      <div class="update-chip">
-        <div class="update-chip-top">
-          <div class="update-chip-dot"></div>
-          <div class="update-chip-label en-only">Update sent</div>
-          <div class="update-chip-label es-only">Cambio enviado</div>
-          <div class="update-chip-time en-only">Today, 2:30 PM</div>
-          <div class="update-chip-time es-only">Hoy, 2:30 PM</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#A78BFA;margin-bottom:1rem;">Everything in Pro, plus:</div>
+          <ul class="price-features" style="gap:0.6rem;">
+            <li style="color:rgba(255,255,255,0.75);">🛒 <strong>Online ordering</strong> — customers order directly from your menu</li>
+            <li style="color:rgba(255,255,255,0.75);">🚗 <strong>Delivery app links</strong> — redirect to Uber Eats, DoorDash, or DiDi</li>
+            <li style="color:rgba(255,255,255,0.75);">📖 <strong>Restaurant profile page</strong> — your story, photos, hours, location</li>
+            <li style="color:rgba(255,255,255,0.75);">📸 <strong>Photo gallery</strong> — showcase dishes, ambiance &amp; team</li>
+            <li style="color:rgba(255,255,255,0.75);">⭐ <strong>Google Reviews integration</strong> — display your ratings</li>
+            <li style="color:rgba(255,255,255,0.75);">📍 <strong>Embedded Google Maps</strong> — customers find you instantly</li>
+            <li style="color:rgba(255,255,255,0.75);">🎉 <strong>Promotions &amp; specials page</strong> — daily deals, happy hour, events</li>
+            <li style="color:rgba(255,255,255,0.75);">🔧 <strong>You choose</strong> — tell us what you need, we build it</li>
+          </ul>
         </div>
-        <div class="update-chip-msg en-only">"We're out of the salmon today, can you mark it unavailable?"</div>
-        <div class="update-chip-msg es-only">"Hoy no tenemos salmón, ¿podés marcarlo como no disponible?"</div>
-        <div class="update-chip-result en-only">✦ Updated in under 30 minutes</div>
-        <div class="update-chip-result es-only">✦ Actualizado en menos de 30 minutos</div>
       </div>
-      <div class="update-chip">
-        <div class="update-chip-top">
-          <div class="update-chip-dot"></div>
-          <div class="update-chip-label en-only">Update sent</div>
-          <div class="update-chip-label es-only">Cambio enviado</div>
-          <div class="update-chip-time en-only">Today, 5:05 PM</div>
-          <div class="update-chip-time es-only">Hoy, 5:05 PM</div>
+    </div>
+
+    <div class="pricing-note" style="margin-top:2rem;">🔒 Secure payment via card or bank transfer · Questions? <a href="https://wa.me/50671186158" target="_blank" style="color:var(--gold);text-decoration:none;">Chat on WhatsApp →</a></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-text">
+        <span class="section-label">Get in touch</span>
+        <h2>Your menu deserves to look <em>as good as your food.</em></h2>
+        <p>Message us on any platform. We typically respond in under an hour, Monday through Saturday.</p>
+        <div class="contact-legitimacy">
+          <div class="legit-title">About DigitalMenuPro</div>
+          <div class="legit-items">
+            <div class="legit-item">Professional digital design service</div>
+            <div class="legit-item">Operating since 2025</div>
+            <div class="legit-item">US phone line available (305 area code)</div>
+            <div class="legit-item">Active on Instagram &amp; Facebook</div>
+            <div class="legit-item">Replies in under 1 hour Mon–Sat</div>
+          </div>
         </div>
-        <div class="update-chip-msg en-only">"Adding 3 new cocktails for the summer — sending you photos and prices now."</div>
-        <div class="update-chip-msg es-only">"Agregamos 3 cócteles nuevos para el verano, te mando fotos y precios."</div>
-        <div class="update-chip-result en-only">✦ Live before dinner service</div>
-        <div class="update-chip-result es-only">✦ En vivo antes de la cena</div>
+      </div>
+      <div class="contact-buttons">
+        <a href="https://wa.me/50671186158?text=Hi!%20I%27d%20like%20a%20digital%20menu%20for%20my%20restaurant." target="_blank" class="contact-btn cb-wa">
+          <div class="cb-icon">💬</div>
+          <div class="cb-body"><div class="cb-label">WhatsApp</div><div class="cb-sub">Tap to start a conversation · Fastest response</div></div>
+        </a>
+        <a href="sms:+13057077853?body=Hi!%20I%27d%20like%20a%20digital%20menu%20for%20my%20restaurant." class="contact-btn cb-sms">
+          <div class="cb-icon">📱</div>
+          <div class="cb-body"><div class="cb-label">Text Us (USA)</div><div class="cb-sub">Tap to send a text message</div></div>
+        </a>
+        <a href="https://instagram.com/digitalmenupro" target="_blank" class="contact-btn cb-ig">
+          <div class="cb-icon">📸</div>
+          <div class="cb-body"><div class="cb-label">Instagram</div><div class="cb-sub">@digitalmenupro</div></div>
+        </a>
+        <a href="https://facebook.com/MenuDigitalPro" target="_blank" class="contact-btn cb-fb">
+          <div class="cb-icon">📘</div>
+          <div class="cb-body"><div class="cb-label">Facebook</div><div class="cb-sub">Menu Digital Pro</div></div>
+        </a>
+        <a href="mailto:digitalmenupros@gmail.com" class="contact-btn cb-email">
+          <div class="cb-icon">✉️</div>
+          <div class="cb-body"><div class="cb-label">Email Us</div><div class="cb-sub">Tap to send us a message</div></div>
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- COMPARISON TABLE -->
-  <section class="compare-section" id="compare">
-    <div class="section-label en-only">How we compare</div>
-    <div class="section-label es-only">Cómo nos comparamos</div>
-    <h2 class="section-title en-only">DigitalMenuPro vs<br><em style="font-style:italic;color:var(--gold);">DIY platforms</em></h2>
-    <h2 class="section-title es-only">DigitalMenuPro vs<br><em style="font-style:italic;color:var(--gold);">plataformas de autoservicio</em></h2>
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th class="col-feat"></th>
-          <th class="col-us">DigitalMenuPro</th>
-          <th class="col-diy en-only">Toast / Square / MenuDrive</th>
-          <th class="col-diy es-only">Toast / Square / MenuDrive</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="col-feat en-only">Setup &amp; design</td>
-          <td class="col-feat es-only">Configuración y diseño</td>
-          <td class="col-us en-only"><span class="compare-check">✔</span> We do everything for you</td>
-          <td class="col-us es-only"><span class="compare-check">✔</span> Lo hacemos todo por vos</td>
-          <td class="col-diy en-only"><span class="compare-x">✘</span> You build it yourself</td>
-          <td class="col-diy es-only"><span class="compare-x">✘</span> Tú lo armas solo</td>
-        </tr>
-        <tr>
-          <td class="col-feat en-only">Same-day menu updates</td>
-          <td class="col-feat es-only">Actualizaciones el mismo día</td>
-          <td class="col-us en-only"><span class="compare-check">✔</span> Just send a WhatsApp</td>
-          <td class="col-us es-only"><span class="compare-check">✔</span> Solo mandá un WhatsApp</td>
-          <td class="col-diy en-only"><span class="compare-maybe">~</span> You log in and edit</td>
-          <td class="col-diy es-only"><span class="compare-maybe">~</span> Tú entras y editas</td>
-        </tr>
-        <tr>
-          <td class="col-feat en-only">Commission per order</td>
-          <td class="col-feat es-only">Comisión por orden</td>
-          <td class="col-us en-only"><span class="compare-check">✔</span> $0 — flat fee only</td>
-          <td class="col-us es-only"><span class="compare-check">✔</span> $0 — tarifa fija</td>
-          <td class="col-diy en-only"><span class="compare-x">✘</span> Up to 5–15% per order</td>
-          <td class="col-diy es-only"><span class="compare-x">✘</span> Hasta 5–15% por orden</td>
-        </tr>
-        <tr>
-          <td class="col-feat en-only">Monthly cost</td>
-          <td class="col-feat es-only">Costo mensual</td>
-          <td class="col-us en-only"><span class="compare-check">✔</span> $50/mo — domain included</td>
-          <td class="col-us es-only"><span class="compare-check">✔</span> $50/mes — dominio incluido</td>
-          <td class="col-diy en-only"><span class="compare-x">✘</span> $75–$200+/mo + extras</td>
-          <td class="col-diy es-only"><span class="compare-x">✘</span> $75–$200+/mes + extras</td>
-        </tr>
-        <tr>
-          <td class="col-feat en-only">No contract required</td>
-          <td class="col-feat es-only">Sin contrato</td>
-          <td class="col-us en-only"><span class="compare-check">✔</span> Cancel anytime</td>
-          <td class="col-us es-only"><span class="compare-check">✔</span> Cancela cuando quieras</td>
-          <td class="col-diy en-only"><span class="compare-x">✘</span> Annual contracts common</td>
-          <td class="col-diy es-only"><span class="compare-x">✘</span> Contratos anuales comunes</td>
-        </tr>
-        <tr>
-          <td class="col-feat en-only">Works on any phone</td>
-          <td class="col-feat es-only">Funciona en cualquier teléfono</td>
-          <td class="col-us en-only"><span class="compare-check">✔</span> Scan QR, no app needed</td>
-          <td class="col-us es-only"><span class="compare-check">✔</span> QR, sin descargar app</td>
-          <td class="col-diy en-only"><span class="compare-maybe">~</span> Often requires their app</td>
-          <td class="col-diy es-only"><span class="compare-maybe">~</span> A veces requiere su app</td>
-        </tr>
-        <tr>
-          <td class="col-feat en-only">Dedicated support</td>
-          <td class="col-feat es-only">Soporte dedicado</td>
-          <td class="col-us en-only"><span class="compare-check">✔</span> Direct WhatsApp, real person</td>
-          <td class="col-us es-only"><span class="compare-check">✔</span> WhatsApp directo, persona real</td>
-          <td class="col-diy en-only"><span class="compare-x">✘</span> Ticket system, long waits</td>
-          <td class="col-diy es-only"><span class="compare-x">✘</span> Sistema de tickets, esperas largas</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- NO COMMISSION -->
-  <section class="nocomm-section">
-    <div class="section-label en-only">The honest math</div>
-    <div class="section-label es-only">Las cuentas claras</div>
-    <h2 class="section-title en-only">Other platforms take<br><em style="font-style:italic;color:var(--rust);">a cut of every order</em></h2>
-    <h2 class="section-title es-only">Otras plataformas cobran<br><em style="font-style:italic;color:var(--rust);">un porcentaje de cada orden</em></h2>
-    <p style="color:var(--warm-gray);font-size:0.88rem;max-width:520px;margin:0 auto;line-height:1.7;" class="en-only">A restaurant doing $15,000/month in orders on a platform charging 10% commissions pays <strong>$1,500 every month</strong> just in fees — on top of their subscription. With DigitalMenuPro, you pay a flat $50/month. Period.</p>
-    <p style="color:var(--warm-gray);font-size:0.88rem;max-width:520px;margin:0 auto;line-height:1.7;" class="es-only">Un restaurante que factura $15,000/mes en pedidos con una plataforma que cobra 10% de comisión paga <strong>$1,500 cada mes</strong> solo en comisiones. Con DigitalMenuPro, pagás $50 fijos. Sin sorpresas.</p>
-    <div class="nocomm-grid">
-      <div class="nocomm-card">
-        <div class="nocomm-icon">📊</div>
-        <div class="nocomm-title en-only">Typical competitor cost</div>
-        <div class="nocomm-title es-only">Costo típico de competidores</div>
-        <div class="nocomm-desc en-only">$100–$200/mo subscription<br>+ <span class="nocomm-highlight">5–15% per order</span><br>= easily $500–$2,000+/mo</div>
-        <div class="nocomm-desc es-only">$100–$200/mes de suscripción<br>+ <span class="nocomm-highlight">5–15% por orden</span><br>= fácilmente $500–$2,000+/mes</div>
+<!-- LEGAL -->
+<div class="legal-section">
+  <div class="legal-inner">
+    <div class="section-label">Legal</div>
+    <div class="legal-grid">
+      <div class="legal-block">
+        <h4>Privacy Policy</h4>
+        <p>We collect only the information necessary to deliver your menu (name, restaurant name, email, and menu content). We do not sell or share your data with third parties. You may request deletion of your data at any time by contacting us at digitalmenupros@gmail.com.</p>
       </div>
-      <div class="nocomm-card" style="border-color:var(--gold);background:rgba(201,168,76,0.03);">
-        <div class="nocomm-icon">✦</div>
-        <div class="nocomm-title en-only">DigitalMenuPro</div>
-        <div class="nocomm-title es-only">DigitalMenuPro</div>
-        <div class="nocomm-desc en-only"><span class="nocomm-highlight" style="font-size:1.6rem;font-family:'Cormorant Garamond',serif;font-weight:300;">$50/mo</span><br>Flat. Always.<br>0% commissions, ever.</div>
-        <div class="nocomm-desc es-only"><span class="nocomm-highlight" style="font-size:1.6rem;font-family:'Cormorant Garamond',serif;font-weight:300;">$50/mes</span><br>Fijo. Siempre.<br>0% de comisiones, nunca.</div>
-      </div>
-      <div class="nocomm-card">
-        <div class="nocomm-icon">💰</div>
-        <div class="nocomm-title en-only">Your savings / year</div>
-        <div class="nocomm-title es-only">Tu ahorro anual</div>
-        <div class="nocomm-desc en-only">Average restaurant saves <span class="nocomm-highlight">$4,000–$18,000/year</span> switching from commission-based platforms to DigitalMenuPro.</div>
-        <div class="nocomm-desc es-only">Un restaurante promedio ahorra <span class="nocomm-highlight">$4,000–$18,000 al año</span> al cambiar plataformas basadas en comisión a DigitalMenuPro.</div>
+      <div class="legal-block">
+        <h4>Terms of Service</h4>
+        <p>By purchasing our service, you agree that DigitalMenuPro provides a digital design and hosting service. One-time plans include 1 year of free hosting. Monthly plans include hosting while the subscription is active. Refunds are available within 48 hours of delivery if the work does not match the agreed scope. All designs remain property of the client after full payment.</p>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- PAYMENT METHODS -->
-  <section class="payment-section">
-    <div class="section-label en-only">Payment Methods</div>
-    <div class="section-label es-only">Métodos de Pago</div>
-    <h2 class="section-title en-only" style="font-size:1.8rem;">We accept</h2>
-    <h2 class="section-title es-only" style="font-size:1.8rem;">Aceptamos</h2>
-    <div class="payment-methods">
-      <div class="payment-pill">💳 PayPal</div>
-      <div class="payment-pill">🏦 Zelle</div>
-      <div class="payment-pill">💵 Cash App</div>
-      <div class="payment-pill">🔗 Wise</div>
-      <div class="payment-pill">₿ Crypto</div>
-    </div>
-    <p style="margin-top:1.5rem;font-size:0.78rem;color:var(--warm-gray);" class="en-only">All payments 100% secure. Invoice provided upon request.</p>
-    <p style="margin-top:1.5rem;font-size:0.78rem;color:var(--warm-gray);" class="es-only">Todos los pagos 100% seguros. Recibo disponible a pedido.</p>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="testimonials" id="testimonials">
-    <div class="section-label en-only">What clients say</div>
-    <div class="section-label es-only">Qué dicen los clientes</div>
-    <h2 class="section-title en-only">Real results,<br>real restaurants</h2>
-    <h2 class="section-title es-only">Resultados reales,<br>restaurantes reales</h2>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <div class="testimonial-text en-only">"Our customers love being able to see photos and descriptions before ordering. We've noticed bigger orders since we launched the digital menu."</div>
-        <div class="testimonial-text es-only">"Nuestros clientes aman poder ver fotos y descripciones antes de ordenar. Hemos notado pedidos más grandes desde que lanzamos el menú digital."</div>
-        <div class="testimonial-author">Maria G. · La Cocina Mexican Grill, TX</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <div class="testimonial-text en-only">"Worth every penny. Setup was fast, the design is beautiful and whenever I need to update a price they do it the same day."</div>
-        <div class="testimonial-text es-only">"Vale cada centavo. La configuración fue rápida, el diseño es hermoso y cuando necesito actualizar un precio lo hacen el mismo día."</div>
-        <div class="testimonial-author">James T. · Harbor Sushi, FL</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <div class="testimonial-text en-only">"Professional, fast and very affordable. My customers always comment on how nice the menu looks. Best investment I made this year."</div>
-        <div class="testimonial-text es-only">"Profesional, rápido y muy accesible. Mis clientes siempre comentan lo bonito que se ve el menú. La mejor inversión que hice este año."</div>
-        <div class="testimonial-author">Rosa M. · Café Bonito, CA</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="cta-glow"></div>
-    <h2 class="en-only">Ready to upgrade<br>your restaurant?</h2>
-    <h2 class="es-only">¿Listo para mejorar<br>tu restaurante?</h2>
-    <p class="en-only">Contact us on WhatsApp and have your digital menu live within 48 hours.</p>
-    <p class="es-only">Contáctanos por WhatsApp y tenés tu menú digital activo en 48 horas.</p>
-    <div class="cta-actions">
-      <button class="btn-primary" onclick="window.open('https://wa.me/50671186158','_blank')">
-        <span class="en-only">💬 Message us on WhatsApp</span>
-        <span class="es-only">💬 Escribinos por WhatsApp</span>
-      </button>
-      <button class="btn-secondary" onclick="window.open('https://menudigitalpro.github.io/menudigitalpro-us/catalogo.html','_blank')">
-        <span class="en-only">View Demos First →</span>
-        <span class="es-only">Ver Demos Primero →</span>
-      </button>
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-logo">Digital<span>Menu</span>Pro</div>
-    <p class="en-only">© 2025 DigitalMenuPro · Serving restaurants across the US 🇺🇸</p>
-    <p class="es-only">© 2025 DigitalMenuPro · Sirviendo restaurantes en todo USA 🇺🇸</p>
-  </footer>
-
-  <script>
-    function setLang(lang) {
-      document.documentElement.setAttribute('data-lang', lang);
-      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-    }
-    function scrollToSection(id) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      var navH = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 0;
-      var target = el.getBoundingClientRect().top + window.pageYOffset - navH;
-      var start = window.pageYOffset;
-      var distance = target - start;
-      var duration = 800;
-      var startTime = null;
-      function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-      function step(timestamp) {
-        if (!startTime) startTime = timestamp;
-        var progress = Math.min((timestamp - startTime) / duration, 1);
-        window.scrollTo(0, start + distance * ease(progress));
-        if (progress < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-  </script>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Digital<span>Menu</span>Pro</div>
+  <div class="footer-links">
+    <a href="https://instagram.com/digitalmenupro" target="_blank">Instagram</a>
+    <a href="https://facebook.com/MenuDigitalPro" target="_blank">Facebook</a>
+    <a href="mailto:digitalmenupros@gmail.com">Email</a>
+    <a href="sms:+13057077853">Text (USA)</a>
+  </div>
+  <div class="footer-copy">© 2026 DigitalMenuPro · Digital menu design service · Not affiliated with any restaurant chain</div>
+</footer>
 
 </body>
 </html>
